@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://bry5mtstqjhsr"]
+
+[ext_resource type="Script" path="res://ui/debug_log.gd" id="1_nmvp5"]
+
+[node name="Debug Log" type="Label"]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Log"
+script = ExtResource("1_nmvp5")
+
+[node name="TextEdit" type="TextEdit" parent="."]
+layout_mode = 2
+offset_right = 480.0
+offset_bottom = 240.0

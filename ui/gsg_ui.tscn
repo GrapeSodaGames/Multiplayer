@@ -1,0 +1,12 @@
+[gd_scene load_steps=4 format=3 uid="uid://dcehergyi7iw"]
+
+[ext_resource type="Script" path="res://ui/gsg_ui.gd" id="1_rc2ry"]
+[ext_resource type="PackedScene" uid="uid://bpnt7sbv577ni" path="res://ui/main_menu.tscn" id="2_ydr1l"]
+[ext_resource type="PackedScene" uid="uid://bry5mtstqjhsr" path="res://ui/debug_log.tscn" id="3_hhyya"]
+
+[node name="UI" type="Node"]
+script = ExtResource("1_rc2ry")
+
+[node name="Main Menu" parent="." instance=ExtResource("2_ydr1l")]
+
+[node name="Debug Log" parent="." instance=ExtResource("3_hhyya")]

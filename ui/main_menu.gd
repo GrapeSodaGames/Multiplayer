@@ -10,7 +10,7 @@ signal request_create_new_server
 signal request_disconnect
 
 ## References
-@onready var game = get_tree().root.get_node("Game")
+@onready var server = get_tree().root.get_node("Main/Server")
 @onready var host_button: Button = get_node("%Host Button")
 @onready var connect_button = get_node("%Connect Button")
 @onready var disconnect_button = get_node("%Disconnect Button")
@@ -52,29 +52,29 @@ func check_connection_status_for_buttons():
 	handle_host_button()
 	handle_connect_button()
 	
-	if not game.is_connected_to_server(): 
+	if not server.is_connected_to_server(): 
 		disconnect_button.disabled = true
 	else:
 		disconnect_button.disabled = false
 
 func handle_host_button():
-	if not game.is_connected_to_server():
+	if not server.is_connected_to_server():
 		host_button.disabled = false
 		host_button.text = "Host Server"
 	else:
 		host_button.disabled = true
-		if game.is_server_host():
+		if server.is_server_host():
 			host_button.text = "Server Running"
 		else:
 			host_button.text = "Connected as Guest"
 
 func handle_connect_button():
-	if not game.is_connected_to_server():
+	if not server.is_connected_to_server():
 		connect_button.disabled = false
 		connect_button.text = "Connect to Server"
 	else:
 		connect_button.disabled = true
-		if not game.is_server_host():
+		if not server.is_server_host():
 			connect_button.text = "Connected"
 		else:
 			connect_button.text = "Connected as Host"
