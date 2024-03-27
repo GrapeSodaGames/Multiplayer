@@ -7,11 +7,21 @@ enum ServerStatus {
 	GUEST
 }
 
-signal debug(String)
-
+signal player_connected(peer_id, player_info)
+signal player_disconnected(peer_id)
+signal server_disconnected
 
 # Properties
 const server_port = 25555
+const default_server_ip = "localhost"
+const max_players = 6
+
+var players = {}
+var player_info = {
+	"player_number": 1,
+	"color": "000000",
+	"is_ready": false
+}
 
 ## Private Variables
 var server_status: ServerStatus = ServerStatus.DISCONNECTED
@@ -27,25 +37,27 @@ func _ready():
 func _process(delta):
 	pass
 
-
 func connect_to_server(ip, port):
-	debug.emit("Attempting to connect to server at " + str(ip) + ":" + str(port))
 	var peer = ENetMultiplayerPeer.new()
-	peer.create_client(ip, port)
+	var error = peer.create_client(ip, port)
+	if error:
+		return error
 	multiplayer.multiplayer_peer = peer
 	server_status = ServerStatus.GUEST
+	send_player_info(multiplayer.get_unique_id(), player_info)
 	
-func create_server(max_players):
+func create_server():
 	var peer = ENetMultiplayerPeer.new()
-	peer.create_server(server_port, max_players)
+	var error = peer.create_server(server_port, max_players)
+	if error:
+		return error
 	multiplayer.multiplayer_peer = peer
 	server_status = ServerStatus.HOST
-	debug.emit("creating new server on port " + str(server_port) + " with max players = " + str(max_players))
-
+	send_player_info(multiplayer.get_unique_id(), player_info)
+	
 func disconnect_from_server():
 	multiplayer.multiplayer_peer = null
 	server_status = ServerStatus.DISCONNECTED
-	debug.emit("disconnecting from server ")
 
 func is_connected_to_server() -> bool:
 	return not server_status == ServerStatus.DISCONNECTED
@@ -53,29 +65,55 @@ func is_connected_to_server() -> bool:
 func is_server_host() -> bool:
 	return server_status == ServerStatus.HOST
 
+@rpc("any_peer")
+func send_player_info(id, info):
+	register_player(id, info)
+	update_player(id, info)
+
+	if multiplayer.is_server():
+		for player_id in players:
+			var player = players[player_id]
+			send_player_info.rpc(player_id, player)
+
+func register_player(new_player_id, new_player_info):
+	if not new_player_id in players:
+		new_player_info["player_number"] = players.size() + 1
+		new_player_info["color"] = Color(randf(), randf(), randf()).to_html()
+		players[new_player_id] = new_player_info
+		player_info = new_player_info
+
+
+func update_player(id, new_player_info):
+	players[id] = new_player_info
+	player_info = new_player_info
+
 ## Events
 func _on_peer_connected(id):
-	if multiplayer.is_server():
-		debug.emit(str(id) + "connected")
+	pass
 
 func _on_peer_disconnected(id):
-	if multiplayer.is_server():
-		debug.emit(str(id) + "disconnected")
+	players.erase(id)
+	player_disconnected.emit(id)
+
+func _on_connected_to_server():
+	send_player_info.rpc_id(1, multiplayer.get_unique_id(), player_info)
+
+func _on_connection_failed():
+	multiplayer.multiplayer_peer = null
+
+func _on_server_disconnected():
+	multiplayer.multiplayer_peer = null
+	players.clear()
+	server_disconnected.emit()
+
+
 
 func _on_main_menu_request_connect_to_server(ip, port):
 	connect_to_server(ip, port)
 
 func _on_main_menu_request_create_new_server():
-	create_server(8)
+	create_server()
 
 func _on_main_menu_request_disconnect():
 	disconnect_from_server()
 
-func _on_connected_to_server():
-	debug.emit("Connected successfully to server with id " + str(multiplayer.get_unique_id()))
-
-func _on_connection_failed():
-	debug.emit("Server connection failed")
-
-func _on_server_disconnected():
-	debug.emit("Server has disconnected")

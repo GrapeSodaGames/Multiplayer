@@ -1,0 +1,32 @@
+[gd_scene load_steps=2 format=3 uid="uid://bh5nm27pwk6gh"]
+
+[ext_resource type="Script" path="res://ui/lobby_player.gd" id="1_o3gnx"]
+
+[node name="LobbyPlayer" type="PanelContainer"]
+custom_minimum_size = Vector2(512, 512)
+offset_right = 128.0
+offset_bottom = 128.0
+script = ExtResource("1_o3gnx")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="PlayerLabel" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Player 1"
+horizontal_alignment = 1
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Pick your color"
+color = Color(1, 1, 1, 1)
+
+[node name="ReadyButton" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+toggle_mode = true
+text = "Ready"
+
+[connection signal="color_changed" from="VBoxContainer/ColorPickerButton" to="." method="_on_color_picker_button_color_changed"]
