@@ -1,5 +1,5 @@
 class_name MainMenu
-extends Node
+extends Control
 
 ## TODO: Document
 
