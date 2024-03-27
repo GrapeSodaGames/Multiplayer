@@ -7,6 +7,7 @@ enum ServerStatus {
 	GUEST
 }
 
+signal connection_sucess
 signal player_connected(peer_id, player_info)
 signal player_disconnected(peer_id)
 signal server_disconnected
@@ -25,6 +26,7 @@ var player_info = {
 
 ## Private Variables
 var server_status: ServerStatus = ServerStatus.DISCONNECTED
+@onready var main :Main = get_tree().root.get_node("Main")
 
 func _ready():
 	multiplayer.peer_connected.connect(_on_peer_connected)
@@ -41,19 +43,25 @@ func connect_to_server(ip, port):
 	var peer = ENetMultiplayerPeer.new()
 	var error = peer.create_client(ip, port)
 	if error:
+		main.ui.debug_log.write("Encountered Error: " + str(error))
 		return error
-	multiplayer.multiplayer_peer = peer
-	server_status = ServerStatus.GUEST
-	send_player_info(multiplayer.get_unique_id(), player_info)
+	else:
+		multiplayer.multiplayer_peer = peer
+		server_status = ServerStatus.GUEST
+		connection_sucess.emit()
+		send_player_info(multiplayer.get_unique_id(), player_info)
 	
 func create_server():
 	var peer = ENetMultiplayerPeer.new()
 	var error = peer.create_server(server_port, max_players)
 	if error:
+		main.ui.debug_log.write("Encountered Error: " + str(error))
 		return error
-	multiplayer.multiplayer_peer = peer
-	server_status = ServerStatus.HOST
-	send_player_info(multiplayer.get_unique_id(), player_info)
+	else:
+		multiplayer.multiplayer_peer = peer
+		server_status = ServerStatus.HOST
+		connection_sucess.emit()
+		send_player_info(multiplayer.get_unique_id(), player_info)
 	
 func disconnect_from_server():
 	multiplayer.multiplayer_peer = null
