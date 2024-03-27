@@ -49,7 +49,7 @@ func connect_to_server(ip, port):
 		multiplayer.multiplayer_peer = peer
 		server_status = ServerStatus.GUEST
 		connection_sucess.emit()
-		send_player_info(multiplayer.get_unique_id(), player_info)
+		send_player_info.rpc_id(1, multiplayer.get_unique_id(), player_info)
 	
 func create_server():
 	var peer = ENetMultiplayerPeer.new()
@@ -61,7 +61,7 @@ func create_server():
 		multiplayer.multiplayer_peer = peer
 		server_status = ServerStatus.HOST
 		connection_sucess.emit()
-		send_player_info(multiplayer.get_unique_id(), player_info)
+		send_player_info.rpc_id(1, multiplayer.get_unique_id(), player_info)
 	
 func disconnect_from_server():
 	multiplayer.multiplayer_peer = null
@@ -73,20 +73,25 @@ func is_connected_to_server() -> bool:
 func is_server_host() -> bool:
 	return server_status == ServerStatus.HOST
 
-@rpc("any_peer")
+@rpc("any_peer", "call_local")
 func send_player_info(id, info):
-	register_player(id, info)
-	update_player(id, info)
-
 	if multiplayer.is_server():
+		register_player(id, info)
+		update_player(id, info)
 		for player_id in players:
 			var player = players[player_id]
-			send_player_info.rpc(player_id, player)
+			update_player_info.rpc(player_id, player)
 
+@rpc("call_local")
+func update_player_info(id, info):
+	register_player(id,info)
+	update_player(id,info)
+	
 func register_player(new_player_id, new_player_info):
 	if not new_player_id in players:
 		new_player_info["player_number"] = players.size() + 1
-		new_player_info["color"] = Color(randf(), randf(), randf()).to_html()
+		if multiplayer.is_server():
+			new_player_info["color"] = Color(randf(), randf(), randf()).to_html()
 		players[new_player_id] = new_player_info
 		player_info = new_player_info
 

@@ -34,7 +34,10 @@ func setup():
 func set_player_color(color: Color):
 	var id = multiplayer.get_unique_id()
 	global.server.players[id]["color"] = color.to_html()
-	global.server.send_player_info.rpc(id, global.server.players[id])
+	global.server.send_player_info.rpc_id(1,id, global.server.players[id])
+
+
+
 
 
 func _on_color_picker_button_color_changed(color: Color):
