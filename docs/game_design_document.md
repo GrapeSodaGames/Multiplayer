@@ -22,3 +22,17 @@ Win/Linux, and my friends specifically
 - The Legend of Zelda: A Link to the Past
 - Stardew Valley
 - Roguelikes
+
+## Milestones
+1. Multiplayer Proof of Concept
+2. Basic Combat
+    - Primary Attack
+    - Enemy Behavior
+    - Taking Damage and Dying
+3. Boss Fight Proof of Concept
+4. Dynamic Dungeon Generation
+5. Special Abilities
+6. Prototype Art
+7. Prototype Sound
+8. Prototype Code Freeze
+9. Prototype Testing
