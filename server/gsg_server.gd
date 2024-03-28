@@ -28,6 +28,7 @@ var player_info = {
 var server_status: ServerStatus = ServerStatus.DISCONNECTED
 @onready var main :Main = get_tree().root.get_node("Main")
 
+
 func _ready():
 	multiplayer.peer_connected.connect(_on_peer_connected)
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
@@ -38,6 +39,7 @@ func _ready():
 
 func _process(delta):
 	pass
+
 
 func connect_to_server(ip, port):
 	var peer = ENetMultiplayerPeer.new()
@@ -51,6 +53,7 @@ func connect_to_server(ip, port):
 		connection_sucess.emit()
 		send_player_info.rpc_id(1, multiplayer.get_unique_id(), player_info)
 	
+	
 func create_server():
 	var peer = ENetMultiplayerPeer.new()
 	var error = peer.create_server(server_port, max_players)
@@ -63,15 +66,19 @@ func create_server():
 		connection_sucess.emit()
 		send_player_info.rpc_id(1, multiplayer.get_unique_id(), player_info)
 	
+	
 func disconnect_from_server():
 	multiplayer.multiplayer_peer = null
 	server_status = ServerStatus.DISCONNECTED
 
+
 func is_connected_to_server() -> bool:
 	return not server_status == ServerStatus.DISCONNECTED
 
+
 func is_server_host() -> bool:
 	return server_status == ServerStatus.HOST
+
 
 @rpc("any_peer", "call_local")
 func send_player_info(id, info):
@@ -82,10 +89,12 @@ func send_player_info(id, info):
 			var player = players[player_id]
 			update_player_info.rpc(player_id, player)
 
+
 @rpc("call_local")
 func update_player_info(id, info):
 	register_player(id,info)
 	update_player(id,info)
+	
 	
 func register_player(new_player_id, new_player_info):
 	if not new_player_id in players:
@@ -104,15 +113,19 @@ func update_player(id, new_player_info):
 func _on_peer_connected(id):
 	pass
 
+
 func _on_peer_disconnected(id):
 	players.erase(id)
 	player_disconnected.emit(id)
 
+
 func _on_connected_to_server():
 	send_player_info.rpc_id(1, multiplayer.get_unique_id(), player_info)
 
+
 func _on_connection_failed():
 	multiplayer.multiplayer_peer = null
+
 
 func _on_server_disconnected():
 	multiplayer.multiplayer_peer = null
@@ -120,12 +133,13 @@ func _on_server_disconnected():
 	server_disconnected.emit()
 
 
-
 func _on_main_menu_request_connect_to_server(ip, port):
 	connect_to_server(ip, port)
 
+
 func _on_main_menu_request_create_new_server():
 	create_server()
+
 
 func _on_main_menu_request_disconnect():
 	disconnect_from_server()
