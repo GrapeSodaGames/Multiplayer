@@ -3,25 +3,19 @@ extends PanelContainer
 
 @export var player_number = 1
 
-@onready var global: Main = get_tree().root.get_node("Main")
-
 @onready var player_label: Label = get_node("%PlayerLabel")
 @onready var color_picker: ColorPickerButton = get_node("%ColorPickerButton")
 @onready var ready_button: Button = get_node("%ReadyButton")
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready():
 	color_picker.disabled = true
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
 func setup():
 	player_label.text = "Player " + str(player_number)
-	for id in global.server.players:
-		var player = global.server.players[id] 
+	for id in Server.players:
+		var player = Server.players[id] 
 		if player_number == player["player_number"]:
 			color_picker.color = Color.from_string(player["color"], Color.WHITE)
 			if player.is_ready:
@@ -44,13 +38,13 @@ func setup():
 
 func set_player_color(color: Color):
 	var id = multiplayer.get_unique_id()
-	global.server.players[id]["color"] = color.to_html()
-	global.server.send_player_info.rpc_id(1,id, global.server.players[id])
+	Server.players[id]["color"] = color.to_html()
+	Server.send_player_info.rpc_id(1,id, Server.players[id])
 
 func set_player_ready_status(is_ready: bool):
 	var id = multiplayer.get_unique_id()
-	global.server.players[id].is_ready = is_ready
-	global.server.send_player_info.rpc_id(1, id, global.server.players[id])
+	Server.players[id].is_ready = is_ready
+	Server.send_player_info.rpc_id(1, id, Server.players[id])
 
 
 

@@ -8,19 +8,12 @@ signal request_connect_to_server(ip, port)
 signal request_create_new_server
 
 ## References
-@onready var server: GSGServer = get_tree().root.get_node("Main/Server")
 @onready var host_button: Button = get_node("%Host Button")
 @onready var connect_button = get_node("%Connect Button")
 @onready var connect_server_ip_textbox = get_node("%Connect Server IP")
 
 ## Game Loop
-func _enter_tree():
-	pass
-
-func _ready():
-	pass
-
-func _process(delta):
+func _process(_delta):
 	check_connection_status_for_buttons()
 
 ## Events
@@ -39,7 +32,6 @@ func check_connection_status_for_buttons():
 	
 	
 func handle_host_button():
-	print(multiplayer.multiplayer_peer)
 	if multiplayer.multiplayer_peer == null:
 		host_button.disabled = false
 		host_button.text = "Host Server"
