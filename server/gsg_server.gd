@@ -96,6 +96,7 @@ func register_player(new_player_id, new_player_info):
 		new_player_info["player_number"] = players.size() + 1
 		if multiplayer.is_server():
 			new_player_info["color"] = Color(randf(), randf(), randf()).to_html()
+			new_player_info["is_ready"] = false
 		players[new_player_id] = new_player_info
 		player_info = new_player_info
 
