@@ -35,6 +35,8 @@ func _ready():
 	multiplayer.connected_to_server.connect(_on_connected_to_server)
 	multiplayer.connection_failed.connect(_on_connection_failed)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
+	
+	multiplayer.multiplayer_peer = null
 
 
 func _process(delta):
@@ -70,14 +72,7 @@ func create_server():
 func disconnect_from_server():
 	multiplayer.multiplayer_peer = null
 	server_status = ServerStatus.DISCONNECTED
-
-
-func is_connected_to_server() -> bool:
-	return not server_status == ServerStatus.DISCONNECTED
-
-
-func is_server_host() -> bool:
-	return server_status == ServerStatus.HOST
+	players = {}
 
 
 @rpc("any_peer", "call_local")
@@ -117,6 +112,7 @@ func _on_peer_connected(id):
 func _on_peer_disconnected(id):
 	players.erase(id)
 	player_disconnected.emit(id)
+	main.ui.set_ui_state(GSGUI.UIState.MainMenu)
 
 
 func _on_connected_to_server():

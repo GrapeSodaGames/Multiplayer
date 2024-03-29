@@ -13,5 +13,7 @@ script = ExtResource("1_rc2ry")
 [node name="Debug Log" parent="." instance=ExtResource("3_hhyya")]
 
 [node name="Lobby" parent="." instance=ExtResource("4_5uwwu")]
+offset_right = -1920.0
+offset_bottom = -1080.0
 
 [editable path="Lobby"]

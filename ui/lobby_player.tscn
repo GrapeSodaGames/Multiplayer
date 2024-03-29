@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://ui/lobby_player.gd" id="1_o3gnx"]
 
 [node name="LobbyPlayer" type="PanelContainer"]
-custom_minimum_size = Vector2(512, 512)
+custom_minimum_size = Vector2(350, 200)
 offset_right = 128.0
 offset_bottom = 128.0
 script = ExtResource("1_o3gnx")
