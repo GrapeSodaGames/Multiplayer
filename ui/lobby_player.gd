@@ -24,10 +24,21 @@ func setup():
 		var player = global.server.players[id] 
 		if player_number == player["player_number"]:
 			color_picker.color = Color.from_string(player["color"], Color.WHITE)
-
+			if player.is_ready:
+				ready_button.text = "Ready!"
+			else:
+				ready_button.text = "Waiting for Confirmation"
+			
 			if id == multiplayer.get_unique_id(): 
 				player_label.text += " - You"
 				color_picker.disabled = false
+				ready_button.disabled = false
+				ready_button.button_pressed = player.is_ready
+				if not player.is_ready:
+					ready_button.text = "Ready"
+				else:
+					ready_button.text = "Waiting for others..."
+				
 			else:
 				player_label.text += " - Connected"
 
@@ -36,9 +47,16 @@ func set_player_color(color: Color):
 	global.server.players[id]["color"] = color.to_html()
 	global.server.send_player_info.rpc_id(1,id, global.server.players[id])
 
-
+func set_player_ready_status(is_ready: bool):
+	var id = multiplayer.get_unique_id()
+	global.server.players[id].is_ready = is_ready
+	global.server.send_player_info.rpc_id(1, id, global.server.players[id])
 
 
 
 func _on_color_picker_button_color_changed(color: Color):
 	set_player_color(color)
+
+
+func _on_ready_button_toggled(toggled_on):
+	set_player_ready_status(toggled_on)
