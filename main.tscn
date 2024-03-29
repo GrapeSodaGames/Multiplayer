@@ -1,18 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://ec5p4ie1jjrh"]
+[gd_scene load_steps=2 format=3 uid="uid://ec5p4ie1jjrh"]
 
-[ext_resource type="Script" path="res://main.gd" id="1_hf3r8"]
 [ext_resource type="PackedScene" uid="uid://boeov2pangnw1" path="res://game/game.tscn" id="2_88mho"]
-[ext_resource type="PackedScene" uid="uid://dcehergyi7iw" path="res://ui/gsg_ui.tscn" id="3_bt6tr"]
-[ext_resource type="PackedScene" uid="uid://bwim803bn5v1t" path="res://server/gsg_server.tscn" id="4_xvygn"]
 
 [node name="Main" type="Node"]
-script = ExtResource("1_hf3r8")
 
 [node name="Game" parent="." instance=ExtResource("2_88mho")]
-
-[node name="UI" parent="." instance=ExtResource("3_bt6tr")]
-
-[node name="Server" parent="." instance=ExtResource("4_xvygn")]
-
-[editable path="UI"]
-[editable path="UI/Lobby"]

@@ -11,9 +11,14 @@ config_version=5
 [application]
 
 config/name="Multiplayer"
-run/main_scene="res://main.tscn"
+run/main_scene="res://game/game.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+Server="*res://server/gsg_server.gd"
+UI="*res://ui/gsg_ui.tscn"
 
 [dotnet]
 

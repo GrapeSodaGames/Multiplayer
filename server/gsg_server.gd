@@ -26,7 +26,6 @@ var player_info = {
 
 ## Private Variables
 var server_status: ServerStatus = ServerStatus.DISCONNECTED
-@onready var main :Main = get_tree().root.get_node("Main")
 
 
 func _ready():
@@ -39,15 +38,11 @@ func _ready():
 	multiplayer.multiplayer_peer = null
 
 
-func _process(delta):
-	pass
-
-
 func connect_to_server(ip, port):
 	var peer = ENetMultiplayerPeer.new()
 	var error = peer.create_client(ip, port)
 	if error:
-		main.ui.debug_log.write("Encountered Error: " + str(error))
+		UI.debug_log.write("Encountered Error: " + str(error))
 		return error
 	else:
 		multiplayer.multiplayer_peer = peer
@@ -60,7 +55,7 @@ func create_server():
 	var peer = ENetMultiplayerPeer.new()
 	var error = peer.create_server(server_port, max_players)
 	if error:
-		main.ui.debug_log.write("Encountered Error: " + str(error))
+		UI.debug_log.write("Encountered Error: " + str(error))
 		return error
 	else:
 		multiplayer.multiplayer_peer = peer
@@ -106,14 +101,14 @@ func update_player(id, new_player_info):
 	player_info = new_player_info
 
 ## Events
-func _on_peer_connected(id):
+func _on_peer_connected(_id):
 	pass
 
 
 func _on_peer_disconnected(id):
 	players.erase(id)
 	player_disconnected.emit(id)
-	main.ui.set_ui_state(GSGUI.UIState.MainMenu)
+	UI.set_ui_state(GSGUI.UIState.MainMenu)
 
 
 func _on_connected_to_server():
