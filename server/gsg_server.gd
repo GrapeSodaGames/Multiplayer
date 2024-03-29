@@ -24,6 +24,7 @@ var player_info = {
 	"is_ready": false
 }
 
+
 ## Private Variables
 var server_status: ServerStatus = ServerStatus.DISCONNECTED
 

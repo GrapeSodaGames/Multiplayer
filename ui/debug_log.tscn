@@ -2,13 +2,22 @@
 
 [ext_resource type="Script" path="res://ui/debug_log.gd" id="1_nmvp5"]
 
-[node name="Debug Log" type="Label"]
-offset_right = 40.0
-offset_bottom = 23.0
-text = "Log"
+[node name="Debug Log" type="VBoxContainer"]
+custom_minimum_size = Vector2(0, 250)
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 8.0
+grow_horizontal = 2
 script = ExtResource("1_nmvp5")
 
 [node name="TextEdit" type="TextEdit" parent="."]
+custom_minimum_size = Vector2(0, 2)
 layout_mode = 2
-offset_right = 480.0
-offset_bottom = 240.0
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 0
+toggle_mode = true
+text = "Debug Log"
+
+[connection signal="toggled" from="Button" to="." method="_on_button_toggled"]
