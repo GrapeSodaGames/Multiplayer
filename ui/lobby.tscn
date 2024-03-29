@@ -10,48 +10,51 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("1_gnwdt")
 
-[node name="GridContainer" type="GridContainer" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -772.0
-offset_top = -514.0
-offset_right = 772.0
-offset_bottom = 514.0
-grow_horizontal = 2
-grow_vertical = 2
-columns = 3
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
 
-[node name="Player1" parent="GridContainer" instance=ExtResource("1_u2drq")]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="CenterContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+columns = 2
 
-[node name="Player2" parent="GridContainer" instance=ExtResource("1_u2drq")]
+[node name="Player1" parent="CenterContainer/VBoxContainer/GridContainer" instance=ExtResource("1_u2drq")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 0)
+layout_mode = 2
+
+[node name="Player2" parent="CenterContainer/VBoxContainer/GridContainer" instance=ExtResource("1_u2drq")]
 unique_name_in_owner = true
 layout_mode = 2
 player_number = 2
 
-[node name="Player3" parent="GridContainer" instance=ExtResource("1_u2drq")]
+[node name="Player3" parent="CenterContainer/VBoxContainer/GridContainer" instance=ExtResource("1_u2drq")]
 unique_name_in_owner = true
 layout_mode = 2
 player_number = 3
 
-[node name="Player4" parent="GridContainer" instance=ExtResource("1_u2drq")]
+[node name="Player4" parent="CenterContainer/VBoxContainer/GridContainer" instance=ExtResource("1_u2drq")]
 unique_name_in_owner = true
 layout_mode = 2
 player_number = 4
 
-[node name="Player5" parent="GridContainer" instance=ExtResource("1_u2drq")]
-unique_name_in_owner = true
+[node name="CenterContainer" type="CenterContainer" parent="CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
-player_number = 5
 
-[node name="Player6" parent="GridContainer" instance=ExtResource("1_u2drq")]
-unique_name_in_owner = true
+[node name="DisconnectButton" type="Button" parent="CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(250, 32)
 layout_mode = 2
-player_number = 6
+text = "Disconnect"
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/DisconnectButton" to="." method="_on_disconnect_button_pressed"]
