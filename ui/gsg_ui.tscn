@@ -15,6 +15,5 @@ offset_right = -1920.0
 offset_bottom = -1080.0
 
 [node name="Debug Log" parent="." instance=ExtResource("3_hhyya")]
-offset_bottom = 250.0
 
 [editable path="Lobby"]

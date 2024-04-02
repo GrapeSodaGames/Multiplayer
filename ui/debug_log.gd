@@ -3,19 +3,13 @@ class_name DebugLog
 
 @onready var text_edit: TextEdit = get_node("TextEdit")
 
-var open = false
-
 func _ready():
-	write("Log Active")
+	Log.log_message.connect(_on_log_message)
 
 
-func write(message):
+func _on_log_message(log_level, message):
 	text_edit.text += message + "\n"
 
 
 func _on_button_toggled(toggled_on):
-	print(text_edit.size_flags_vertical)
-	if toggled_on:
-		text_edit.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	else:
-		text_edit.size_flags_vertical = Control.SIZE_FILL
+	text_edit.visible = toggled_on
