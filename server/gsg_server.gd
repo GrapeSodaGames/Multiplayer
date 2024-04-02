@@ -37,17 +37,19 @@ func _ready():
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
 	
 	multiplayer.multiplayer_peer = null
+	Log.info("Game Loaded")
 
 
 func connect_to_server(ip, port):
 	var peer = ENetMultiplayerPeer.new()
 	var error = peer.create_client(ip, port)
 	if error:
-		UI.debug_log.write("Encountered Error: " + str(error))
+		Log.err("Encountered Error: ", error)
 		return error
 	else:
 		multiplayer.multiplayer_peer = peer
 		server_status = ServerStatus.GUEST
+		Log.info("Server Successfully created")
 		connection_sucess.emit()
 		send_player_info.rpc_id(1, multiplayer.get_unique_id(), player_info)
 	

@@ -4,10 +4,10 @@ class_name DebugLog
 @onready var text_edit: TextEdit = get_node("TextEdit")
 
 func _ready():
-	write("Log Active")
+	Log.log_message.connect(_on_log_message)
 
 
-func write(message):
+func _on_log_message(log_level, message):
 	text_edit.text += message + "\n"
 
 
