@@ -7,15 +7,16 @@ enum ServerStatus {
 	GUEST
 }
 
-signal connection_sucess
+signal connection_success
 signal player_connected(peer_id, player_info)
 signal player_disconnected(peer_id)
 signal server_disconnected
 
 # Properties
 const server_port = 25555
-const default_server_ip = "localhost"
-const max_players = 6
+const max_players = 4
+
+var ip: String
 
 var players = {}
 var player_info = {
@@ -23,7 +24,6 @@ var player_info = {
 	"color": "000000",
 	"is_ready": false
 }
-
 
 ## Private Variables
 var server_status: ServerStatus = ServerStatus.DISCONNECTED
@@ -37,24 +37,27 @@ func _ready():
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
 	
 	multiplayer.multiplayer_peer = null
-	Log.info("Game Loaded")
+	Log.info("Server Ready")
 
 
-func connect_to_server(ip, port):
+func connect_to_server(new_ip, port):
+	Log.info("Connecting to server at ", new_ip)
 	var peer = ENetMultiplayerPeer.new()
-	var error = peer.create_client(ip, port)
+	var error = peer.create_client(new_ip, port)
 	if error:
 		Log.err("Encountered Error: ", error)
 		return error
 	else:
 		multiplayer.multiplayer_peer = peer
 		server_status = ServerStatus.GUEST
-		Log.info("Server Successfully created")
-		connection_sucess.emit()
+		Log.info("Successfully connected to server")
+		ip = new_ip
+		connection_success.emit()
 		send_player_info.rpc_id(1, multiplayer.get_unique_id(), player_info)
 	
 	
 func create_server():
+	Log.info("Creating server as host")
 	var peer = ENetMultiplayerPeer.new()
 	var error = peer.create_server(server_port, max_players)
 	if error:
@@ -63,7 +66,8 @@ func create_server():
 	else:
 		multiplayer.multiplayer_peer = peer
 		server_status = ServerStatus.HOST
-		connection_sucess.emit()
+		ip = "localhost"
+		connection_success.emit()
 		send_player_info.rpc_id(1, multiplayer.get_unique_id(), player_info)
 	
 	
@@ -102,6 +106,9 @@ func register_player(new_player_id, new_player_info):
 func update_player(id, new_player_info):
 	players[id] = new_player_info
 	player_info = new_player_info
+
+func get_server_ip() -> String:
+	return ip
 
 ## Events
 func _on_peer_connected(_id):
