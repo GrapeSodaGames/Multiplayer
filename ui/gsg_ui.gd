@@ -19,10 +19,11 @@ func _ready():
 	ui_state = UIState.Game
 	new_ui_state = UIState.MainMenu
 
-	Server.connection_sucess.connect(_on_connection_success)
+	Server.connection_success.connect(_on_connection_success)
 
 	main_menu.request_connect_to_server.connect(_on_connect_request)
 	main_menu.request_create_new_server.connect(_on_create_host_request)
+	Log.info("UI Ready")
 
 
 func _process(_delta):
