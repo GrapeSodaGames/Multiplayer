@@ -21,6 +21,7 @@ func _ready():
 	new_ui_state = UIState.MainMenu
 
 	Server.connection_success.connect(_on_connection_success)
+	Server.connection_failed.connect(_on_connection_failed)
 
 	main_menu.request_connect_to_server.connect(_on_connect_request)
 	main_menu.request_create_new_server.connect(_on_create_host_request)
@@ -62,6 +63,10 @@ func set_ui_state(state: UIState):
 
 func _on_connection_success():
 	set_ui_state(UIState.Lobby)
+	
+func _on_connection_failed():
+	Log.info("UI received connection failed from server")
+	main_menu.clear_ip_text()
 
 func _on_connect_request(ip, port):
 	Server.connect_to_server(ip, port)
