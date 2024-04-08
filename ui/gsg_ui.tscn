@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://dcehergyi7iw"]
+[gd_scene load_steps=6 format=3 uid="uid://dcehergyi7iw"]
 
 [ext_resource type="Script" path="res://ui/gsg_ui.gd" id="1_rc2ry"]
 [ext_resource type="PackedScene" uid="uid://bpnt7sbv577ni" path="res://ui/main_menu.tscn" id="2_ydr1l"]
 [ext_resource type="PackedScene" uid="uid://bry5mtstqjhsr" path="res://ui/debug_log.tscn" id="3_hhyya"]
 [ext_resource type="PackedScene" uid="uid://detlppnjsunki" path="res://ui/lobby.tscn" id="4_5uwwu"]
+[ext_resource type="Script" path="res://ui/world_ui.gd" id="5_4555v"]
 
 [node name="UI" type="Node"]
 script = ExtResource("1_rc2ry")
@@ -15,5 +16,12 @@ offset_right = -1920.0
 offset_bottom = -1080.0
 
 [node name="Debug Log" parent="." instance=ExtResource("3_hhyya")]
+
+[node name="World" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("5_4555v")
 
 [editable path="Lobby"]

@@ -4,7 +4,7 @@ extends Node
 enum UIState {
 	MainMenu,
 	Lobby,
-	Game
+	World
 }
 
 var ui_state: UIState
@@ -13,10 +13,11 @@ var new_ui_state: UIState
 @onready var main_menu: MainMenu = get_node("Main Menu")
 @onready var debug_log = get_node("Debug Log")
 @onready var lobby = get_node("Lobby")
+@onready var world = get_node("World")
 
 
 func _ready():
-	ui_state = UIState.Game
+	ui_state = UIState.World
 	new_ui_state = UIState.MainMenu
 
 	Server.connection_success.connect(_on_connection_success)
@@ -37,17 +38,24 @@ func check_state():
 		ui_state = new_ui_state
 	match ui_state:
 		UIState.MainMenu:
-			if not main_menu.visible:
-				main_menu.visible = true
+			main_menu.set_process(true)
+			main_menu.show()
 		UIState.Lobby:
+			main_menu.set_process(true)
 			lobby.setup()
-			if not lobby.visible:
-				lobby.visible = true
-				
+			lobby.show()
+		UIState.World:
+			world.set_process(true)
+			world.setup()
+			world.show()
 		
 func close_all():
-	main_menu.visible = false
-	lobby.visible = false
+	main_menu.hide()
+	main_menu.set_process(false)
+	lobby.hide()
+	lobby.set_process(false)
+	world.hide()
+	world.set_process(false)
 
 func set_ui_state(state: UIState):
 	new_ui_state = state

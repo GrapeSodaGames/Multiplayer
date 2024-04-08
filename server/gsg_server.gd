@@ -110,6 +110,15 @@ func update_player(id, new_player_info):
 func get_server_ip() -> String:
 	return ip
 
+func get_ready_status() -> bool:
+	var result = false
+	for player in players.values():
+		result = player.is_ready
+	return result
+	
+func is_host() -> bool:
+	return multiplayer.is_server()
+
 ## Events
 func _on_peer_connected(_id):
 	pass
