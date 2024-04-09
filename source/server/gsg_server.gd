@@ -41,13 +41,12 @@ func connect_to_server(new_ip, port):
 		Log.warn("Could not connect to server at ", str(new_ip) + ":" + str(port))
 		connection_failed.emit()
 		return
-	else:
-		multiplayer.multiplayer_peer = peer
-		server_status = ServerStatus.GUEST
-		Log.info("Successfully connected to server")
-		ip = new_ip
-		connection_success.emit()
-		send_player_info.rpc_id(1, multiplayer.get_unique_id(), player_info)
+	multiplayer.multiplayer_peer = peer
+	server_status = ServerStatus.GUEST
+	Log.info("Successfully connected to server")
+	ip = new_ip
+	connection_success.emit()
+	send_player_info.rpc_id(1, multiplayer.get_unique_id(), player_info)
 
 
 func create_server():
