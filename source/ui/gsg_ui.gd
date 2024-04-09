@@ -63,6 +63,7 @@ func set_ui_state(state: UIState):
 
 func _on_connection_success():
 	set_ui_state(UIState.LOBBY)
+
 	
 func _on_connection_failed():
 	Log.info("UI received connection failed from server")
