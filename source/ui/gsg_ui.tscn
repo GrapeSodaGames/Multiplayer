@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://dcehergyi7iw"]
 
-[ext_resource type="Script" path="res://ui/gsg_ui.gd" id="1_rc2ry"]
-[ext_resource type="PackedScene" uid="uid://bpnt7sbv577ni" path="res://ui/main_menu.tscn" id="2_ydr1l"]
-[ext_resource type="PackedScene" uid="uid://bry5mtstqjhsr" path="res://ui/debug_log.tscn" id="3_hhyya"]
-[ext_resource type="PackedScene" uid="uid://detlppnjsunki" path="res://ui/lobby.tscn" id="4_5uwwu"]
-[ext_resource type="Script" path="res://ui/world_ui.gd" id="5_4555v"]
+[ext_resource type="Script" path="res://source/ui/gsg_ui.gd" id="1_rc2ry"]
+[ext_resource type="PackedScene" uid="uid://bpnt7sbv577ni" path="res://source/ui/main_menu.tscn" id="2_ydr1l"]
+[ext_resource type="PackedScene" uid="uid://bry5mtstqjhsr" path="res://source/ui/debug_log.tscn" id="3_hhyya"]
+[ext_resource type="PackedScene" uid="uid://detlppnjsunki" path="res://source/ui/lobby.tscn" id="4_5uwwu"]
+[ext_resource type="Script" path="res://source/ui/world_ui.gd" id="5_4555v"]
 
 [node name="UI" type="Node"]
 script = ExtResource("1_rc2ry")

@@ -11,15 +11,15 @@ config_version=5
 [application]
 
 config/name="Multiplayer"
-run/main_scene="res://game/game.tscn"
+run/main_scene="res://source/game/game.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
 Log="*res://addons/logger/logger.gd"
-UI="*res://ui/gsg_ui.tscn"
-Server="*res://server/gsg_server.gd"
+UI="*res://source/ui/gsg_ui.tscn"
+Server="*res://source/server/gsg_server.gd"
 
 [dotnet]
 

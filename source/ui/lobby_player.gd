@@ -15,15 +15,15 @@ func _ready():
 func setup():
 	player_label.text = "Player " + str(player_number)
 	for id in Server.players:
-		var player = Server.players[id] 
+		var player = Server.players[id]
 		if player_number == player["player_number"]:
 			color_picker.color = Color.from_string(player["color"], Color.WHITE)
 			if player.is_ready:
 				ready_button.text = "Ready!"
 			else:
 				ready_button.text = "Waiting for Confirmation"
-			
-			if id == multiplayer.get_unique_id(): 
+
+			if id == multiplayer.get_unique_id():
 				player_label.text += " - You"
 				color_picker.disabled = false
 				ready_button.disabled = false
@@ -32,20 +32,21 @@ func setup():
 					ready_button.text = "Ready"
 				else:
 					ready_button.text = "Waiting for others..."
-				
+
 			else:
 				player_label.text += " - Connected"
+
 
 func set_player_color(color: Color):
 	var id = multiplayer.get_unique_id()
 	Server.players[id]["color"] = color.to_html()
-	Server.send_player_info.rpc_id(1,id, Server.players[id])
+	Server.send_player_info.rpc_id(1, id, Server.players[id])
+
 
 func set_player_ready_status(is_ready: bool):
 	var id = multiplayer.get_unique_id()
 	Server.players[id].is_ready = is_ready
 	Server.send_player_info.rpc_id(1, id, Server.players[id])
-
 
 
 func _on_color_picker_button_color_changed(color: Color):

@@ -10,15 +10,16 @@ func setup():
 	for player_panel in get_node("%GridContainer").get_children():
 		player_panel.setup()
 
+
 func show_start_game_button():
 	start_game_button.show()
 	start_game_button.disabled = not Server.get_ready_status()
-		
+
 
 func _on_disconnect_button_pressed():
 	Server.disconnect_from_server()
-	UI.set_ui_state(GSGUI.UIState.MainMenu)
+	UI.set_ui_state(GSGUI.UIState.MAIN_MENU)
 
 
 func _on_start_game_button_pressed():
-	UI.set_ui_state(GSGUI.UIState.World)
+	UI.set_ui_state(GSGUI.UIState.WORLD)

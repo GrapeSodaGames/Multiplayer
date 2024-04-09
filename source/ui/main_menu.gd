@@ -13,16 +13,21 @@ signal request_create_new_server
 @onready var connect_server_ip_textbox: TextEdit = get_node("%Connect Server IP")
 @onready var game: GSGGame = get_node("/root/Game")
 
+
 ## Game Loop
 func _ready():
-		connect_server_ip_textbox.text = game.get_config_server_ip()
-		Log.info(connect_server_ip_textbox.text)
+	connect_server_ip_textbox.text = game.get_config_server_ip()
+	Log.info(connect_server_ip_textbox.text)
+
+
 func _process(_delta):
 	check_connection_status_for_buttons()
+
 
 ## Events
 func _on_host_button_pressed():
 	request_create_new_server.emit()
+
 
 func _on_connect_button_pressed():
 	var server_ip = connect_server_ip_textbox.text
@@ -34,8 +39,8 @@ func _on_connect_button_pressed():
 func check_connection_status_for_buttons():
 	handle_host_button()
 	handle_connect_button()
-	
-	
+
+
 func handle_host_button():
 	if multiplayer.multiplayer_peer == null:
 		host_button.disabled = false
@@ -46,6 +51,7 @@ func handle_host_button():
 			host_button.text = "Server Running"
 		else:
 			host_button.text = "Connected as Guest"
+
 
 func handle_connect_button():
 	if multiplayer.multiplayer_peer == null:
