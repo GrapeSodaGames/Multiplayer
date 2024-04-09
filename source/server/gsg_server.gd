@@ -1,6 +1,8 @@
 class_name GSGServer extends Node
 
 signal connection_success
+
+signal connection_failed
 signal player_connected(peer_id, player_info)
 signal player_disconnected(peer_id)
 signal server_disconnected
@@ -35,9 +37,10 @@ func connect_to_server(new_ip, port):
 	Log.info("Connecting to server at ", new_ip)
 	var peer = ENetMultiplayerPeer.new()
 	var error = peer.create_client(new_ip, port)
-	if error:
-		Log.err("Encountered Error: ", error)
-		return error
+	if error == ERR_CANT_CREATE:
+		Log.warn("Could not connect to server at ", str(new_ip) + ":" + str(port))
+		connection_failed.emit()
+		return
 	multiplayer.multiplayer_peer = peer
 	server_status = ServerStatus.GUEST
 	Log.info("Successfully connected to server")

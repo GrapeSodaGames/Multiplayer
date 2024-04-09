@@ -63,3 +63,7 @@ func handle_connect_button():
 			connect_button.text = "Connected"
 		else:
 			connect_button.text = "Connected as Host"
+
+
+func clear_ip_text():
+	connect_server_ip_textbox.text = ""
