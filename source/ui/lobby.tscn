@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://detlppnjsunki"]
 
-[ext_resource type="Script" path="res://ui/lobby.gd" id="1_gnwdt"]
-[ext_resource type="PackedScene" uid="uid://bh5nm27pwk6gh" path="res://ui/lobby_player.tscn" id="1_u2drq"]
+[ext_resource type="Script" path="res://source/ui/lobby.gd" id="1_gnwdt"]
+[ext_resource type="PackedScene" uid="uid://bh5nm27pwk6gh" path="res://source/ui/lobby_player.tscn" id="1_u2drq"]
 
 [node name="Lobby" type="Control"]
 layout_mode = 3

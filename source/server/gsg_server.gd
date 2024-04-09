@@ -1,11 +1,4 @@
-class_name GSGServer
-extends Node
-
-enum ServerStatus {
-	DISCONNECTED,
-	HOST,
-	GUEST
-}
+class_name GSGServer extends Node
 
 signal connection_success
 signal connection_failed
@@ -13,18 +6,16 @@ signal player_connected(peer_id, player_info)
 signal player_disconnected(peer_id)
 signal server_disconnected
 
+enum ServerStatus { DISCONNECTED, HOST, GUEST }
+
 # Properties
-const server_port = 25555
-const max_players = 4
+const SERVER_PORT = 25555
+const MAX_PLAYERS = 4
 
 var ip: String
 
 var players = {}
-var player_info = {
-	"player_number": 1,
-	"color": "000000",
-	"is_ready": false
-}
+var player_info = {"player_number": 1, "color": "000000", "is_ready": false}
 
 ## Private Variables
 var server_status: ServerStatus = ServerStatus.DISCONNECTED
@@ -36,7 +27,7 @@ func _ready():
 	multiplayer.connected_to_server.connect(_on_connected_to_server)
 	multiplayer.connection_failed.connect(_on_connection_failed)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
-	
+
 	multiplayer.multiplayer_peer = null
 	Log.info("Server Ready")
 
@@ -45,6 +36,7 @@ func connect_to_server(new_ip, port):
 	Log.info("Connecting to server at ", new_ip)
 	var peer = ENetMultiplayerPeer.new()
 	var error = peer.create_client(new_ip, port)
+<<<<<<< HEAD:server/gsg_server.gd
 	if error == ERR_CANT_CREATE:
 		Log.warn("Could not connect to server at ", str(new_ip) + ":" + str(port))
 		connection_failed.emit()
@@ -58,21 +50,34 @@ func connect_to_server(new_ip, port):
 		send_player_info.rpc_id(1, multiplayer.get_unique_id(), player_info)
 	
 	
+=======
+	if error:
+		Log.err("Encountered Error: ", error)
+		return error
+	multiplayer.multiplayer_peer = peer
+	server_status = ServerStatus.GUEST
+	Log.info("Successfully connected to server")
+	ip = new_ip
+	connection_success.emit()
+	send_player_info.rpc_id(1, multiplayer.get_unique_id(), player_info)
+
+
+>>>>>>> 2fffbb0 (all cleaned up):source/server/gsg_server.gd
 func create_server():
 	Log.info("Creating server as host")
 	var peer = ENetMultiplayerPeer.new()
-	var error = peer.create_server(server_port, max_players)
+	var error = peer.create_server(SERVER_PORT, MAX_PLAYERS)
 	if error:
 		UI.debug_log.write("Encountered Error: " + str(error))
 		return error
-	else:
-		multiplayer.multiplayer_peer = peer
-		server_status = ServerStatus.HOST
-		ip = "localhost"
-		connection_success.emit()
-		send_player_info.rpc_id(1, multiplayer.get_unique_id(), player_info)
-	
-	
+
+	multiplayer.multiplayer_peer = peer
+	server_status = ServerStatus.HOST
+	ip = "localhost"
+	connection_success.emit()
+	send_player_info.rpc_id(1, multiplayer.get_unique_id(), player_info)
+
+
 func disconnect_from_server():
 	multiplayer.multiplayer_peer = null
 	server_status = ServerStatus.DISCONNECTED
@@ -91,10 +96,10 @@ func send_player_info(id, info):
 
 @rpc("call_local")
 func update_player_info(id, info):
-	register_player(id,info)
-	update_player(id,info)
-	
-	
+	register_player(id, info)
+	update_player(id, info)
+
+
 func register_player(new_player_id, new_player_info):
 	if not new_player_id in players:
 		new_player_info["player_number"] = players.size() + 1
@@ -109,17 +114,21 @@ func update_player(id, new_player_info):
 	players[id] = new_player_info
 	player_info = new_player_info
 
+
 func get_server_ip() -> String:
 	return ip
+
 
 func get_ready_status() -> bool:
 	var result = false
 	for player in players.values():
 		result = player.is_ready
 	return result
-	
+
+
 func is_host() -> bool:
 	return multiplayer.is_server()
+
 
 ## Events
 func _on_peer_connected(_id):
@@ -129,7 +138,7 @@ func _on_peer_connected(_id):
 func _on_peer_disconnected(id):
 	players.erase(id)
 	player_disconnected.emit(id)
-	UI.set_ui_state(GSGUI.UIState.MainMenu)
+	UI.set_ui_state(GSGUI.UIState.MAIN_MENU)
 
 
 func _on_connected_to_server():
@@ -157,4 +166,3 @@ func _on_main_menu_request_create_new_server():
 
 func _on_main_menu_request_disconnect():
 	disconnect_from_server()
-

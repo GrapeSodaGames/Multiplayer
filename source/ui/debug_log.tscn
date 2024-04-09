@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bry5mtstqjhsr"]
 
-[ext_resource type="Script" path="res://ui/debug_log.gd" id="1_nmvp5"]
+[ext_resource type="Script" path="res://source/ui/debug_log.gd" id="1_nmvp5"]
 
 [node name="Debug Log" type="VBoxContainer"]
 anchors_preset = 10
