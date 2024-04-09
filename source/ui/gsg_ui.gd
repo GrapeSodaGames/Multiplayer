@@ -1,10 +1,9 @@
-class_name GSGUI
-extends Node
+class_name GSGUI extends Node
 
 enum UIState { MAIN_MENU, LOBBY, WORLD }
 
-var ui_state: UIState
-var new_ui_state: UIState
+var _ui_state: UIState
+var _new_ui_state: UIState
 
 @onready var main_menu: MainMenu = get_node("Main Menu")
 @onready var debug_log = get_node("Debug Log")
@@ -13,28 +12,31 @@ var new_ui_state: UIState
 
 
 func _ready():
-	ui_state = UIState.WORLD
-	new_ui_state = UIState.MAIN_MENU
+	Log.dbg("UI Readying...")
+	_ui_state = UIState.WORLD
+	_new_ui_state = UIState.MAIN_MENU
 
 	Server.connection_success.connect(_on_connection_success)
 	Server.connection_failed.connect(_on_connection_failed)
 
 	main_menu.request_connect_to_server.connect(_on_connect_request)
 	main_menu.request_create_new_server.connect(_on_create_host_request)
-	Log.info("UI Ready")
+	Log.dbg("UI Ready")
 
 
 func _process(_delta):
-	check_state()
+	_check_state()
 
 
-func check_state():
+# TODO: Code Smell - Long Method
+func _check_state():
 	if multiplayer.multiplayer_peer == null:
-		new_ui_state = UIState.MAIN_MENU
-	if new_ui_state != ui_state:
+		_new_ui_state = UIState.MAIN_MENU
+	if _new_ui_state != _ui_state:
 		close_all()
-		ui_state = new_ui_state
-	match ui_state:
+		_ui_state = _new_ui_state
+	# TODO: Code Smell - switch statement
+	match _ui_state:
 		UIState.MAIN_MENU:
 			main_menu.set_process(true)
 			main_menu.show()
@@ -58,7 +60,7 @@ func close_all():
 
 
 func set_ui_state(state: UIState):
-	new_ui_state = state
+	_new_ui_state = state
 
 
 func _on_connection_success():

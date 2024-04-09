@@ -6,12 +6,12 @@ extends Control
 
 func setup():
 	if Server.is_host():
-		show_start_game_button()
+		_show_start_game_button()
 	for player_panel in get_node("%GridContainer").get_children():
 		player_panel.setup()
 
 
-func show_start_game_button():
+func _show_start_game_button():
 	start_game_button.show()
 	start_game_button.disabled = not Server.get_ready_status()
 

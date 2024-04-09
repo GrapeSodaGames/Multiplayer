@@ -4,7 +4,10 @@ class_name DebugLog extends VBoxContainer
 
 
 func _ready():
+	Log.dbg("DebugLog Readying...")
 	Log.log_message.connect(_on_log_message)
+	Log.dbg("Log connected to in game debug log")
+	Log.dbg("DebugLog Ready")
 
 
 func _on_log_message(_log_level, message):
