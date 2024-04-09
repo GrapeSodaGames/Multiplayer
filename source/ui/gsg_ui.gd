@@ -62,16 +62,12 @@ func set_ui_state(state: UIState):
 
 
 func _on_connection_success():
-<<<<<<< HEAD:ui/gsg_ui.gd
-	set_ui_state(UIState.Lobby)
+	set_ui_state(UIState.LOBBY)
 	
 func _on_connection_failed():
 	Log.info("UI received connection failed from server")
 	main_menu.clear_ip_text()
-=======
-	set_ui_state(UIState.LOBBY)
 
->>>>>>> 2fffbb0 (all cleaned up):source/ui/gsg_ui.gd
 
 func _on_connect_request(ip, port):
 	Server.connect_to_server(ip, port)

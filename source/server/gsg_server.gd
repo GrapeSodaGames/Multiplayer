@@ -36,7 +36,6 @@ func connect_to_server(new_ip, port):
 	Log.info("Connecting to server at ", new_ip)
 	var peer = ENetMultiplayerPeer.new()
 	var error = peer.create_client(new_ip, port)
-<<<<<<< HEAD:server/gsg_server.gd
 	if error == ERR_CANT_CREATE:
 		Log.warn("Could not connect to server at ", str(new_ip) + ":" + str(port))
 		connection_failed.emit()
@@ -50,19 +49,6 @@ func connect_to_server(new_ip, port):
 		send_player_info.rpc_id(1, multiplayer.get_unique_id(), player_info)
 	
 	
-=======
-	if error:
-		Log.err("Encountered Error: ", error)
-		return error
-	multiplayer.multiplayer_peer = peer
-	server_status = ServerStatus.GUEST
-	Log.info("Successfully connected to server")
-	ip = new_ip
-	connection_success.emit()
-	send_player_info.rpc_id(1, multiplayer.get_unique_id(), player_info)
-
-
->>>>>>> 2fffbb0 (all cleaned up):source/server/gsg_server.gd
 func create_server():
 	Log.info("Creating server as host")
 	var peer = ENetMultiplayerPeer.new()
