@@ -12,10 +12,11 @@ func _ready():
 	color_picker.disabled = true
 
 
+#TODO: Code Smell - Long Method
 func setup():
 	player_label.text = "Player " + str(player_number)
-	for id in Server.players:
-		var player = Server.players[id]
+	for id in Server.get_players():
+		var player = Server.get_player(id)
 		if player_number == player["player_number"]:
 			color_picker.color = Color.from_string(player["color"], Color.WHITE)
 			if player.is_ready:
@@ -37,21 +38,9 @@ func setup():
 				player_label.text += " - Connected"
 
 
-func set_player_color(color: Color):
-	var id = multiplayer.get_unique_id()
-	Server.players[id]["color"] = color.to_html()
-	Server.send_player_info.rpc_id(1, id, Server.players[id])
-
-
-func set_player_ready_status(is_ready: bool):
-	var id = multiplayer.get_unique_id()
-	Server.players[id].is_ready = is_ready
-	Server.send_player_info.rpc_id(1, id, Server.players[id])
-
-
 func _on_color_picker_button_color_changed(color: Color):
-	set_player_color(color)
+	Server.set_player_color(color)
 
 
 func _on_ready_button_toggled(toggled_on):
-	set_player_ready_status(toggled_on)
+	Server.set_player_ready(toggled_on)

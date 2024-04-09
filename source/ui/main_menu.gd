@@ -17,7 +17,6 @@ signal request_create_new_server
 ## Game Loop
 func _ready():
 	connect_server_ip_textbox.text = game.get_config_server_ip()
-	Log.info(connect_server_ip_textbox.text)
 
 
 func _process(_delta):
@@ -31,7 +30,7 @@ func _on_host_button_pressed():
 
 func _on_connect_button_pressed():
 	var server_ip = connect_server_ip_textbox.text
-	var server_port = 25555
+	var server_port = 25555  # TODO: Code Smell - Magic Number
 	request_connect_to_server.emit(server_ip, server_port)
 
 
@@ -42,7 +41,7 @@ func check_connection_status_for_buttons():
 
 
 func handle_host_button():
-	if multiplayer.multiplayer_peer == null:
+	if not Server.is_peer_connected():
 		host_button.disabled = false
 		host_button.text = "Host Server"
 	else:
@@ -53,8 +52,9 @@ func handle_host_button():
 			host_button.text = "Connected as Guest"
 
 
+# TODO: Code Smell - duplicate code
 func handle_connect_button():
-	if multiplayer.multiplayer_peer == null:
+	if not Server.is_peer_connected():
 		connect_button.disabled = false
 		connect_button.text = "Connect to Server"
 	else:
