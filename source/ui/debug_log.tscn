@@ -9,11 +9,15 @@ offset_bottom = 43.0
 grow_horizontal = 2
 script = ExtResource("1_nmvp5")
 
-[node name="TextEdit" type="TextEdit" parent="."]
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer"]
+unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
-editable = false
+scroll_following = true
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 2

@@ -1,6 +1,6 @@
 class_name DebugLog extends VBoxContainer
 
-@onready var text_edit: TextEdit = get_node("TextEdit")
+@onready var text_label: RichTextLabel = get_node("%RichTextLabel")
 
 
 func _ready():
@@ -11,8 +11,8 @@ func _ready():
 
 
 func _on_log_message(_log_level, message):
-	text_edit.text += message + "\n"
+	text_label.text += message + "\n"
 
 
 func _on_button_toggled(toggled_on):
-	text_edit.visible = toggled_on
+	text_label.visible = toggled_on
