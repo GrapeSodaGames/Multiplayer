@@ -10,7 +10,7 @@ signal request_create_new_server
 ## References
 @onready var host_button: Button = get_node("%Host Button")
 @onready var connect_button: Button = get_node("%Connect Button")
-@onready var connect_server_ip_textbox: TextEdit = get_node("%Connect Server IP")
+@onready var connect_server_ip_textbox: LineEdit = get_node("%Connect Server IP")
 @onready var game: GSGGame = get_node("/root/Game")
 
 
