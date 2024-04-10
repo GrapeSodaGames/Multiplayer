@@ -31,7 +31,7 @@ layout_mode = 2
 disabled = true
 text = "Connect to Server"
 
-[node name="Connect Server IP" type="TextEdit" parent="Main Menu Buttons/VBoxContainer/HBoxContainer"]
+[node name="Connect Server IP" type="LineEdit" parent="Main Menu Buttons/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 14)
 layout_mode = 2
