@@ -1,5 +1,4 @@
-class_name MainMenu
-extends Control
+class_name MainMenu extends UIScreen
 
 ## TODO: Document
 
@@ -35,6 +34,14 @@ func _on_connect_button_pressed():
 
 
 # Methods
+func setup():
+	super.setup()
+
+
+func enable(value: bool):
+	super.enable(value)
+
+
 func check_connection_status_for_buttons():
 	handle_host_button()
 	handle_connect_button()

@@ -1,7 +1,9 @@
-class_name WorldUI extends Control
+class_name WorldUI extends UIScreen
 
 
 func setup():
-	Log.info("WorldUI setup beginning")
-	Log.warn("Not Yet Implemented")
-	Log.info("WorldUI setup complete")
+	super.setup()
+
+
+func enable(value: bool):
+	super.enable(value)

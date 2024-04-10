@@ -4,15 +4,21 @@ enum UIState { MAIN_MENU, LOBBY, WORLD }
 
 var _ui_state: UIState
 var _new_ui_state: UIState
+var _screens = {}
 
 @onready var main_menu: MainMenu = get_node("Main Menu")
-@onready var debug_log = get_node("Debug Log")
-@onready var lobby = get_node("Lobby")
-@onready var world = get_node("World")
+@onready var debug_log: DebugLog = get_node("Debug Log")
+@onready var lobby: Lobby = get_node("Lobby")
+@onready var world: WorldUI = get_node("World")
 
 
 func _ready():
 	Log.dbg("UI Readying...")
+
+	_screens[UIState.WORLD] = world
+	_screens[UIState.MAIN_MENU] = main_menu
+	_screens[UIState.LOBBY] = lobby
+
 	_ui_state = UIState.WORLD
 	_new_ui_state = UIState.MAIN_MENU
 
@@ -26,37 +32,21 @@ func _ready():
 
 func _process(_delta):
 	_check_state()
+	_screens[_ui_state].setup()
+	_screens[_ui_state].enable(true)
 
 
-# TODO: Code Smell - Long Method
 func _check_state():
-	if multiplayer.multiplayer_peer == null:
+	if not Server.is_peer_connected():
 		_new_ui_state = UIState.MAIN_MENU
 	if _new_ui_state != _ui_state:
 		close_all()
 		_ui_state = _new_ui_state
-	# TODO: Code Smell - switch statement
-	match _ui_state:
-		UIState.MAIN_MENU:
-			main_menu.set_process(true)
-			main_menu.show()
-		UIState.LOBBY:
-			main_menu.set_process(true)
-			lobby.setup()
-			lobby.show()
-		UIState.WORLD:
-			world.set_process(true)
-			world.setup()
-			world.show()
 
 
 func close_all():
-	main_menu.hide()
-	main_menu.set_process(false)
-	lobby.hide()
-	lobby.set_process(false)
-	world.hide()
-	world.set_process(false)
+	for screen: UIScreen in _screens.values():
+		screen.enable(false)
 
 
 func set_ui_state(state: UIState):
