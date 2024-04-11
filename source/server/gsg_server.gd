@@ -5,6 +5,8 @@ signal connection_failed
 signal player_connected(peer_id, player_info)
 signal player_disconnected(peer_id)
 signal server_disconnected
+signal player_updated(peer_id, player_info)
+
 
 enum ServerStatus { DISCONNECTED, HOST, GUEST }
 
@@ -12,10 +14,10 @@ enum ServerStatus { DISCONNECTED, HOST, GUEST }
 const SERVER_PORT = 25555
 const MAX_PLAYERS = 4
 
+var players = PlayerList.new()
+
 ## Private Variables
 var _ip: String
-var _players = {}
-var _player_info = {"player_number": 1, "color": "000000", "is_ready": false}
 var _server_status: ServerStatus = ServerStatus.DISCONNECTED
 
 
@@ -45,10 +47,8 @@ func connect_to_server(new_ip, port):
 	Log.info("Successfully connected to server")
 	_ip = new_ip
 	connection_success.emit()
-	send_player_info.rpc_id(1, multiplayer.get_unique_id(), _player_info)
 
 
-# TODO: Code Smell - Long Method
 func create_server():
 	Log.info("Creating server as host")
 	var peer = ENetMultiplayerPeer.new()
@@ -60,43 +60,13 @@ func create_server():
 	_server_status = ServerStatus.HOST
 	_ip = "localhost"
 	connection_success.emit()
-	send_player_info.rpc_id(1, multiplayer.get_unique_id(), _player_info)
+	
 
 
 func disconnect_from_server():
 	multiplayer.multiplayer_peer = null
 	_server_status = ServerStatus.DISCONNECTED
-	_players = {}
-
-
-@rpc("any_peer", "call_local")
-func send_player_info(id, info):
-	if multiplayer.is_server():
-		register_player(id, info)
-		update_player(id, info)
-		for player_id in _players:
-			var player = _players[player_id]
-			update_player_info.rpc(player_id, player)
-
-
-@rpc("call_local")
-func update_player_info(id, info):
-	update_player(id, info)
-
-
-func register_player(new_player_id, new_player_info):
-	if not new_player_id in _players:
-		new_player_info["player_number"] = _players.size() + 1
-		if multiplayer.is_server():
-			new_player_info["color"] = Color(randf(), randf(), randf()).to_html()
-			new_player_info["is_ready"] = false
-		_players[new_player_id] = new_player_info
-		_player_info = new_player_info
-
-
-func update_player(id, new_player_info):
-	_players[id] = new_player_info
-	_player_info = new_player_info
+	players = PlayerList.new()
 
 
 func get_server_ip() -> String:
@@ -104,39 +74,28 @@ func get_server_ip() -> String:
 	return _ip
 
 
-func get_ready_status() -> bool:
-	var result = false
-	for player in _players.values():
-		result = player.is_ready
-	return result
-
-
 func is_host() -> bool:
 	return multiplayer.is_server()
 
-
-func get_players() -> Dictionary:
-	return _players
-
-
-func set_player_ready(value: bool):
-	var id = multiplayer.get_unique_id()
-	_players[id].is_ready = value
-	send_player_info.rpc_id(1, id, Server.get_player(id))
-
-
-func set_player_color(color: Color):
-	var id = multiplayer.get_unique_id()
-	_players[id].color = color.to_html()
-	send_player_info.rpc_id(1, id, _players[id])
-
-
-func get_player(id: int) -> Dictionary:
-	return _players[id]
-
-
 func is_peer_connected() -> bool:
 	return multiplayer.multiplayer_peer != null
+
+
+@rpc("any_peer", "call_local")
+func send_player_info(id, info):
+	if multiplayer.is_server():
+		var info_deserialized = PlayerInfo.deserialize(info)
+		players.register_player(id, info_deserialized)
+		for player_id in players.all():
+			var player = players.by_id(player_id)
+			update_player_info.rpc(player_id, player)
+
+
+@rpc("call_local")
+func update_player_info(id, info):
+	players.update_player(id, info)
+	player_updated.emit(id, info)
+
 
 
 ## Events
@@ -145,13 +104,14 @@ func _on_peer_connected(_id):
 
 
 func _on_peer_disconnected(id):
-	_players.erase(id)
+	players.erase(id)
 	player_disconnected.emit(id)
 	UI.set_ui_state(GSGUI.UIState.MAIN_MENU)
 
 
 func _on_connected_to_server():
-	send_player_info.rpc_id(1, multiplayer.get_unique_id(), _player_info)
+	pass
+	#send_player_info.rpc_id(1, multiplayer.get_unique_id(), _player_info)
 
 
 func _on_connection_failed():
@@ -160,7 +120,7 @@ func _on_connection_failed():
 
 func _on_server_disconnected():
 	multiplayer.multiplayer_peer = null
-	_players.clear()
+	players.clear()
 	server_disconnected.emit()
 
 

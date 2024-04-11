@@ -17,9 +17,9 @@ func setup():
 	player_label.text = "Player " + str(player_number)
 	for id in Server.get_players():
 		var player = Server.get_player(id)
-		if player_number == player["player_number"]:
-			color_picker.color = Color.from_string(player["color"], Color.WHITE)
-			if player.is_ready:
+		if player_number == player.number():
+			color_picker.color = player.color()
+			if player.ready():
 				ready_button.text = "Ready!"
 			else:
 				ready_button.text = "Waiting for Confirmation"
@@ -28,8 +28,8 @@ func setup():
 				player_label.text += " - You"
 				color_picker.disabled = false
 				ready_button.disabled = false
-				ready_button.button_pressed = player.is_ready
-				if not player.is_ready:
+				ready_button.button_pressed = player.ready()
+				if not player.ready():
 					ready_button.text = "Ready"
 				else:
 					ready_button.text = "Waiting for others..."
@@ -39,8 +39,8 @@ func setup():
 
 
 func _on_color_picker_button_color_changed(color: Color):
-	Server.set_player_color(color)
+	Server.players.set_player_color(multiplayer.get_unique_id(), color)
 
 
 func _on_ready_button_toggled(toggled_on):
-	Server.set_player_ready(toggled_on)
+	Server.players.set_player_ready(multiplayer.get_unique_id(), toggled_on)
