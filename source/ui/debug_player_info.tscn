@@ -1,0 +1,162 @@
+[gd_scene load_steps=2 format=3 uid="uid://bkvls2tc5twwo"]
+
+[ext_resource type="Script" path="res://source/ui/debug_player_info.gd" id="1_mmiun"]
+
+[node name="DebugPlayerInfo" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_mmiun")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="PanelContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Player1Label" type="Label" parent="PanelContainer/GridContainer/VBoxContainer"]
+layout_mode = 2
+text = "Player 1
+"
+
+[node name="Status1Label" type="HFlowContainer" parent="PanelContainer/GridContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Status1Title" type="Label" parent="PanelContainer/GridContainer/VBoxContainer/Status1Label"]
+layout_mode = 2
+text = "Status:"
+
+[node name="Status1Value" type="Label" parent="PanelContainer/GridContainer/VBoxContainer/Status1Label"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "
+"
+
+[node name="Ready1Label" type="HFlowContainer" parent="PanelContainer/GridContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Ready1Title" type="Label" parent="PanelContainer/GridContainer/VBoxContainer/Ready1Label"]
+layout_mode = 2
+text = "Ready:"
+
+[node name="Ready1Value" type="Label" parent="PanelContainer/GridContainer/VBoxContainer/Ready1Label"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Player2Label" type="Label" parent="PanelContainer/GridContainer/VBoxContainer2"]
+layout_mode = 2
+text = "Player 2
+"
+
+[node name="Status2Label" type="HFlowContainer" parent="PanelContainer/GridContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Status2Title" type="Label" parent="PanelContainer/GridContainer/VBoxContainer2/Status2Label"]
+layout_mode = 2
+text = "Status:"
+
+[node name="Status2Value" type="Label" parent="PanelContainer/GridContainer/VBoxContainer2/Status2Label"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "CONNECTED AS ######
+"
+
+[node name="Ready2Label" type="HFlowContainer" parent="PanelContainer/GridContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Ready2Title" type="Label" parent="PanelContainer/GridContainer/VBoxContainer2/Ready2Label"]
+layout_mode = 2
+text = "Ready:"
+
+[node name="Ready2Value" type="Label" parent="PanelContainer/GridContainer/VBoxContainer2/Ready2Label"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "#####"
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="PanelContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Player3Label" type="Label" parent="PanelContainer/GridContainer/VBoxContainer3"]
+layout_mode = 2
+text = "Player 3
+"
+
+[node name="Status3Label" type="HFlowContainer" parent="PanelContainer/GridContainer/VBoxContainer3"]
+layout_mode = 2
+
+[node name="Status3Title" type="Label" parent="PanelContainer/GridContainer/VBoxContainer3/Status3Label"]
+layout_mode = 2
+text = "Status:"
+
+[node name="Status3Value" type="Label" parent="PanelContainer/GridContainer/VBoxContainer3/Status3Label"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "CONNECTED AS ######
+"
+
+[node name="Ready3Label" type="HFlowContainer" parent="PanelContainer/GridContainer/VBoxContainer3"]
+layout_mode = 2
+
+[node name="Ready3Title" type="Label" parent="PanelContainer/GridContainer/VBoxContainer3/Ready3Label"]
+layout_mode = 2
+text = "Ready:"
+
+[node name="Ready3Value" type="Label" parent="PanelContainer/GridContainer/VBoxContainer3/Ready3Label"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "#####"
+
+[node name="VBoxContainer4" type="VBoxContainer" parent="PanelContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Player4Label" type="Label" parent="PanelContainer/GridContainer/VBoxContainer4"]
+layout_mode = 2
+text = "Player 4
+"
+
+[node name="Status4Label" type="HFlowContainer" parent="PanelContainer/GridContainer/VBoxContainer4"]
+layout_mode = 2
+
+[node name="Status4Title" type="Label" parent="PanelContainer/GridContainer/VBoxContainer4/Status4Label"]
+layout_mode = 2
+text = "Status:"
+
+[node name="Status4Value" type="Label" parent="PanelContainer/GridContainer/VBoxContainer4/Status4Label"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "CONNECTED AS ######
+"
+
+[node name="Ready4Label" type="HFlowContainer" parent="PanelContainer/GridContainer/VBoxContainer4"]
+layout_mode = 2
+
+[node name="Ready4Title" type="Label" parent="PanelContainer/GridContainer/VBoxContainer4/Ready4Label"]
+layout_mode = 2
+text = "Ready:"
+
+[node name="Ready4Value" type="Label" parent="PanelContainer/GridContainer/VBoxContainer4/Ready4Label"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "#####"
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 8
+toggle_mode = true
+text = "Player Info"
+
+[connection signal="toggled" from="Button" to="." method="_on_button_toggled"]
