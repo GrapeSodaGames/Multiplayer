@@ -14,7 +14,7 @@ class_name DebugPlayerInfo extends VBoxContainer
 @onready var player_4_ready = get_node("%Ready4Value")
 
 
-func _process(delta):
+func _process(_delta):
 	if Server.is_peer_connected():
 		var players = Server.get_players()
 		for id in players:
@@ -42,20 +42,20 @@ func _process(delta):
 				else:
 					player_4_status.text = "CONNECTED"
 				player_4_ready.text = str(players[id].is_ready)
-			
+
 	else:
 		player_1_status.text = ""
 		player_1_ready.text = ""
-		
+
 		player_2_status.text = ""
 		player_2_ready.text = ""
-		
+
 		player_3_status.text = ""
 		player_3_ready.text = ""
-		
+
 		player_4_status.text = ""
 		player_4_ready.text = ""
-		
+
 
 func _on_button_toggled(toggled_on):
 	panel.visible = toggled_on
