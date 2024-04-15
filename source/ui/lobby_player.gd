@@ -11,7 +11,7 @@ extends PanelContainer
 func _ready():
 	color_picker.disabled = true
 
-func _process(delta):
+func _process(_delta):
 	update()	
 
 
