@@ -4,6 +4,7 @@ class_name LocalConfig extends Node
 
 var _config_file: ConfigFile
 
+
 func _init():
 	_config_file = ConfigFile.new()
 	var err = _config_file.load(config_path)
@@ -11,11 +12,11 @@ func _init():
 		_create_default_config_file()
 	Log.info("Config Loaded Successfully")
 	Log.dbg("config file: ", _config_file.encode_to_text())
-	
+
+
 func _create_default_config_file():
 	Log.info("Creating default config file")
 	set_config_server_ip("127.0.0.1")
-	
 
 
 func _save_config():
