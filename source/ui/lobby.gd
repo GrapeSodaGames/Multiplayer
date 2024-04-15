@@ -8,8 +8,6 @@ func setup():
 
 	if Server.is_host():
 		_show_start_game_button()
-	for player_panel in get_node("%GridContainer").get_children():
-		player_panel.setup()
 
 
 func enable(value: bool):
