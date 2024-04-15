@@ -14,10 +14,6 @@ signal request_create_new_server
 
 
 ## Game Loop
-func _ready():
-	connect_server_ip_textbox.text = game.get_config_server_ip()
-
-
 func _process(_delta):
 	check_connection_status_for_buttons()
 
@@ -36,6 +32,7 @@ func _on_connect_button_pressed():
 # Methods
 func setup():
 	super.setup()
+	connect_server_ip_textbox.text = game.local_config.get_config_server_ip()
 
 
 func enable(value: bool):
