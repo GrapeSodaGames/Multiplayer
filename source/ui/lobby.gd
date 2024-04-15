@@ -22,7 +22,7 @@ func _show_start_game_button():
 
 
 func _on_disconnect_button_pressed():
-	Server.disconnect_from_server()
+	Server.connection_manager.disconnect_from_server()
 	UI.set_ui_state(GSGUI.UIState.MAIN_MENU)
 
 

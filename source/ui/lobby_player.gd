@@ -39,6 +39,7 @@ func setup():
 			else:
 				player_label.text += " - Connected"
 
+
 func _on_color_picker_button_color_changed(color: Color):
 	Server.set_player_color(color)
 

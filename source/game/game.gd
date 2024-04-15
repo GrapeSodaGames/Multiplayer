@@ -11,4 +11,4 @@ func _ready():
 
 func _on_server_connect_success():
 	Log.info("Game received server connect success")
-	local_config.set_config_server_ip(Server.get_server_ip())
+	local_config.set_config_server_ip(Server.connection_manager.get_server_ip())
