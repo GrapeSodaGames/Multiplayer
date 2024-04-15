@@ -31,12 +31,13 @@ func setup():
 				ready_button.button_pressed = player.is_ready
 				if not player.is_ready:
 					ready_button.text = "Ready"
+					color_picker.disabled = false
 				else:
 					ready_button.text = "Waiting for others..."
+					color_picker.disabled = true
 
 			else:
 				player_label.text += " - Connected"
-
 
 func _on_color_picker_button_color_changed(color: Color):
 	Server.set_player_color(color)
