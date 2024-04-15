@@ -63,7 +63,7 @@ func _on_connection_failed():
 
 
 func _on_connect_request(ip, port):
-	Server.connect_to_server(ip, port)
+	Server.connection_manager.connect_to_server(ip, port)
 
 
 func _on_create_host_request():
