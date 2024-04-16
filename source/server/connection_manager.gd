@@ -18,18 +18,16 @@ func _ready():
 
 
 # Methods
-
-
-# TODO: Code Smell - Long Method
-func create_server():
+func create_server(port):
 	Log.info("Creating server as host")
 	var peer = ENetMultiplayerPeer.new()
-	var error = peer.create_server(_server_port, MAX_PLAYERS)
+	var error = peer.create_server(port, MAX_PLAYERS)
 	if error:
-		UI.debug_log.write("Encountered Error: " + str(error))
+		Log.warn("Encountered Error: " + str(error))
 		return error
 	multiplayer.multiplayer_peer = peer
 	_ip = "localhost"
+	_server_port = port
 	Server.connection_success.emit()
 	Server.send_player_info.rpc_id(1, multiplayer.get_unique_id(), Server.player_info)
 
@@ -46,6 +44,7 @@ func connect_to_server(new_ip, port):
 	multiplayer.multiplayer_peer = peer
 	Log.info("Successfully connected to server")
 	_ip = new_ip
+	_server_port = port
 	Server.connection_success.emit()
 	Server.send_player_info.rpc_id(1, multiplayer.get_unique_id(), Server.player_info)
 
@@ -72,7 +71,6 @@ func _on_peer_connected(_id):
 func _on_peer_disconnected(id):
 	Server.players.erase(id)
 	Server.player_disconnected.emit(id)
-	UI.set_ui_state(GSGUI.UIState.MAIN_MENU)
 
 
 func _on_connected_to_server():
@@ -85,5 +83,5 @@ func _on_connection_failed():
 
 func _on_server_disconnected():
 	multiplayer.multiplayer_peer = null
-	Server._players.clear()
+	Server.players.clear()
 	Server.server_disconnected.emit()

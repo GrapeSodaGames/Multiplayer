@@ -26,6 +26,10 @@ func _init():
 	add_child(connection_manager)
 	Log.info("Server Initialized")
 
+func _ready():
+	UI.request_create_new_server_signal.connect(_on_request_create_new_server)
+	UI.request_connect_to_server_signal.connect(_on_request_connect)
+	UI.request_disconnect_from_server_signal.connect(_on_request_disconnect)
 
 ## Methods
 @rpc("any_peer", "call_local")
@@ -95,19 +99,16 @@ func is_peer_connected() -> bool:
 	return false
 
 
-func create_server():
-	if connection_manager:
-		connection_manager.create_server()
-
-
 ## Events
-func _on_main_menu_request_connect_to_server(ip, port):
+func _on_request_connect(ip, port):
+	Log.info("Server received request to connect to server")
 	connection_manager.connect_to_server(ip, port)
 
 
-func _on_main_menu_request_create_new_server():
-	connection_manager.create_server()
+func _on_request_create_new_server(port):
+	Log.info("Server received request to create a server")
+	connection_manager.create_server(port)
 
 
-func _on_main_menu_request_disconnect():
+func _on_request_disconnect():
 	connection_manager.disconnect_from_server()

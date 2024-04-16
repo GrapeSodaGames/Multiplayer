@@ -1,11 +1,5 @@
 class_name MainMenu extends UIScreen
 
-## TODO: Document
-
-## Signals
-signal request_connect_to_server(ip, port)
-signal request_create_new_server
-
 ## References
 @onready var host_button: Button = get_node("%Host Button")
 @onready var connect_button: Button = get_node("%Connect Button")
@@ -20,13 +14,12 @@ func _process(_delta):
 
 ## Events
 func _on_host_button_pressed():
-	request_create_new_server.emit()
+	UI.request_create_server(25555)  # TODO: Code Smell - Magic Number
 
 
 func _on_connect_button_pressed():
-	var server_ip = connect_server_ip_textbox.text
-	var server_port = 25555  # TODO: Code Smell - Magic Number
-	request_connect_to_server.emit(server_ip, server_port)
+	# TODO: Code Smell - Magic Number
+	UI.request_connect_to_server_signal.emit(connect_server_ip_textbox.text, 25555)  
 
 
 # Methods
