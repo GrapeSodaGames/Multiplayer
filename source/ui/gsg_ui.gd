@@ -1,5 +1,9 @@
 class_name GSGUI extends Node
 
+signal request_create_new_server_signal(port)
+signal request_connect_to_server_signal(ip, port)
+signal request_disconnect_from_server_signal
+
 enum UIState { MAIN_MENU, LOBBY, WORLD }
 
 var _ui_state: UIState
@@ -25,8 +29,6 @@ func _ready():
 	Server.connection_success.connect(_on_connection_success)
 	Server.connection_failed.connect(_on_connection_failed)
 
-	main_menu.request_connect_to_server.connect(_on_connect_request)
-	main_menu.request_create_new_server.connect(_on_create_host_request)
 	Log.dbg("UI Ready")
 
 
@@ -48,6 +50,12 @@ func close_all():
 	for screen: UIScreen in _screens.values():
 		screen.enable(false)
 
+func request_create_server(port):
+	Log.info("UI sending request_create_server_signal to Server")
+	request_create_new_server_signal.emit(port)
+
+func request_disconnect_from_server():
+	request_disconnect_from_server_signal.emit()
 
 func set_ui_state(state: UIState):
 	_new_ui_state = state
@@ -63,8 +71,8 @@ func _on_connection_failed():
 
 
 func _on_connect_request(ip, port):
-	Server.connection_manager.connect_to_server(ip, port)
+	request_connect_to_server_signal.emit(ip, port)
 
 
-func _on_create_host_request():
-	Server.create_server()
+func _on_create_host_request(port):
+	request_create_new_server_signal.emit(port)
