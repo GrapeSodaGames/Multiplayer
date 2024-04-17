@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dcehergyi7iw"]
+[gd_scene load_steps=8 format=3 uid="uid://dcehergyi7iw"]
 
 [ext_resource type="Script" path="res://source/ui/gsg_ui.gd" id="1_rc2ry"]
 [ext_resource type="PackedScene" uid="uid://bpnt7sbv577ni" path="res://source/ui/main_menu.tscn" id="2_ydr1l"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://detlppnjsunki" path="res://source/ui/lobby.tscn" id="4_5uwwu"]
 [ext_resource type="Script" path="res://source/ui/world_ui.gd" id="5_4555v"]
 [ext_resource type="PackedScene" uid="uid://bkvls2tc5twwo" path="res://source/ui/debug_player_info.tscn" id="6_bnd8a"]
+[ext_resource type="PackedScene" uid="uid://du4mop841yfdb" path="res://source/ui/credits.tscn" id="7_035f0"]
 
 [node name="UI" type="Node"]
 script = ExtResource("1_rc2ry")
@@ -26,5 +27,7 @@ offset_bottom = 40.0
 script = ExtResource("5_4555v")
 
 [node name="DebugPlayerInfo" parent="." instance=ExtResource("6_bnd8a")]
+
+[node name="Credits" parent="." instance=ExtResource("7_035f0")]
 
 [editable path="Lobby"]

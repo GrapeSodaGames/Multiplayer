@@ -64,3 +64,8 @@ func handle_connect_button():
 
 func clear_ip_text():
 	connect_server_ip_textbox.text = ""
+
+
+func _on_credit_button_pressed():
+	Log.info("main_menu received credit button signal")
+	UI.set_ui_state(GSGUI.UIState.CREDITS)

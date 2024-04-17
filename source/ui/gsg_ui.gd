@@ -4,7 +4,7 @@ signal request_create_new_server_signal(port)
 signal request_connect_to_server_signal(ip, port)
 signal request_disconnect_from_server_signal
 
-enum UIState { MAIN_MENU, LOBBY, WORLD }
+enum UIState { MAIN_MENU, LOBBY, WORLD, CREDITS }
 
 var _ui_state: UIState
 var _new_ui_state: UIState
@@ -14,6 +14,7 @@ var _screens = {}
 @onready var debug_log: DebugLog = get_node("Debug Log")
 @onready var lobby: Lobby = get_node("Lobby")
 @onready var world: WorldUI = get_node("World")
+@onready var credits: Credits = get_node("Credits")
 
 
 func _ready():
@@ -22,6 +23,7 @@ func _ready():
 	_screens[UIState.WORLD] = world
 	_screens[UIState.MAIN_MENU] = main_menu
 	_screens[UIState.LOBBY] = lobby
+	_screens[UIState.CREDITS] = credits
 
 	_ui_state = UIState.WORLD
 	_new_ui_state = UIState.MAIN_MENU
@@ -39,9 +41,12 @@ func _process(_delta):
 
 
 func _check_state():
-	if not Server.is_peer_connected():
-		_new_ui_state = UIState.MAIN_MENU
 	if _new_ui_state != _ui_state:
+		Log.info("new UI state detected: ", str(_ui_state) + "=>" + str(_new_ui_state))
+	
+		if _new_ui_state == UIState.LOBBY and not Server.is_peer_connected():
+			_new_ui_state = UIState.MAIN_MENU
+
 		close_all()
 		_ui_state = _new_ui_state
 
