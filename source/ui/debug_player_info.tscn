@@ -12,6 +12,7 @@ mouse_filter = 2
 script = ExtResource("1_mmiun")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
+visible = false
 layout_mode = 2
 
 [node name="GridContainer" type="GridContainer" parent="PanelContainer"]
