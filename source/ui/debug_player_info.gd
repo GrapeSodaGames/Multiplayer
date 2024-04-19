@@ -18,42 +18,42 @@ func _process(_delta):
 	if Server.is_peer_connected():
 		var players = Server.get_players()
 		for id in players:
-			if players[id].player_number == 1:
+			if players[id].number() == 1:
 				if multiplayer.get_unique_id() == id:
 					player_1_status.text = "THIS IS ME"
 				else:
 					player_1_status.text = "CONNECTED"
-				player_1_ready.text = str(players[id].is_ready)
-			elif players[id].player_number == 2:
+				player_1_ready.text = str(players[id].is_ready())
+			elif players[id].number() == 2:
 				if multiplayer.get_unique_id() == id:
 					player_2_status.text = "THIS IS ME"
 				else:
 					player_2_status.text = "CONNECTED"
-				player_2_ready.text = str(players[id].is_ready)
-			elif players[id].player_number == 3:
+				player_2_ready.text = str(players[id].is_ready())
+			elif players[id].number() == 3:
 				if multiplayer.get_unique_id() == id:
 					player_3_status.text = "THIS IS ME"
 				else:
 					player_3_status.text = "CONNECTED"
-				player_3_ready.text = str(players[id].is_ready)
-			elif players[id].player_number == 4:
+				player_3_ready.text = str(players[id].is_ready())
+			elif players[id].number() == 4:
 				if multiplayer.get_unique_id() == id:
 					player_4_status.text = "THIS IS ME"
 				else:
 					player_4_status.text = "CONNECTED"
-				player_4_ready.text = str(players[id].is_ready)
+				player_4_ready.text = str(players[id].is_ready())
 
 	else:
-		player_1_status.text = ""
+		player_1_status.text = "Not Connected"
 		player_1_ready.text = ""
 
-		player_2_status.text = ""
+		player_2_status.text = "Not Connected"
 		player_2_ready.text = ""
 
-		player_3_status.text = ""
+		player_3_status.text = "Not Connected"
 		player_3_ready.text = ""
 
-		player_4_status.text = ""
+		player_4_status.text = "Not Connected"
 		player_4_ready.text = ""
 
 

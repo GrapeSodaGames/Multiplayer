@@ -14,7 +14,6 @@ layout_mode = 2
 [node name="PlayerLabel" type="Label" parent="VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Player 1"
 horizontal_alignment = 1
 
 [node name="ColorPickerButton" type="ColorPickerButton" parent="VBoxContainer"]

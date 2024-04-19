@@ -10,13 +10,14 @@ enum ServerStatus { DISCONNECTED, HOST, GUEST }
 
 ## Properties
 var players = {}
-var player_info = {"player_number": 1, "color": "000000", "is_ready": false}
+var player_info = PlayerInfo.new()
 
 ## Private Variables
 var _server_status: ServerStatus = ServerStatus.DISCONNECTED
 
 ## Components
-@onready var connection_manager: ConnectionMananger
+var connection_manager: ConnectionMananger
+
 
 
 ## Game Loop
@@ -33,31 +34,33 @@ func _ready():
 
 ## Methods
 @rpc("any_peer", "call_local")
-func send_player_info(id, info):
+func send_player_info(id, info: Dictionary):
 	if multiplayer.is_server():
-		register_player(id, info)
-		update_player(id, info)
+		var new_player_info: PlayerInfo = PlayerInfo.deserialize(info)
+		Log.info("PlayerInfo received by server with: ", new_player_info)
+		register_player(id, new_player_info)
+		update_player(id, new_player_info)
 		for player_id in players:
 			var player = players[player_id]
-			update_player_info.rpc(player_id, player)
+			update_player_info.rpc(player_id, player.serialize())
 
 
 @rpc("call_local")
-func update_player_info(id, info):
-	update_player(id, info)
+func update_player_info(id, info: Dictionary):
+	update_player(id, PlayerInfo.deserialize(info))
 
 
-func register_player(new_player_id, new_player_info):
+func register_player(new_player_id, new_player_info: PlayerInfo):
 	if not new_player_id in players:
-		new_player_info["player_number"] = players.size() + 1
+		new_player_info.set_player_number(players.size() + 1)
 		if multiplayer.is_server():
-			new_player_info["color"] = Color(randf(), randf(), randf()).to_html()
-			new_player_info["is_ready"] = false
+			new_player_info.set_color(Color(randf(), randf(), randf()))
+			new_player_info.set_ready(false)
 		players[new_player_id] = new_player_info
 		player_info = new_player_info
 
 
-func update_player(id, new_player_info):
+func update_player(id, new_player_info: PlayerInfo):
 	players[id] = new_player_info
 	player_info = new_player_info
 
@@ -65,7 +68,7 @@ func update_player(id, new_player_info):
 func get_ready_status() -> bool:
 	var result = false
 	for player in players.values():
-		result = player.is_ready
+		result = player.is_ready()
 	return result
 
 
@@ -79,17 +82,17 @@ func get_players() -> Dictionary:
 
 func set_player_ready(value: bool):
 	var id = multiplayer.get_unique_id()
-	players[id].is_ready = value
-	send_player_info.rpc_id(1, id, Server.get_player(id))
+	players[id].set_ready(value)
+	send_player_info.rpc_id(1, id, Server.get_player(id).serialize())
 
 
 func set_player_color(color: Color):
 	var id = multiplayer.get_unique_id()
-	players[id].color = color.to_html()
-	send_player_info.rpc_id(1, id, players[id])
+	players[id].set_color(color)
+	send_player_info.rpc_id(1, id, players[id].serialize())
 
 
-func get_player(id: int) -> Dictionary:
+func get_player(id: int) -> PlayerInfo:
 	return players[id]
 
 
