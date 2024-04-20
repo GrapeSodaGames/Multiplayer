@@ -12,12 +12,8 @@ enum ServerStatus { DISCONNECTED, HOST, GUEST }
 var players = {}
 var player_info = PlayerInfo.new()
 
-## Private Variables
-var _server_status: ServerStatus = ServerStatus.DISCONNECTED
-
 ## Components
 var connection_manager: ConnectionMananger
-
 
 
 ## Game Loop
@@ -31,13 +27,14 @@ func _ready():
 	UI.request_create_new_server_signal.connect(_on_request_create_new_server)
 	UI.request_connect_to_server_signal.connect(_on_request_connect)
 	UI.request_disconnect_from_server_signal.connect(_on_request_disconnect)
+	UI.request_set_player_ready.connect(_on_request_set_ready)
 
 ## Methods
 @rpc("any_peer", "call_local")
 func send_player_info(id, info: Dictionary):
+
 	if multiplayer.is_server():
 		var new_player_info: PlayerInfo = PlayerInfo.deserialize(info)
-		Log.info("PlayerInfo received by server with: ", new_player_info)
 		register_player(id, new_player_info)
 		update_player(id, new_player_info)
 		for player_id in players:
@@ -53,6 +50,7 @@ func update_player_info(id, info: Dictionary):
 func register_player(new_player_id, new_player_info: PlayerInfo):
 	if not new_player_id in players:
 		new_player_info.set_player_number(players.size() + 1)
+		new_player_info.set_id(new_player_id)
 		if multiplayer.is_server():
 			new_player_info.set_color(Color(randf(), randf(), randf()))
 			new_player_info.set_ready(false)
@@ -115,3 +113,7 @@ func _on_request_create_new_server(port):
 
 func _on_request_disconnect():
 	connection_manager.disconnect_from_server()
+
+func _on_request_set_ready(value: bool):
+	player_info.set_ready(value)
+	send_player_info.rpc_id(1, multiplayer.get_unique_id(), player_info.serialize())

@@ -3,6 +3,7 @@ class_name GSGUI extends Node
 signal request_create_new_server_signal(port)
 signal request_connect_to_server_signal(ip, port)
 signal request_disconnect_from_server_signal
+signal request_set_player_ready(value)
 
 enum UIState { MAIN_MENU, LOBBY, WORLD, CREDITS }
 

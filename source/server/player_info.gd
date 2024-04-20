@@ -3,6 +3,13 @@ class_name PlayerInfo extends Node
 var _player_number: int
 var _color: Color
 var _is_ready: bool
+var _id: int
+
+func id() -> int:
+	return _id
+
+func set_id(value: int):
+	_id = value
 
 func number() -> int:
 	return _player_number
@@ -23,7 +30,7 @@ func set_ready(value: bool):
 	_is_ready = value
 
 func serialize() -> Dictionary:
-	return {"player_number": number(), "color": color(), "is_ready": is_ready()}
+	return {"player_number": number(), "color": color(), "is_ready": is_ready(), "id": id()}
 
 
 static func deserialize(input: Dictionary) -> PlayerInfo:
@@ -31,4 +38,5 @@ static func deserialize(input: Dictionary) -> PlayerInfo:
 	result.set_player_number(input["player_number"])
 	result.set_color(input["color"])
 	result.set_ready(input["is_ready"])
+	result.set_id(input["id"])
 	return result
