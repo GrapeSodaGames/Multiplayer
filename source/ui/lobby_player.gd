@@ -16,9 +16,9 @@ func _process(_delta):
 
 
 func update():
-	for id in Server.get_players():
+	for id in Server.get_players().all():
 		var player = Server.get_player(id)
-		if _player_number == player["player_number"]:
+		if _player_number == player.number():
 			_set_title(id)
 			_set_color_picker(id, player)
 			_set_ready_button(id, player)
@@ -33,20 +33,20 @@ func _set_title(id):
 
 
 func _set_color_picker(id, player):
-	color_picker.color = Color.from_string(player["color"], Color.WHITE)
+	color_picker.color = player.color()
 	if id == multiplayer.get_unique_id():
 		color_picker.disabled = false
-	color_picker.disabled = player.is_ready	
+	color_picker.disabled = player.is_ready()
 		
 func _set_ready_button(id, player):
-	if player.is_ready:
+	if player.is_ready():
 		ready_button.text = "Ready!"
 	else:
 		ready_button.text = "Waiting for Confirmation"
-	if id == multiplayer.get_unique_id() and _player_number == player["player_number"]:
+	if id == multiplayer.get_unique_id() and _player_number == player.number():
 		ready_button.disabled = false
-		ready_button.button_pressed = player.is_ready
-		if not player.is_ready:
+		ready_button.button_pressed = player.is_ready()
+		if not player.is_ready():
 			ready_button.text = "Ready"
 		else:
 			ready_button.text = "Waiting for others..."

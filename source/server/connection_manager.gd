@@ -29,7 +29,7 @@ func create_server(port):
 	_ip = "localhost"
 	_server_port = port
 	Server.connection_success.emit()
-	Server.send_player_info.rpc_id(1, multiplayer.get_unique_id(), Server.player_info)
+	Server.send_player_info.rpc_id(1, multiplayer.get_unique_id(), Server.player_info.serialize())
 
 
 # TODO: Code Smell - Long Method
@@ -46,7 +46,7 @@ func connect_to_server(new_ip, port):
 	_ip = new_ip
 	_server_port = port
 	Server.connection_success.emit()
-	Server.send_player_info.rpc_id(1, multiplayer.get_unique_id(), Server.player_info)
+	Server.send_player_info.rpc_id(1, multiplayer.get_unique_id(), Server.player_info.serialize())
 
 
 func disconnect_from_server():
@@ -69,12 +69,14 @@ func _on_peer_connected(_id):
 
 
 func _on_peer_disconnected(id):
+	Log.info("ConnectionManager received _on_peer_disconnected from ", id)
+	Log.info("data being erased", Server.get_player(id).serialize())
 	Server.players.erase(id)
 	Server.player_disconnected.emit(id)
 
 
 func _on_connected_to_server():
-	Server.send_player_info.rpc_id(1, multiplayer.get_unique_id(), Server.player_info)
+	Server.send_player_info.rpc_id(1, multiplayer.get_unique_id(), Server.player_info.serialize())
 
 
 func _on_connection_failed():
