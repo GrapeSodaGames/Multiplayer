@@ -71,9 +71,7 @@ func _on_peer_connected(_id):
 func _on_peer_disconnected(id):
 	Log.info("ConnectionManager received _on_peer_disconnected from ", id)
 	Log.info("data being erased", Server.get_player(id).serialize())
-	Log.warn("Before: ", len(Server.players))
 	Server.players.erase(id)
-	Log.warn("After: ", len(Server.players))
 	Server.player_disconnected.emit(id)
 
 
