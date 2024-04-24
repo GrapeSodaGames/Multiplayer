@@ -16,7 +16,7 @@ func _process(_delta):
 
 
 func update():
-	for id in Server.get_players():
+	for id in Server.get_players().all():
 		var player = Server.get_player(id)
 		if _player_number == player.number():
 			_set_title(id)
