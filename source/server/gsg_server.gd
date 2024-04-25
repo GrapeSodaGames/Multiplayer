@@ -13,7 +13,7 @@ var player_info = PlayerInfo.new()
 
 ## Components
 var connection_manager: ConnectionMananger
-var players = PlayerList.new()
+var players: PlayerList = PlayerList.new()
 
 
 ## Game Loop
@@ -28,37 +28,30 @@ func _ready():
 	UI.request_connect_to_server_signal.connect(_on_request_connect)
 	UI.request_disconnect_from_server_signal.connect(_on_request_disconnect)
 	UI.request_set_player_ready.connect(_on_request_set_ready)
+	add_child(players)
+	
+
+func _process(delta):
+	if is_peer_connected() and multiplayer.is_server():
+		broadcast_all_players.rpc_id(1)
 
 ## Methods
 @rpc("any_peer", "call_local")
 func send_player_info(id, info: Dictionary):
-
 	if multiplayer.is_server():
 		var new_player_info: PlayerInfo = PlayerInfo.deserialize(info)
-		register_player(id, new_player_info)
-		update_player(id, new_player_info)
-		for player_id in players.all():
-			var player = players.get_by_id(player_id)
-			update_player_info.rpc(player_id, player.serialize())
-
+		players.register_player(id, new_player_info)
+		broadcast_all_players()
 
 @rpc("call_local")
-func update_player_info(id, info: Dictionary):
-	update_player(id, PlayerInfo.deserialize(info))
+func broadcast_all_players():
+	for player_id in players.all():
+		var player = players.get_by_id(player_id)
+		update_player_info.rpc(player.serialize())
 
-
-func register_player(new_player_id, new_player_info: PlayerInfo):
-	if not new_player_id in players.all():
-		new_player_info.set_player_number(players.count() + 1)
-		new_player_info.set_id(new_player_id)
-		if multiplayer.is_server():
-			new_player_info.set_color(Color(randf(), randf(), randf()))
-			new_player_info.set_ready(false)
-		players.update(new_player_info)
-		player_info = new_player_info
-
-
-func update_player(id, new_player_info: PlayerInfo):
+@rpc("call_local")
+func update_player_info(info: Dictionary):
+	var new_player_info: PlayerInfo = PlayerInfo.deserialize(info)
 	players.update(new_player_info)
 	player_info = new_player_info
 
@@ -78,22 +71,6 @@ func get_players() -> PlayerList:
 	if not players is PlayerList:
 		return PlayerList.new()
 	return players
-
-func set_player_ready(value: bool):
-	var id = multiplayer.get_unique_id()
-	players.get_by_id(id).set_ready(value)
-	send_player_info.rpc_id(1, id, Server.get_player(id).serialize())
-
-
-func set_player_color(color: Color):
-	var id = multiplayer.get_unique_id()
-	players.get_by_id(id).set_color(color)
-	send_player_info.rpc_id(1, id, players.get_by_id(id).serialize())
-
-
-func get_player(id: int) -> PlayerInfo:
-	return players.get_by_id(id)
-
 
 func is_peer_connected() -> bool:
 	if connection_manager:

@@ -5,7 +5,6 @@ const MAX_PLAYERS = 4
 @export var _server_port = 25555
 var _ip: String
 
-
 # Game Loop
 func _ready():
 	multiplayer.peer_connected.connect(_on_peer_connected)
@@ -29,7 +28,6 @@ func create_server(port):
 	_ip = "localhost"
 	_server_port = port
 	Server.connection_success.emit()
-	Server.send_player_info.rpc_id(1, multiplayer.get_unique_id(), Server.player_info.serialize())
 
 
 # TODO: Code Smell - Long Method
@@ -46,12 +44,11 @@ func connect_to_server(new_ip, port):
 	_ip = new_ip
 	_server_port = port
 	Server.connection_success.emit()
-	Server.send_player_info.rpc_id(1, multiplayer.get_unique_id(), Server.player_info.serialize())
 
 
 func disconnect_from_server():
 	multiplayer.multiplayer_peer = null
-	Server.players = {}
+	Server.get_players().clear()
 
 
 func get_server_ip() -> String:
@@ -70,7 +67,7 @@ func _on_peer_connected(_id):
 
 func _on_peer_disconnected(id):
 	Log.info("ConnectionManager received _on_peer_disconnected from ", id)
-	Log.info("data being erased", Server.get_player(id).serialize())
+	Log.info("data being erased", Server.get_players().get_by_id(id).serialize())
 	Server.players.erase(id)
 	Server.player_disconnected.emit(id)
 

@@ -29,19 +29,19 @@ func _process(_delta):
 					player_2_status.text = "THIS IS ME"
 				else:
 					player_2_status.text = "CONNECTED"
-				player_2_ready.text = str(players[id].is_ready)
+				player_2_ready.text = str(players.get_by_id(id).is_ready())
 			elif players.get_by_id(id).number() == 3:
 				if multiplayer.get_unique_id() == id:
 					player_3_status.text = "THIS IS ME"
 				else:
 					player_3_status.text = "CONNECTED"
-				player_3_ready.text = str(players[id].is_ready)
+				player_3_ready.text = str(players.get_by_id(id).is_ready())
 			elif players.get_by_id(id).number() == 4:
 				if multiplayer.get_unique_id() == id:
 					player_4_status.text = "THIS IS ME"
 				else:
 					player_4_status.text = "CONNECTED"
-				player_4_ready.text = str(players[id].is_ready)
+				player_4_ready.text = str(players.get_by_id(id).is_ready())
 
 	else:
 		player_1_status.text = ""

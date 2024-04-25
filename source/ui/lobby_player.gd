@@ -17,7 +17,7 @@ func _process(_delta):
 
 func update():
 	for id in Server.get_players().all():
-		var player = Server.get_player(id)
+		var player = Server.get_players().get_by_id(id)
 		if _player_number == player.number():
 			_set_title(id)
 			_set_color_picker(id, player)
@@ -53,8 +53,8 @@ func _set_ready_button(id, player):
 
 
 func _on_color_picker_button_color_changed(color: Color):
-	Server.set_player_color(color)
+	Server.get_players().get_by_id(multiplayer.get_unique_id()).set_color(color)
 
 
 func _on_ready_button_toggled(toggled_on):
-	Server.set_player_ready(toggled_on)
+	Server.get_players().get_by_id(multiplayer.get_unique_id()).set_ready(toggled_on)
