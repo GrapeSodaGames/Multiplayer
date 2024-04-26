@@ -4,6 +4,7 @@ class_name ConnectionMananger extends Node
 const MAX_PLAYERS = 4
 @export var _server_port = 25555
 var _ip: String
+@onready var game: GSGGame = get_node("/root/Game")
 
 
 # Game Loop
@@ -29,7 +30,7 @@ func create_server(port):
 	_ip = "localhost"
 	_server_port = port
 	Server.connection_success.emit()
-	Server.send_player_info.rpc_id(1, multiplayer.get_unique_id(), Server.player_info)
+	game.send_player_to_server()
 
 
 # TODO: Code Smell - Long Method
@@ -46,7 +47,7 @@ func connect_to_server(new_ip, port):
 	_ip = new_ip
 	_server_port = port
 	Server.connection_success.emit()
-	Server.send_player_info.rpc_id(1, multiplayer.get_unique_id(), Server.player_info)
+	game.send_player_to_server()
 
 
 func disconnect_from_server():
@@ -74,7 +75,7 @@ func _on_peer_disconnected(id):
 
 
 func _on_connected_to_server():
-	Server.send_player_info.rpc_id(1, multiplayer.get_unique_id(), Server.player_info)
+	game.send_player_to_server()
 
 
 func _on_connection_failed():

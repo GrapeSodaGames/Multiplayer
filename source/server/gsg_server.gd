@@ -7,16 +7,15 @@ signal player_connected(peer_id, player_info)
 signal player_disconnected(peer_id)
 
 enum ServerStatus { DISCONNECTED, HOST, GUEST }
-
-## Properties
-var players = {}
-var player_info = {"player_number": 1, "color": "000000", "is_ready": false}
-
 ## Private Variables
+var players = {}
 var _server_status: ServerStatus = ServerStatus.DISCONNECTED
 
-## Components
+## Properties
+@onready var game = get_node("/root/Game")
 @onready var connection_manager: ConnectionMananger
+
+
 
 
 ## Game Loop
@@ -26,14 +25,16 @@ func _init():
 	add_child(connection_manager)
 	Log.info("Server Initialized")
 
+
 func _ready():
 	UI.request_create_new_server_signal.connect(_on_request_create_new_server)
 	UI.request_connect_to_server_signal.connect(_on_request_connect)
 	UI.request_disconnect_from_server_signal.connect(_on_request_disconnect)
 
+
 ## Methods
 @rpc("any_peer", "call_local")
-func send_player_info(id, info):
+func send_player_info(id, info: Dictionary):
 	if multiplayer.is_server():
 		register_player(id, info)
 		update_player(id, info)
@@ -54,12 +55,10 @@ func register_player(new_player_id, new_player_info):
 			new_player_info["color"] = Color(randf(), randf(), randf()).to_html()
 			new_player_info["is_ready"] = false
 		players[new_player_id] = new_player_info
-		player_info = new_player_info
 
 
 func update_player(id, new_player_info):
 	players[id] = new_player_info
-	player_info = new_player_info
 
 
 func get_ready_status() -> bool:
