@@ -6,6 +6,7 @@ extends PanelContainer
 @onready var player_label: Label = get_node("%PlayerLabel")
 @onready var color_picker: ColorPickerButton = get_node("%ColorPickerButton")
 @onready var ready_button: Button = get_node("%ReadyButton")
+@onready var game: GSGGame = get_node("/root/Game")
 
 
 func _ready():
@@ -18,6 +19,8 @@ func _process(_delta):
 func update():
 	for id in Server.get_players().all():
 		var player = Server.get_players().get_by_id(id)
+		if player.id() == multiplayer.get_unique_id():
+			player = game.player_info()
 		if _player_number == player.number():
 			_set_title(id)
 			_set_color_picker(id, player)
@@ -33,10 +36,11 @@ func _set_title(id):
 
 
 func _set_color_picker(id, player):
-	color_picker.color = player.color()
 	if id == multiplayer.get_unique_id():
 		color_picker.disabled = false
-	color_picker.disabled = player.is_ready()
+	else:
+		color_picker.color = player.color()
+		color_picker.disabled = player.is_ready()
 		
 func _set_ready_button(id, player):
 	if player.is_ready():
@@ -53,8 +57,9 @@ func _set_ready_button(id, player):
 
 
 func _on_color_picker_button_color_changed(color: Color):
-	Server.get_players().get_by_id(multiplayer.get_unique_id()).set_color(color)
+	game.player_info().set_color(color)
 
 
 func _on_ready_button_toggled(toggled_on):
-	Server.get_players().get_by_id(multiplayer.get_unique_id()).set_ready(toggled_on)
+	Log.info("this working? ", toggled_on)
+	game.player_info().set_ready(toggled_on)

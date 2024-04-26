@@ -28,14 +28,14 @@ layout_mode = 2
 text = "Player 1
 "
 
-[node name="Status1Label" type="HFlowContainer" parent="PanelContainer/GridContainer/VBoxContainer"]
+[node name="ID1Label" type="HFlowContainer" parent="PanelContainer/GridContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Status1Title" type="Label" parent="PanelContainer/GridContainer/VBoxContainer/Status1Label"]
+[node name="ID1Title" type="Label" parent="PanelContainer/GridContainer/VBoxContainer/ID1Label"]
 layout_mode = 2
-text = "Status:"
+text = "ID:"
 
-[node name="Status1Value" type="Label" parent="PanelContainer/GridContainer/VBoxContainer/Status1Label"]
+[node name="ID1Value" type="Label" parent="PanelContainer/GridContainer/VBoxContainer/ID1Label"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "
@@ -52,6 +52,19 @@ text = "Ready:"
 unique_name_in_owner = true
 layout_mode = 2
 
+[node name="Status1Label" type="HFlowContainer" parent="PanelContainer/GridContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Status1Title" type="Label" parent="PanelContainer/GridContainer/VBoxContainer/Status1Label"]
+layout_mode = 2
+text = "Status:"
+
+[node name="Status1Value" type="Label" parent="PanelContainer/GridContainer/VBoxContainer/Status1Label"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "
+"
+
 [node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -59,6 +72,19 @@ size_flags_horizontal = 3
 [node name="Player2Label" type="Label" parent="PanelContainer/GridContainer/VBoxContainer2"]
 layout_mode = 2
 text = "Player 2
+"
+
+[node name="ID2Label" type="HFlowContainer" parent="PanelContainer/GridContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="ID2Title" type="Label" parent="PanelContainer/GridContainer/VBoxContainer2/ID2Label"]
+layout_mode = 2
+text = "ID:"
+
+[node name="ID2Value" type="Label" parent="PanelContainer/GridContainer/VBoxContainer2/ID2Label"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "
 "
 
 [node name="Status2Label" type="HFlowContainer" parent="PanelContainer/GridContainer/VBoxContainer2"]

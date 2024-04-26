@@ -29,3 +29,4 @@ func register_player(new_player_id, new_player_info: PlayerInfo):
 		if multiplayer.is_server():
 			new_player_info.set_color(Color(randf(), randf(), randf()))
 			new_player_info.set_ready(false)
+

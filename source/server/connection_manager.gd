@@ -5,6 +5,8 @@ const MAX_PLAYERS = 4
 @export var _server_port = 25555
 var _ip: String
 
+@onready var game: GSGGame = get_node("/root/Game")
+
 # Game Loop
 func _ready():
 	multiplayer.peer_connected.connect(_on_peer_connected)
@@ -73,7 +75,7 @@ func _on_peer_disconnected(id):
 
 
 func _on_connected_to_server():
-	Server.send_player_info.rpc_id(1, multiplayer.get_unique_id(), Server.player_info.serialize())
+	Server.send_player_info.rpc_id(1, multiplayer.get_unique_id(), game.player_info().serialize())
 
 
 func _on_connection_failed():
