@@ -11,8 +11,9 @@ extends PanelContainer
 func _ready():
 	color_picker.disabled = true
 
+
 func _process(_delta):
-	update()	
+	update()
 
 
 func update():
@@ -22,8 +23,8 @@ func update():
 			_set_title(id)
 			_set_color_picker(id, player)
 			_set_ready_button(id, player)
-	
-	
+
+
 func _set_title(id):
 	player_label.text = "Player " + str(_player_number)
 	if id == multiplayer.get_unique_id():
@@ -36,8 +37,9 @@ func _set_color_picker(id, player):
 	color_picker.color = Color.from_string(player["color"], Color.WHITE)
 	if id == multiplayer.get_unique_id():
 		color_picker.disabled = false
-	color_picker.disabled = player.is_ready	
-		
+	color_picker.disabled = player.is_ready
+
+
 func _set_ready_button(id, player):
 	if player.is_ready:
 		ready_button.text = "Ready!"

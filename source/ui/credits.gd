@@ -1,5 +1,6 @@
 class_name Credits extends UIScreen
 
+
 func setup():
 	super.setup()
 

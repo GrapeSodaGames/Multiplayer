@@ -19,7 +19,7 @@ func _on_host_button_pressed():
 
 func _on_connect_button_pressed():
 	# TODO: Code Smell - Magic Number
-	UI.request_connect_to_server_signal.emit(connect_server_ip_textbox.text, 25555)  
+	UI.request_connect_to_server_signal.emit(connect_server_ip_textbox.text, 25555)
 
 
 # Methods

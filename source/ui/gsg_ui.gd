@@ -43,7 +43,7 @@ func _process(_delta):
 func _check_state():
 	if _new_ui_state != _ui_state:
 		Log.info("new UI state detected: ", str(_ui_state) + "=>" + str(_new_ui_state))
-	
+
 		if _new_ui_state == UIState.LOBBY and not Server.is_peer_connected():
 			_new_ui_state = UIState.MAIN_MENU
 
@@ -55,12 +55,15 @@ func close_all():
 	for screen: UIScreen in _screens.values():
 		screen.enable(false)
 
+
 func request_create_server(port):
 	Log.info("UI sending request_create_server_signal to Server")
 	request_create_new_server_signal.emit(port)
 
+
 func request_disconnect_from_server():
 	request_disconnect_from_server_signal.emit()
+
 
 func set_ui_state(state: UIState):
 	_new_ui_state = state
