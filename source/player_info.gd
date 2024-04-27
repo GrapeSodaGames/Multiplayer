@@ -6,6 +6,15 @@ var _is_ready: bool
 var _id: int
 
 
+func clone() -> PlayerInfo:
+	var result = PlayerInfo.new()
+	result.set_id(id())
+	result.set_number(number())
+	result.set_color(color())
+	result.set_ready(is_ready())
+	return result
+	
+
 func id() -> int:
 	return _id
 
@@ -41,6 +50,8 @@ func set_ready(value: bool):
 	if value != _is_ready:
 		_is_ready = value
 
+func is_local_player() -> bool:
+	return Server.multiplayer.get_unique_id() == id()
 
 func serialize() -> Dictionary:
 	return {"player_number": number(), "color": color(), "is_ready": is_ready(), "id": id()}

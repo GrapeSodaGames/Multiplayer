@@ -8,11 +8,11 @@ signal player_disconnected(peer_id)
 
 enum ServerStatus { DISCONNECTED, HOST, GUEST }
 ## Private Variables
-var players = {}
+var players = PlayerList.new()
 var _server_status: ServerStatus = ServerStatus.DISCONNECTED
 
 ## Properties
-@onready var game = get_node("/root/Game")
+@onready var game: GSGGame = get_node("/root/Game")
 @onready var connection_manager: ConnectionMananger
 
 
@@ -32,64 +32,58 @@ func _ready():
 	UI.request_disconnect_from_server_signal.connect(_on_request_disconnect)
 
 
+func _process(delta):
+	if is_peer_connected():
+		send_player_info.rpc_id(1, multiplayer.get_unique_id(), game.player_info().serialize())
+		
+		for player in players.all():
+			update_player_info.rpc(player.serialize())
+
 ## Methods
 @rpc("any_peer", "call_local")
-func send_player_info(id, info: Dictionary):
-	if multiplayer.is_server():
-		register_player(id, info)
-		update_player(id, info)
-		for player_id in players:
-			var player = players[player_id]
-			update_player_info.rpc(player_id, player)
+func send_player_info(id:int, info: Dictionary):
+	if not is_peer_connected():
+		return
+	if not multiplayer.is_server():
+		return
+	
+	if players.by_id(id) is PlayerInfo:
+		update_player_info.rpc(players.by_id(id).serialize())
+	else:
+		var new_player_info = PlayerInfo.deserialize(info)
+		register_player(id, new_player_info)
+		Log.info("send_player_info received ", new_player_info.serialize())	
 
 
 @rpc("call_local")
-func update_player_info(id, info):
-	update_player(id, info)
+func update_player_info(info: Dictionary):
+	players.update(PlayerInfo.deserialize(info))
 
 
-func register_player(new_player_id, new_player_info):
-	if not new_player_id in players:
-		new_player_info["player_number"] = players.size() + 1
-		if multiplayer.is_server():
-			new_player_info["color"] = Color(randf(), randf(), randf()).to_html()
-			new_player_info["is_ready"] = false
-		players[new_player_id] = new_player_info
+func register_player(new_player_id: int, new_player_info: PlayerInfo):
+	if multiplayer.is_server():
+		var info = new_player_info.clone()
+		info.set_id(new_player_id)
+		if not new_player_id in players.all():
+			info.set_number(players.size() + 1)
+			if multiplayer.is_server():
+				info.set_color(Color(randf(), randf(), randf()))
+				info.set_ready(false)
+			players.update(info)
 
-
-func update_player(id, new_player_info):
-	players[id] = new_player_info
-
-
-func get_ready_status() -> bool:
-	var result = false
-	for player in players.values():
-		result = player.is_ready
-	return result
 
 
 func is_host() -> bool:
 	return multiplayer.is_server()
 
 
-func get_players() -> Dictionary:
+func get_players() -> PlayerList:
 	return players
 
 
-func set_player_ready(value: bool):
-	var id = multiplayer.get_unique_id()
-	players[id].is_ready = value
-	send_player_info.rpc_id(1, id, Server.get_player(id))
 
-
-func set_player_color(color: Color):
-	var id = multiplayer.get_unique_id()
-	players[id].color = color.to_html()
-	send_player_info.rpc_id(1, id, players[id])
-
-
-func get_player(id: int) -> Dictionary:
-	return players[id]
+func get_player(id: int) -> PlayerInfo:
+	return players.by_id(id)
 
 
 func is_peer_connected() -> bool:

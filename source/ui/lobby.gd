@@ -16,7 +16,7 @@ func enable(value: bool):
 
 func _show_start_game_button():
 	start_game_button.show()
-	start_game_button.disabled = not Server.get_ready_status()
+	start_game_button.disabled = not Server.get_players().get_ready_status()
 
 
 func _on_disconnect_button_pressed():

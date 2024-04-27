@@ -17,7 +17,6 @@ func _ready():
 
 	multiplayer.multiplayer_peer = null
 
-
 # Methods
 func create_server(port):
 	Log.info("Creating server as host")
@@ -30,7 +29,6 @@ func create_server(port):
 	_ip = "localhost"
 	_server_port = port
 	Server.connection_success.emit()
-	game.send_player_to_server()
 
 
 # TODO: Code Smell - Long Method
@@ -47,7 +45,7 @@ func connect_to_server(new_ip, port):
 	_ip = new_ip
 	_server_port = port
 	Server.connection_success.emit()
-	game.send_player_to_server()
+
 
 
 func disconnect_from_server():
@@ -75,7 +73,7 @@ func _on_peer_disconnected(id):
 
 
 func _on_connected_to_server():
-	game.send_player_to_server()
+	Server.send_player_info.rpc_id(1, multiplayer.get_unique_id(), game.player_info().serialize())
 
 
 func _on_connection_failed():
