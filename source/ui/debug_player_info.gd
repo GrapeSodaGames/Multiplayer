@@ -17,31 +17,31 @@ class_name DebugPlayerInfo extends VBoxContainer
 func _process(_delta):
 	if Server.is_peer_connected():
 		var players = Server.get_players()
-		for id in players:
-			if players[id].player_number == 1:
-				if multiplayer.get_unique_id() == id:
+		for player: PlayerInfo in players.all():
+			if player.number() == 1:
+				if player.is_local_player():
 					player_1_status.text = "THIS IS ME"
 				else:
 					player_1_status.text = "CONNECTED"
-				player_1_ready.text = str(players[id].is_ready)
-			elif players[id].player_number == 2:
-				if multiplayer.get_unique_id() == id:
+				player_1_ready.text = str(player.is_ready())
+			elif player.number() == 2:
+				if player.is_local_player():
 					player_2_status.text = "THIS IS ME"
 				else:
 					player_2_status.text = "CONNECTED"
-				player_2_ready.text = str(players[id].is_ready)
-			elif players[id].player_number == 3:
-				if multiplayer.get_unique_id() == id:
+				player_2_ready.text = str(player.is_ready())
+			elif player.number() == 3:
+				if player.is_local_player():
 					player_3_status.text = "THIS IS ME"
 				else:
 					player_3_status.text = "CONNECTED"
-				player_3_ready.text = str(players[id].is_ready)
-			elif players[id].player_number == 4:
-				if multiplayer.get_unique_id() == id:
+				player_3_ready.text = str(players.is_ready())
+			elif player.number() == 4:
+				if player.is_local_player():
 					player_4_status.text = "THIS IS ME"
 				else:
 					player_4_status.text = "CONNECTED"
-				player_4_ready.text = str(players[id].is_ready)
+				player_4_ready.text = str(player.is_ready())
 
 	else:
 		player_1_status.text = ""
