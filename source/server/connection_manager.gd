@@ -17,6 +17,7 @@ func _ready():
 
 	multiplayer.multiplayer_peer = null
 
+
 # Methods
 func create_server(port):
 	Log.info("Creating server as host")
@@ -45,7 +46,6 @@ func connect_to_server(new_ip, port):
 	_ip = new_ip
 	_server_port = port
 	Server.connection_success.emit()
-
 
 
 func disconnect_from_server():

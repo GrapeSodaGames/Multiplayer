@@ -24,19 +24,19 @@ func _process(_delta):
 				else:
 					player_1_status.text = "CONNECTED"
 				player_1_ready.text = str(player.is_ready())
-			elif  player.number() == 2:
+			elif player.number() == 2:
 				if player.is_local_player():
 					player_2_status.text = "THIS IS ME"
 				else:
 					player_2_status.text = "CONNECTED"
 				player_2_ready.text = str(player.is_ready())
-			elif  player.number() == 3:
+			elif player.number() == 3:
 				if player.is_local_player():
 					player_3_status.text = "THIS IS ME"
 				else:
 					player_3_status.text = "CONNECTED"
 				player_3_ready.text = str(players.is_ready())
-			elif  player.number() == 4:
+			elif player.number() == 4:
 				if player.is_local_player():
 					player_4_status.text = "THIS IS ME"
 				else:

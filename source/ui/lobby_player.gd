@@ -8,6 +8,7 @@ extends PanelContainer
 @onready var ready_button: Button = get_node("%ReadyButton")
 @onready var game: GSGGame = get_node("/root/Game")
 
+
 func _ready():
 	color_picker.disabled = true
 
@@ -17,16 +18,13 @@ func _process(_delta):
 
 
 func update():
-	Log.info("LobbyPlayer updating player number ",_player_number)
+	Log.info("LobbyPlayer updating player number ", _player_number)
 	for player: PlayerInfo in Server.get_players().all():
 		if _player_number == player.number():
 			Log.info("LobbyPlayer comparing to player: ", player.serialize())
 			_set_title(player)
 			_set_color_picker(player)
 			_set_ready_button(player)
-			
-
-		
 
 
 func _set_title(player: PlayerInfo):
@@ -43,7 +41,6 @@ func _set_color_picker(player: PlayerInfo):
 		color_picker.disabled = true
 	else:
 		color_picker.disabled = player.is_ready()
-	
 
 
 func _set_ready_button(player: PlayerInfo):

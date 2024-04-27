@@ -9,13 +9,10 @@ signal player_disconnected(peer_id)
 enum ServerStatus { DISCONNECTED, HOST, GUEST }
 ## Private Variables
 var players = PlayerList.new()
-var _server_status: ServerStatus = ServerStatus.DISCONNECTED
 
 ## Properties
 @onready var game: GSGGame = get_node("/root/Game")
 @onready var connection_manager: ConnectionMananger
-
-
 
 
 ## Game Loop
@@ -32,27 +29,28 @@ func _ready():
 	UI.request_disconnect_from_server_signal.connect(_on_request_disconnect)
 
 
-func _process(delta):
+func _process(_delta):
 	if is_peer_connected():
 		send_player_info.rpc_id(1, multiplayer.get_unique_id(), game.player_info().serialize())
-		
+
 		for player in players.all():
 			update_player_info.rpc(player.serialize())
 
+
 ## Methods
 @rpc("any_peer", "call_local")
-func send_player_info(id:int, info: Dictionary):
+func send_player_info(id: int, info: Dictionary):
 	if not is_peer_connected():
 		return
 	if not multiplayer.is_server():
 		return
-	
+
 	if players.by_id(id) is PlayerInfo:
 		update_player_info.rpc(players.by_id(id).serialize())
 	else:
 		var new_player_info = PlayerInfo.deserialize(info)
 		register_player(id, new_player_info)
-		Log.info("send_player_info received ", new_player_info.serialize())	
+		Log.info("send_player_info received ", new_player_info.serialize())
 
 
 @rpc("call_local")
@@ -72,14 +70,12 @@ func register_player(new_player_id: int, new_player_info: PlayerInfo):
 			players.update(info)
 
 
-
 func is_host() -> bool:
 	return multiplayer.is_server()
 
 
 func get_players() -> PlayerList:
 	return players
-
 
 
 func get_player(id: int) -> PlayerInfo:
