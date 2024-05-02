@@ -50,7 +50,7 @@ func connect_to_server(new_ip, port):
 
 func disconnect_from_server():
 	multiplayer.multiplayer_peer = null
-	Server.players = {}
+	Server.players.clear()
 
 
 func get_server_ip() -> String:

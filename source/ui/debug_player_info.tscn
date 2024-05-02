@@ -41,6 +41,32 @@ layout_mode = 2
 text = "
 "
 
+[node name="ID1Label" type="HFlowContainer" parent="PanelContainer/GridContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ID1Title" type="Label" parent="PanelContainer/GridContainer/VBoxContainer/ID1Label"]
+layout_mode = 2
+text = "ID: "
+
+[node name="ID1Value" type="Label" parent="PanelContainer/GridContainer/VBoxContainer/ID1Label"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "
+"
+
+[node name="Color1Label" type="HFlowContainer" parent="PanelContainer/GridContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Color1Title" type="Label" parent="PanelContainer/GridContainer/VBoxContainer/Color1Label"]
+layout_mode = 2
+text = "Color: "
+
+[node name="Color1Value" type="Label" parent="PanelContainer/GridContainer/VBoxContainer/Color1Label"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "
+"
+
 [node name="Ready1Label" type="HFlowContainer" parent="PanelContainer/GridContainer/VBoxContainer"]
 layout_mode = 2
 
@@ -72,6 +98,32 @@ text = "Status:"
 unique_name_in_owner = true
 layout_mode = 2
 text = "CONNECTED AS ######
+"
+
+[node name="ID2Label" type="HFlowContainer" parent="PanelContainer/GridContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="ID2Title" type="Label" parent="PanelContainer/GridContainer/VBoxContainer2/ID2Label"]
+layout_mode = 2
+text = "ID: "
+
+[node name="ID2Value" type="Label" parent="PanelContainer/GridContainer/VBoxContainer2/ID2Label"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "
+"
+
+[node name="Color2Label" type="HFlowContainer" parent="PanelContainer/GridContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Color2Title" type="Label" parent="PanelContainer/GridContainer/VBoxContainer2/Color2Label"]
+layout_mode = 2
+text = "Color: "
+
+[node name="Color2Value" type="Label" parent="PanelContainer/GridContainer/VBoxContainer2/Color2Label"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "
 "
 
 [node name="Ready2Label" type="HFlowContainer" parent="PanelContainer/GridContainer/VBoxContainer2"]
