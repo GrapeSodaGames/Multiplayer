@@ -1,7 +1,20 @@
 class_name PlayerList extends Node
+## TODO: Document
 
+# Signals
+
+# Enums
+
+# Exports
+
+# References
+
+# Properties
 var _players = {}
 
+# Game Loop
+
+# Public Methods
 
 func all():
 	return _players.values()
@@ -43,8 +56,16 @@ func erase(id: int):
 	_players.erase(id)
 
 
+func clear():
+	_players = {}
+
+
 func get_ready_status() -> bool:
 	var result = false
 	for player in all():
 		result = player.is_ready()
 	return result
+
+# Private Methods
+
+# Events

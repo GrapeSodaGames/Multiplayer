@@ -1,11 +1,23 @@
 class_name PlayerInfo extends Node
+## TODO: Document
 
+# Signals
+
+# Enums
+
+# Exports
+
+# References
+
+# Properties
 var _player_number: int
 var _color: Color
 var _is_ready: bool
 var _id: int
 
+# Game Loop
 
+# Public Methods
 func clone() -> PlayerInfo:
 	var result = PlayerInfo.new()
 	result.set_id(id())
@@ -66,3 +78,7 @@ static func deserialize(input: Dictionary) -> PlayerInfo:
 	result.set_ready(input["is_ready"])
 	result.set_id(input["id"])
 	return result
+
+# Private Methods
+
+# Events

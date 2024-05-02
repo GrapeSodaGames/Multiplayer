@@ -1,4 +1,4 @@
-class_name WorldUI extends UIScreen
+class_name ? extends _BASE_
 ## TODO: Document
 
 # Signals
@@ -14,14 +14,6 @@ class_name WorldUI extends UIScreen
 # Game Loop
 
 # Public Methods
-
-func setup():
-	super.setup()
-
-
-func enable(value: bool):
-	super.enable(value)
-
 
 # Private Methods
 
