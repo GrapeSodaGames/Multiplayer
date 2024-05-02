@@ -1,11 +1,18 @@
 class_name ConnectionMananger extends Node
+## TODO: Document
+
+# Signals
+
+# Enums
+
+# Exports
+
+# References
 
 # Properties
 const MAX_PLAYERS = 4
-@export var _server_port = 25555
+var _server_port = 25555
 var _ip: String
-@onready var game: GSGGame = get_node("/root/Game")
-
 
 # Game Loop
 func _ready():
@@ -18,7 +25,7 @@ func _ready():
 	multiplayer.multiplayer_peer = null
 
 
-# Methods
+# Public Methods
 func create_server(port):
 	Log.info("Creating server as host")
 	var peer = ENetMultiplayerPeer.new()
@@ -50,7 +57,7 @@ func connect_to_server(new_ip, port):
 
 func disconnect_from_server():
 	multiplayer.multiplayer_peer = null
-	Server.players.clear()
+	Server.get_players().clear()
 
 
 func get_server_ip() -> String:
@@ -62,18 +69,21 @@ func is_peer_connected() -> bool:
 	return multiplayer.multiplayer_peer != null
 
 
-## Events
+# Private Methods
+
+
+# Events
 func _on_peer_connected(_id):
 	pass
 
 
 func _on_peer_disconnected(id):
-	Server.players.erase(id)
+	Server.get_players().erase(id)
 	Server.player_disconnected.emit(id)
 
 
 func _on_connected_to_server():
-	Server.send_player_info.rpc_id(1, multiplayer.get_unique_id(), game.player_info().serialize())
+	pass
 
 
 func _on_connection_failed():
@@ -82,5 +92,5 @@ func _on_connection_failed():
 
 func _on_server_disconnected():
 	multiplayer.multiplayer_peer = null
-	Server.players.clear()
+	Server.get_players().clear()
 	Server.server_disconnected.emit()

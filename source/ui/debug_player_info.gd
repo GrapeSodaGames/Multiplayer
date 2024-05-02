@@ -1,5 +1,13 @@
 class_name DebugPlayerInfo extends VBoxContainer
+## TODO: Document
 
+# Signals
+
+# Enums
+
+# Exports
+
+# References
 @onready var panel = get_node("PanelContainer")
 @onready var player_1_status = get_node("%Status1Value")
 @onready var player_1_id = get_node("%ID1Value")
@@ -17,7 +25,9 @@ class_name DebugPlayerInfo extends VBoxContainer
 @onready var player_4_status = get_node("%Status4Value")
 @onready var player_4_ready = get_node("%Ready4Value")
 
+# Properties
 
+# Game Loop
 func _process(_delta):
 	if Server.is_peer_connected():
 		var players = Server.get_players()
@@ -65,5 +75,10 @@ func _process(_delta):
 		player_4_ready.text = ""
 
 
+# Public Methods
+
+# Private Methods
+
+# Events
 func _on_button_toggled(toggled_on):
 	panel.visible = toggled_on
