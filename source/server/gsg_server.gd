@@ -11,9 +11,10 @@ enum ServerStatus { DISCONNECTED, HOST, GUEST }
 var players = PlayerList.new()
 
 ## Properties
-@onready var game: GSGGame = get_node("/root/Game")
 var connection_manager: ConnectionMananger
 var timer: Timer
+@onready var game: GSGGame = get_node("/root/Game")
+
 
 
 ## Game Loop
