@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" path="res://source/server/gsg_server.gd" id="1_rmxis"]
 
-[node name="GSGServer" type="Node"]
+[node name="Server" type="Node"]
 script = ExtResource("1_rmxis")

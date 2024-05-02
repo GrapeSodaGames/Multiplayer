@@ -12,7 +12,8 @@ var players = PlayerList.new()
 
 ## Properties
 @onready var game: GSGGame = get_node("/root/Game")
-@onready var connection_manager: ConnectionMananger
+var connection_manager: ConnectionMananger
+var timer: Timer
 
 
 ## Game Loop
@@ -20,53 +21,64 @@ func _init():
 	Log.info("Server Initializing...")
 	connection_manager = ConnectionMananger.new()
 	add_child(connection_manager)
+	
+	timer = Timer.new()
+	timer.wait_time = 1.0
+	timer.autostart = true
+	add_child(timer)
+	
 	Log.info("Server Initialized")
 
 
 func _ready():
+	timer.timeout.connect(_on_timer_timeout)
+	
 	UI.request_create_new_server_signal.connect(_on_request_create_new_server)
 	UI.request_connect_to_server_signal.connect(_on_request_connect)
 	UI.request_disconnect_from_server_signal.connect(_on_request_disconnect)
 
-
-func _process(_delta):
-	if is_peer_connected():
-		send_player_info.rpc_id(1, multiplayer.get_unique_id(), game.player_info().serialize())
-
-		for player in players.all():
-			update_player_info.rpc(player.serialize())
+	timer.start()
 
 
 ## Methods
 @rpc("any_peer", "call_local")
 func send_player_info(id: int, info: Dictionary):
-	if not is_peer_connected():
+	Log.dbg("Server Received Player Info from ", id)
+	if not is_peer_connected(): 
 		return
-	if not multiplayer.is_server():
-		return
-
-	if players.by_id(id) is PlayerInfo:
-		update_player_info.rpc(players.by_id(id).serialize())
-	else:
-		var new_player_info = PlayerInfo.deserialize(info)
-		register_player(id, new_player_info)
-		Log.info("send_player_info received ", new_player_info.serialize())
+	
+	var new_player_info = PlayerInfo.deserialize(info)
+	register_player(id, new_player_info)
+	players.update(new_player_info)
+	Log.dbg("send_player_info received ", new_player_info.serialize())
 
 
-@rpc("call_local")
+@rpc("any_peer", "call_local")
 func update_player_info(info: Dictionary):
+	Log.dbg("Received player info from Server: ", info)
 	players.update(PlayerInfo.deserialize(info))
 
+func process_players():
+	if not is_peer_connected():
+		return
+	
+	Log.dbg("Sending Player Info To Server")
+	send_player_info.rpc_id(1, multiplayer.get_unique_id(), game.player_info().serialize())
+
+	if is_host():
+		for player in players.all():
+			update_player_info.rpc(player.serialize())
 
 func register_player(new_player_id: int, new_player_info: PlayerInfo):
 	if multiplayer.is_server():
 		var info = new_player_info.clone()
 		info.set_id(new_player_id)
-		if not new_player_id in players.all():
+		var existing_player: PlayerInfo = players.by_id(new_player_id)
+		if not existing_player:
+			Log.info("Registering new player ", new_player_id)
 			info.set_number(players.size() + 1)
-			if multiplayer.is_server():
-				info.set_color(Color(randf(), randf(), randf()))
-				info.set_ready(false)
+			info.set_color(Color(randf(), randf(), randf()))
+			info.set_ready(false)
 			players.update(info)
 
 
@@ -100,4 +112,9 @@ func _on_request_create_new_server(port):
 
 
 func _on_request_disconnect():
+	Log.info("Server received request to disconnect")
 	connection_manager.disconnect_from_server()
+
+
+func _on_timer_timeout():
+	process_players()

@@ -18,10 +18,10 @@ func _process(_delta):
 
 
 func update():
-	Log.info("LobbyPlayer updating player number ", _player_number)
+	Log.dbg("LobbyPlayer updating player number ", _player_number)
 	for player: PlayerInfo in Server.get_players().all():
 		if _player_number == player.number():
-			Log.info("LobbyPlayer comparing to player: ", player.serialize())
+			Log.dbg("LobbyPlayer comparing to player: ", player.serialize())
 			_set_title(player)
 			_set_color_picker(player)
 			_set_ready_button(player)

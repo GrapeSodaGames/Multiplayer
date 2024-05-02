@@ -2,9 +2,13 @@ class_name DebugPlayerInfo extends VBoxContainer
 
 @onready var panel = get_node("PanelContainer")
 @onready var player_1_status = get_node("%Status1Value")
+@onready var player_1_id = get_node("%ID1Value")
+@onready var player_1_color = get_node("%Color1Value")
 @onready var player_1_ready = get_node("%Ready1Value")
 
 @onready var player_2_status = get_node("%Status2Value")
+@onready var player_2_id = get_node("%ID2Value")
+@onready var player_2_color = get_node("%Color2Value")
 @onready var player_2_ready = get_node("%Ready2Value")
 
 @onready var player_3_status = get_node("%Status3Value")
@@ -23,19 +27,23 @@ func _process(_delta):
 					player_1_status.text = "THIS IS ME"
 				else:
 					player_1_status.text = "CONNECTED"
+				player_1_id.text = str(player.id())
+				player_1_color.text = player.color().to_html()
 				player_1_ready.text = str(player.is_ready())
 			elif player.number() == 2:
 				if player.is_local_player():
 					player_2_status.text = "THIS IS ME"
 				else:
 					player_2_status.text = "CONNECTED"
+				player_2_id.text = str(player.id())
+				player_2_color.text = player.color().to_html()
 				player_2_ready.text = str(player.is_ready())
 			elif player.number() == 3:
 				if player.is_local_player():
 					player_3_status.text = "THIS IS ME"
 				else:
 					player_3_status.text = "CONNECTED"
-				player_3_ready.text = str(players.is_ready())
+				player_3_ready.text = str(player.is_ready())
 			elif player.number() == 4:
 				if player.is_local_player():
 					player_4_status.text = "THIS IS ME"
