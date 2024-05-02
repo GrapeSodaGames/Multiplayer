@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dcehergyi7iw"]
+[gd_scene load_steps=9 format=3 uid="uid://dcehergyi7iw"]
 
 [ext_resource type="Script" path="res://source/ui/gsg_ui.gd" id="1_rc2ry"]
 [ext_resource type="PackedScene" uid="uid://bpnt7sbv577ni" path="res://source/ui/main_menu.tscn" id="2_ydr1l"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://source/ui/world_ui.gd" id="5_4555v"]
 [ext_resource type="PackedScene" uid="uid://bkvls2tc5twwo" path="res://source/ui/debug_player_info.tscn" id="6_bnd8a"]
 [ext_resource type="PackedScene" uid="uid://du4mop841yfdb" path="res://source/ui/credits.tscn" id="7_035f0"]
+[ext_resource type="Script" path="res://source/ui/version_number.gd" id="8_aq5pu"]
 
 [node name="UI" type="Node"]
 script = ExtResource("1_rc2ry")
@@ -14,6 +15,7 @@ script = ExtResource("1_rc2ry")
 [node name="Main Menu" parent="." instance=ExtResource("2_ydr1l")]
 
 [node name="Lobby" parent="." instance=ExtResource("4_5uwwu")]
+visible = false
 offset_right = -1920.0
 offset_bottom = -1080.0
 
@@ -29,5 +31,44 @@ script = ExtResource("5_4555v")
 [node name="DebugPlayerInfo" parent="." instance=ExtResource("6_bnd8a")]
 
 [node name="Credits" parent="." instance=ExtResource("7_035f0")]
+visible = false
+
+[node name="VersionNumber" type="Label" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -23.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "v0.0.0 build 1"
+script = ExtResource("8_aq5pu")
+
+[node name="Disclaimer" type="Label" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -51.0
+offset_top = -23.0
+offset_right = 51.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "DEVELOPMENT VERSION"
+
+[node name="ContactInfo" type="Label" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -75.0
+offset_right = 283.0
+grow_vertical = 0
+text = "🌐 Web - https://grapesoda.games
+🐭 Lemmy - @zaphodb2002@sh.itjust.works
+🐙 GitHub - https://github.com/grapesodagames
+🎮 Discord - https://discord.gg/dRvydcMXM6"
 
 [editable path="Lobby"]
