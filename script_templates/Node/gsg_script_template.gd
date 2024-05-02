@@ -7,9 +7,9 @@ class_name ? extends _BASE_
 
 # Exports
 
-# References
-
 # Properties
+
+# References
 
 # Game Loop
 

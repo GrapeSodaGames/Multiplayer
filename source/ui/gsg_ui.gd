@@ -11,16 +11,16 @@ enum UIState { MAIN_MENU, LOBBY, WORLD, CREDITS }
 
 # Exports
 
+# Properties
+var _ui_state: UIState
+var _new_ui_state: UIState
+var _screens = {}
+
 # References
 @onready var _main_menu: MainMenu = get_node("Main Menu")
 @onready var _lobby: Lobby = get_node("Lobby")
 @onready var _world: WorldUI = get_node("World")
 @onready var _credits: Credits = get_node("Credits")
-
-# Properties
-var _ui_state: UIState
-var _new_ui_state: UIState
-var _screens = {}
 
 # Game Loop
 
