@@ -46,7 +46,9 @@ func by_id(id: int) -> PlayerInfo:
 
 
 func by_number(number: int) -> PlayerInfo:
-	for player: PlayerInfo in _players:
+	if size() < number - 1:
+		return
+	for player: PlayerInfo in all():
 		if player.number() == number:
 			return player
 	return
