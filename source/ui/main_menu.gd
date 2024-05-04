@@ -75,5 +75,5 @@ func _on_connect_button_pressed():
 
 # Events
 func _on_credit_button_pressed():
-	Log.info("main_menu received credit button signal")
+	Log.dbg("main_menu received credit button signal")
 	UI.set_ui_state(GSGUI.UIState.CREDITS)

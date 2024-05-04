@@ -34,6 +34,8 @@ func update(new_player_info: PlayerInfo):
 		if existing_player.color() != new_player_info.color():
 			Log.info("Updating player " + str(new_player_info.id()) + " color" )
 			_players[new_player_info.id()] = new_player_info
+		if existing_player.is_ready() != new_player_info.is_ready():
+			_players[new_player_info.id()] = new_player_info
 	else:
 		Log.info("Update creating new player ", new_player_info.id())
 		_players[new_player_info.id()] = new_player_info
