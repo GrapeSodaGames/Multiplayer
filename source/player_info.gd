@@ -33,6 +33,7 @@ func id() -> int:
 
 func set_id(value: int):
 	if value != _id:
+		Log.dbg("Updating ID on ", serialize())
 		_id = value
 
 
@@ -42,6 +43,7 @@ func number() -> int:
 
 func set_number(value: int):
 	if value != _player_number:
+		Log.dbg("Updating player number on ", serialize())
 		_player_number = value
 
 
@@ -51,6 +53,7 @@ func color() -> Color:
 
 func set_color(value: Color):
 	if value != _color:
+		Log.dbg("Updating Color on ", serialize())
 		_color = value
 
 
@@ -60,6 +63,7 @@ func is_ready() -> bool:
 
 func set_ready(value: bool):
 	if value != _is_ready:
+		Log.dbg("Updating is_ready on ", serialize())
 		_is_ready = value
 
 

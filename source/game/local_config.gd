@@ -19,7 +19,7 @@ func _init():
 	var err = _config_file.load(config_path)
 	if err != OK:
 		_create_default_config_file()
-	Log.info("Config Loaded Successfully")
+	Log.dbg("Config Loaded Successfully")
 	Log.dbg("config file: ", _config_file.encode_to_text())
 
 

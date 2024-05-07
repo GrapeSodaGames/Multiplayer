@@ -6,6 +6,9 @@ signal request_create_new_server_signal(port)
 signal request_connect_to_server_signal(ip, port)
 signal request_disconnect_from_server_signal
 
+signal request_update_local_player_ready(value: bool)
+signal request_update_local_player_color(color: Color)
+
 # Enums
 enum UIState { MAIN_MENU, LOBBY, WORLD, CREDITS }
 
@@ -49,7 +52,7 @@ func _process(_delta):
 
 # Public Methods
 func request_create_server(port):
-	Log.info("UI sending request_create_server_signal to Server")
+	Log.dbg("UI sending request_create_server_signal to Server")
 	request_create_new_server_signal.emit(port)
 
 
@@ -63,7 +66,7 @@ func set_ui_state(state: UIState):
 # Private Methods
 func _check_state():
 	if _new_ui_state != _ui_state:
-		Log.info("new UI state detected: ", str(_ui_state) + "=>" + str(_new_ui_state))
+		Log.dbg("new UI state detected: ", str(_ui_state) + "=>" + str(_new_ui_state))
 
 		if _new_ui_state == UIState.LOBBY and not Server.is_peer_connected():
 			_new_ui_state = UIState.MAIN_MENU
