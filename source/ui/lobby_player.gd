@@ -15,10 +15,12 @@ var _is_first_run: bool = true
 @onready var _player_label: Label = get_node("%PlayerNumber")
 @onready var _color_picker: ColorPickerButton = get_node("%ColorPickerButton")
 @onready var _ready_button: Button = get_node("%ReadyButton")
-@onready var _game: GSGGame = get_node("/root/Game")
+#@onready var _game: GSGGame = get_node("/root/Game")
 
 # Game Loop
 func _process(_delta):
+	if not Server.is_peer_connected():
+		return
 	_update()
 
 
@@ -26,18 +28,12 @@ func _process(_delta):
 
 # Private Methods
 func _update():
-	if not Server.is_peer_connected():
-		return
 	Log.dbg("LobbyPlayer updating player number ", _player_number)
 	var player: PlayerInfo = Server.get_players().by_number(_player_number)
 	if not player is PlayerInfo:
 		Log.dbg("player is not connected: ", _player_number)
 		return
 	if player.is_local_player():
-		if _game.player_info():
-			_game.player_info().set_number(player.number())
-			_game.player_info().set_color(player.color())
-			player = _game.player_info()
 			if _is_first_run:
 				Log.info("LobbyPlayer beginning first run")
 				_set_player_local_first(player)
@@ -50,7 +46,7 @@ func _update():
 
 
 func _set_player_local_first(player: PlayerInfo):
-	#assert(player.is_local_player())
+	assert(player.is_local_player())
 	Log.dbg("Player is ", player.serialize())
 	_set_color_picker_local_first(player.color())
 
@@ -111,8 +107,7 @@ func _set_ready_button_remote(player: PlayerInfo):
 
 # Events
 func _on_color_picker_button_color_changed(color: Color):
-	#Server.get_local_player().set_color(color)
-	_game.player_info().set_color(color)
+	UI.request_update_local_player_color.emit(color)
 
 
 func _on_ready_button_toggled(toggled_on: bool):

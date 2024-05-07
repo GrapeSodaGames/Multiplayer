@@ -58,6 +58,8 @@ func sync_local_players():
 	if is_host():
 		for player in _players.all():
 			_update_player_info.rpc(player.serialize())
+			
+	_game.sync_player_from_server()
 
 
 func get_players() -> PlayerList:
@@ -93,6 +95,8 @@ func connection_manager() -> ConnectionMananger:
 # Private Methods
 @rpc("any_peer", "call_local")
 func _send_player_info(id: int, info: Dictionary):
+	if not is_host():
+		return
 	Log.dbg("Server Received Player Info from ", id)
 	if not is_peer_connected(): 
 		return
@@ -103,9 +107,9 @@ func _send_player_info(id: int, info: Dictionary):
 	Log.dbg("send_player_info received ", new_player_info.serialize())
 
 
-@rpc("authority", "call_local")
+@rpc("any_peer", "call_local")
 func _update_player_info(info: Dictionary):
-	Log.info("Received player info from Server: ", info)
+	Log.dbg("Received player info from Server: ", info)
 	_players.update(PlayerInfo.deserialize(info))
 
 

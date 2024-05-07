@@ -39,6 +39,7 @@ func update(new_player_info: PlayerInfo):
 	else:
 		Log.info("Update creating new player ", new_player_info.id())
 		_players[new_player_info.id()] = new_player_info
+	
 
 
 func by_id(id: int) -> PlayerInfo:
