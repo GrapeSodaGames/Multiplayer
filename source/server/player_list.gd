@@ -10,41 +10,49 @@ class_name PlayerList extends Node
 # References
 
 # Properties
-var _players = {}
 
 # Game Loop
 
 # Public Methods
 
 func all():
-	return _players.values()
+	return get_children()
 
 
 func size():
-	return _players.size()
+	return get_child_count()
 
+@rpc
+func register(new_id: int):
+	Log.info("Registering new player ", new_id)
+	var player:PlayerInfo = Server.get_player_info_prefab().instantiate()
+	player.set_id(new_id)
+	if Server.is_host():
+		player.set_number(size() + 1)
+		player.set_color(Color(randf(), randf(), randf()))
+		player.set_ready(false)
+		player.name = str(player.id())
+	add_child(player, true)
 
 func update(new_player_info: PlayerInfo):
-	var new_id = new_player_info.id()
-	if new_id < 1:
+	if new_player_info.id() < 1:
 		return
+		
+	var existing_player: PlayerInfo = by_id(new_player_info.id())
 	
-	var existing_player: PlayerInfo = by_id(new_id)
 	if existing_player:
-		if existing_player.color() != new_player_info.color():
-			Log.info("Updating player " + str(new_player_info.id()) + " color" )
-			_players[new_player_info.id()] = new_player_info
-		if existing_player.is_ready() != new_player_info.is_ready():
-			_players[new_player_info.id()] = new_player_info
+		Log.info("Updating existing player ", new_player_info.id())
+		existing_player.update(new_player_info)
 	else:
-		Log.info("Update creating new player ", new_player_info.id())
-		_players[new_player_info.id()] = new_player_info
+		Log.info("Attempting to update non-existent player ", new_player_info.id())
+		register(new_player_info.id())
 	
 
 
 func by_id(id: int) -> PlayerInfo:
-	if _players.has(id):
-		return _players[id]
+	for player: PlayerInfo in all():
+		if player.id() == id:
+			return player
 	return
 
 
@@ -58,11 +66,12 @@ func by_number(number: int) -> PlayerInfo:
 
 
 func erase(id: int):
-	_players.erase(id)
+	by_id(id).queue_free()
 
 
 func clear():
-	_players = {}
+	for child in all():
+		child.queue_free()
 
 
 func get_ready_status() -> bool:
@@ -73,4 +82,6 @@ func get_ready_status() -> bool:
 
 # Private Methods
 
+		
+		
 # Events

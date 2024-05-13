@@ -1,0 +1,29 @@
+[gd_scene load_steps=2 format=3 uid="uid://4v4o0k08083i"]
+
+[ext_resource type="Script" path="res://test_server.gd" id="1_rtuvt"]
+
+[node name="TestServer" type="Node"]
+script = ExtResource("1_rtuvt")
+
+[node name="PlayerList" type="Node" parent="."]
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("../PlayerList")
+
+[node name="TestPlayer" type="Node" parent="."]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Host Button" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+text = "Host"
+
+[node name="Connect Button" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+text = "Connect
+"
+
+[connection signal="pressed" from="HBoxContainer/Host Button" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="HBoxContainer/Connect Button" to="." method="_on_connect_pressed"]
