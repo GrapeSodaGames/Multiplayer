@@ -1,4 +1,4 @@
-class_name ConnectionMananger extends Node
+class_name ConnectionManager extends Node
 ## TODO: Document
 
 # Signals
@@ -16,11 +16,9 @@ var _ip: String
 
 # Game Loop
 func _ready():
-	multiplayer.peer_connected.connect(_on_peer_connected)
-	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
-	multiplayer.connected_to_server.connect(_on_connected_to_server)
-	multiplayer.connection_failed.connect(_on_connection_failed)
-	multiplayer.server_disconnected.connect(_on_server_disconnected)
+	_connect_server_signals()
+	_connect_client_signals()
+	
 
 	multiplayer.multiplayer_peer = null
 
@@ -70,27 +68,43 @@ func is_peer_connected() -> bool:
 
 
 # Private Methods
+func _connect_server_signals():
+	multiplayer.peer_connected.connect(_on_peer_connected)
+	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
+
+
+func _connect_client_signals():
+	multiplayer.connected_to_server.connect(_on_connected_to_server)
+	multiplayer.connection_failed.connect(_on_connection_failed)
+	multiplayer.server_disconnected.connect(_on_server_disconnected)
 
 
 # Events
-func _on_peer_connected(_id):
-	pass
+func _on_peer_connected(id):
+	Log.info(str(multiplayer.get_unique_id())+ ": New player connected from ", id)
+	var player: PlayerInfo = Server.get_player_info_prefab().instantiate()
+	player.set_id(id)
+	Server.get_players().update(player)
 
 
 func _on_peer_disconnected(id):
+	Log.info(str(multiplayer.get_unique_id())+ " received peer_disconnected from ", id)
 	Server.get_players().erase(id)
 	Server.player_disconnected.emit(id)
 
 
 func _on_connected_to_server():
-	pass
+	Log.info(str(multiplayer.get_unique_id())+ ": Connection to server successful")
+	Server.get_players().register(multiplayer.get_unique_id())
 
 
 func _on_connection_failed():
+	Log.info(str(multiplayer.get_unique_id())+ ": Connection to server failed")
 	multiplayer.multiplayer_peer = null
 
 
 func _on_server_disconnected():
+	Log.info(str(multiplayer.get_unique_id())+ ": Server disconnected")
 	multiplayer.multiplayer_peer = null
 	Server.get_players().clear()
 	Server.server_disconnected.emit()

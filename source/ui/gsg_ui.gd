@@ -45,7 +45,7 @@ func _ready():
 
 
 func _process(_delta):
-	_check_state()
+	#_check_state()
 	_screens[_ui_state].setup()
 	_screens[_ui_state].enable(true)
 
