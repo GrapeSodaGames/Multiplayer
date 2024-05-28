@@ -27,4 +27,4 @@ func enable(value: bool):
 
 # Events
 func _on_button_pressed():
-	UI.set_ui_state(GSGUI.UIState.MAIN_MENU)
+	ui.set_ui_state(GSGUI.UIState.MAIN_MENU)

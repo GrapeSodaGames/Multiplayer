@@ -10,6 +10,7 @@ class_name PlayerInfo extends Node
 # References
 
 # Properties
+var _player_name: String
 var _player_number: int
 var _color: Color
 var _is_ready: bool
@@ -36,7 +37,12 @@ func set_id(value: int):
 		Log.dbg("Updating ID on ", serialize())
 		_id = value
 
+func name() -> String:
+	return _player_name
 
+func set_player_name(value: String):
+	_player_name = value
+	
 func number() -> int:
 	return _player_number
 
@@ -68,7 +74,7 @@ func set_ready(value: bool):
 
 
 func is_local_player() -> bool:
-	return Server.multiplayer.get_unique_id() == id()
+	return multiplayer.get_unique_id() == id()
 
 
 func serialize() -> Dictionary:

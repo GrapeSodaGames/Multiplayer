@@ -19,7 +19,7 @@ var _is_first_run: bool = true
 
 # Game Loop
 func _process(_delta):
-	if not Server.is_peer_connected():
+	if not GameState.is_peer_connected():
 		return
 	_update()
 
@@ -29,7 +29,7 @@ func _process(_delta):
 # Private Methods
 func _update():
 	Log.dbg("LobbyPlayer updating player number ", _player_number)
-	var player: PlayerInfo = Server.get_players().by_number(_player_number)
+	var player: PlayerInfo = GameState.get_players().by_number(_player_number)
 	if not player is PlayerInfo:
 		Log.dbg("player is not connected: ", _player_number)
 		return
@@ -107,8 +107,10 @@ func _set_ready_button_remote(player: PlayerInfo):
 
 # Events
 func _on_color_picker_button_color_changed(color: Color):
-	UI.request_update_local_player_color.emit(color)
+	pass
+	#ui.request_update_local_player_color.emit(color)
 
 
 func _on_ready_button_toggled(toggled_on: bool):
-	UI.request_update_local_player_ready.emit(toggled_on)
+	pass
+	#ui.request_update_local_player_ready.emit(toggled_on)

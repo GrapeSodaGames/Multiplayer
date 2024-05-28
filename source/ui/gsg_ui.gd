@@ -38,9 +38,6 @@ func _ready():
 	_ui_state = UIState.WORLD
 	_new_ui_state = UIState.MAIN_MENU
 
-	Server.connection_success.connect(_on_connection_success)
-	Server.connection_failed.connect(_on_connection_failed)
-
 	Log.dbg("UI Ready")
 
 
@@ -68,7 +65,7 @@ func _check_state():
 	if _new_ui_state != _ui_state:
 		Log.dbg("new UI state detected: ", str(_ui_state) + "=>" + str(_new_ui_state))
 
-		if _new_ui_state == UIState.LOBBY and not Server.is_peer_connected():
+		if _new_ui_state == UIState.LOBBY and not GameState.is_peer_connected():
 			_new_ui_state = UIState.MAIN_MENU
 
 		_close_all()
@@ -81,13 +78,7 @@ func _close_all():
 
 
 # Events
-func _on_connection_success():
-	set_ui_state(UIState.LOBBY)
 
-
-func _on_connection_failed():
-	Log.info("UI received connection failed from server")
-	_main_menu.clear_ip_text()
 
 
 func _on_connect_request(ip, port):

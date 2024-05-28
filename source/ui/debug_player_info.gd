@@ -29,8 +29,8 @@ class_name DebugPlayerInfo extends VBoxContainer
 
 # Game Loop
 func _process(_delta):
-	if Server.is_peer_connected():
-		var players = Server.get_players()
+	if GameState.is_peer_connected():
+		var players = GameState.get_players()
 		for player: PlayerInfo in players.all():
 			if player.number() == 1:
 				if player.is_local_player():

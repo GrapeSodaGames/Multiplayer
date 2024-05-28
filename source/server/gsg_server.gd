@@ -82,10 +82,7 @@ func is_peer_connected() -> bool:
 	return false
 
 
-func is_host() -> bool:
-	if is_peer_connected():
-		return multiplayer.is_server()
-	return false
+
 
 
 func connection_manager() -> ConnectionMananger:

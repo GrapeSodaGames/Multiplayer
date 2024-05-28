@@ -8,6 +8,7 @@ class_name UIScreen extends Control
 # Exports
 
 # References
+@onready var ui: GSGUI = get_parent()
 
 # Properties
 
