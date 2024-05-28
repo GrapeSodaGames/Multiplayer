@@ -12,14 +12,14 @@ config_version=5
 
 config/name="Multiplayer"
 config/version="0.0.0 build 1"
-run/main_scene="res://source/main.tscn"
+run/main_scene="res://source/main/main.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
 Log="*res://addons/logger/logger.gd"
-GameState="*res://source/game_state.gd"
+GameState="*res://source/game_state/game_state.tscn"
 
 [dotnet]
 

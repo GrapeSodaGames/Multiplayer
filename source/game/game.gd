@@ -9,7 +9,7 @@ class_name GSGGame extends Node
 
 # References
 var _player_info = PlayerInfo.new()
-@onready var _local_config: LocalConfig = get_node("LocalConfig")
+
 
 # Properties
 

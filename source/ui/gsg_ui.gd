@@ -37,14 +37,10 @@ func _ready():
 
 	_ui_state = UIState.WORLD
 	_new_ui_state = UIState.MAIN_MENU
+	
+	GameState.connection_succeeded.connect(_on_connection_success)
 
 	Log.dbg("UI Ready")
-
-
-func _process(_delta):
-	_check_state()
-	_screens[_ui_state].setup()
-	_screens[_ui_state].enable(true)
 
 
 # Public Methods
@@ -58,6 +54,7 @@ func request_disconnect_from_server():
 
 func set_ui_state(state: UIState):
 	_new_ui_state = state
+	_check_state()
 
 
 # Private Methods
@@ -70,6 +67,7 @@ func _check_state():
 
 		_close_all()
 		_ui_state = _new_ui_state
+		_screens[_ui_state].enable(true)
 
 
 func _close_all():
@@ -79,7 +77,8 @@ func _close_all():
 
 # Events
 
-
+func _on_connection_success():
+	set_ui_state(UIState.LOBBY)
 
 func _on_connect_request(ip, port):
 	request_connect_to_server_signal.emit(ip, port)

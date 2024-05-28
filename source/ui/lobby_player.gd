@@ -18,10 +18,10 @@ var _is_first_run: bool = true
 #@onready var _game: GSGGame = get_node("/root/Game")
 
 # Game Loop
-func _process(_delta):
-	if not GameState.is_peer_connected():
-		return
-	_update()
+#func _process(_delta):
+	#if not GameState.is_peer_connected():
+	#	return
+	#_update()
 
 
 # Public Methods

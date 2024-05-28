@@ -11,7 +11,6 @@ class_name MainMenu extends UIScreen
 @onready var host_button: Button = get_node("%Host Button")
 @onready var connect_button: Button = get_node("%Connect Button")
 @onready var connect_server_ip_textbox: LineEdit = get_node("%Connect Server IP")
-#@onready var game: GSGGame = get_node("/root/Game")
 
 # Properties
 
@@ -19,14 +18,16 @@ class_name MainMenu extends UIScreen
 func _ready():
 	GameState.connection_failed.connect(_on_connection_failed)
 	GameState.connection_succeeded.connect(_on_connection_success)
-#func _process(_delta):
-#	_check_connection_status_for_buttons()
+	refresh()
 
 # Public Methods
 func setup():
 	super.setup()
-#	connect_server_ip_textbox.text = game.local_config().get_config_server_ip()
+	connect_server_ip_textbox.text = GameState.local_config().get_config_server_ip()
 
+func refresh():
+	super.refresh()
+	_check_connection_status_for_buttons()
 
 func enable(value: bool):
 	super.enable(value)
@@ -70,15 +71,17 @@ func _clear_ip_text():
 func _on_host_button_pressed():
 	var player_name = "Player1Name" #TODO: Fix this
 	GameState.host_game(player_name)
+	refresh()
 
 
 func _on_connect_button_pressed():
 	GameState.join_game(%"Connect Server IP".text, "Player2Name")
+	refresh()
 
 
 func _on_credit_button_pressed():
 	Log.dbg("main_menu received credit button signal")
-	ui.set_ui_state(GSGUI.UIState.CREDITS)
+	refresh()
 
 func _on_connection_success():
 	ui.set_ui_state(GSGUI.UIState.LOBBY)

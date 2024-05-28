@@ -19,6 +19,8 @@ class_name UIScreen extends Control
 func setup():
 	pass
 
+func refresh():
+	pass
 
 func enable(value: bool):
 	visible = value

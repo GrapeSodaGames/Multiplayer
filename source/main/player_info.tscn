@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://l1rxsmwhaigr"]
+
+[ext_resource type="Script" path="res://source/main/player_info.gd" id="1_vwj7v"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_r54rd"]
+properties/0/path = NodePath(".:_color")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:_player_name")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[node name="PlayerInfo" type="Node"]
+script = ExtResource("1_vwj7v")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_r54rd")

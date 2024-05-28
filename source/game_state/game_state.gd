@@ -20,12 +20,11 @@ signal game_error(what)
 
 # Properties
 var peer: MultiplayerPeer
-var local_player_name: String = "PlayerName"
-
-# key is id, value is name
-var players := PlayerList.new()
 
 # References
+var _local_config: = LocalConfig.new()
+@onready var local_player: PlayerInfo = %LocalPlayer
+@onready var players: PlayerList = %Players
 
 # Game Loop
 func _ready():
@@ -33,23 +32,27 @@ func _ready():
 	multiplayer.peer_disconnected.connect(_player_disconnected)
 	multiplayer.connected_to_server.connect(_connected_ok)
 
+
 # Public Methods
 func host_game(new_player_name: String):
 	Log.info("Creating new Host...")
-	set_local_player_name(new_player_name)
 	peer = ENetMultiplayerPeer.new()
 	peer.create_server(port, max_peers)
 	multiplayer.set_multiplayer_peer(peer)
+	set_up_local_player(new_player_name)
+	register_player(local_player.serialize())
 	Log.info("Game Successfully Hosted")
+	connection_succeeded.emit()
 	
 func join_game(ip: String, new_player_name: String):
-	local_player_name = new_player_name
 	peer = ENetMultiplayerPeer.new()
 	peer.create_client(ip, port)
 	multiplayer.set_multiplayer_peer(peer)
+	set_up_local_player(new_player_name)
 
 func is_peer_connected() -> bool:
-	return multiplayer.multiplayer_peer != null
+	Log.dbg("Checking peer type: " + type_string(typeof(peer)) + " ("+ str(typeof(peer)) +")")
+	return peer != null
 
 func is_host() -> bool:
 	if is_peer_connected():
@@ -59,19 +62,28 @@ func is_host() -> bool:
 func get_players() -> PlayerList:
 	return players
 
+
+func local_config() -> LocalConfig:
+	return _local_config
+	
 # Private Methods
-func set_local_player_name(new_player_name: String):
-	local_player_name = new_player_name
+func set_up_local_player(new_player_name: String):
+	local_player.set_id(peer.get_unique_id())
+	local_player.set_player_name(new_player_name)
+	local_player.set_color(Color.from_ok_hsl(randf(), randf(), randf()))
+
+
 
 @rpc("any_peer")
-func register_player(new_player_name: String):
+func register_player(new_player_info: Dictionary):
 	var id = multiplayer.get_remote_sender_id()
-	Log.info("Registering player " + new_player_name + " at " + str(id))
-	var new_player = PlayerInfo.new()
+	if id == 0:
+		id = 1
+	var new_player = PlayerInfo.deserialize(new_player_info)
+	Log.info("Registering player " + new_player.player_name() + " at " + str(id))
 	new_player.set_id(id)
-	new_player.set_player_name(new_player_name)
-	players.update(new_player)
-	
+	new_player.name = str(id)
+	players.register(new_player)
 	player_list_changed.emit()
 
 func unregister_player(id: int):
@@ -97,7 +109,9 @@ func end_game():
 # Events
 func _player_connected(id: int):
 	Log.info("Connection successful from ID " + str(id))
-	register_player.rpc_id(id, local_player_name)
+	Log.dbg("Local Player Info: ", local_player)
+	register_player.rpc_id(id, local_player.serialize())
+	connection_succeeded.emit()
 
 func _player_disconnected(id: int):
 	if has_node("/root/World/"): # Game is in play
