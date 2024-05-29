@@ -4,12 +4,11 @@ class_name GSGGameState extends Node
 # Signals
 
 # to Lobby GUI
-signal player_list_changed()
-signal connection_failed()
-signal connection_succeeded()
+signal player_list_changed
+signal connection_failed
+signal connection_succeeded
 
-
-signal game_ended()
+signal game_ended
 signal game_error(what)
 
 # Enums
@@ -22,9 +21,10 @@ signal game_error(what)
 var peer: MultiplayerPeer
 
 # References
-var _local_config: = LocalConfig.new()
+var _local_config := LocalConfig.new()
 @onready var local_player: PlayerInfo = %LocalPlayer
 @onready var players: PlayerList = %Players
+
 
 # Game Loop
 func _ready():
@@ -43,21 +43,25 @@ func host_game(new_player_name: String):
 	register_player(local_player.serialize())
 	Log.info("Game Successfully Hosted")
 	connection_succeeded.emit()
-	
+
+
 func join_game(ip: String, new_player_name: String):
 	peer = ENetMultiplayerPeer.new()
 	peer.create_client(ip, port)
 	multiplayer.set_multiplayer_peer(peer)
 	set_up_local_player(new_player_name)
 
+
 func is_peer_connected() -> bool:
-	Log.dbg("Checking peer type: " + type_string(typeof(peer)) + " ("+ str(typeof(peer)) +")")
+	Log.dbg("Checking peer type: " + type_string(typeof(peer)) + " (" + str(typeof(peer)) + ")")
 	return peer != null
+
 
 func is_host() -> bool:
 	if is_peer_connected():
 		return multiplayer.is_server()
 	return false
+
 
 func get_players() -> PlayerList:
 	return players
@@ -66,15 +70,17 @@ func get_players() -> PlayerList:
 func local_config() -> LocalConfig:
 	return _local_config
 
+
 func disconnect_from_game():
 	multiplayer.multiplayer_peer = null
 	peer = null
+
+
 # Private Methods
 func set_up_local_player(new_player_name: String):
 	local_player.set_id(peer.get_unique_id())
 	local_player.set_player_name(new_player_name)
 	local_player.set_color(Color.from_ok_hsl(randf(), randf(), randf()))
-
 
 
 @rpc("any_peer")
@@ -88,9 +94,11 @@ func register_player(new_player_info: Dictionary):
 	new_player.name = str(id)
 	players.register(new_player)
 
+
 func unregister_player(id: int):
 	players.erase(id)
 	player_list_changed.emit()
+
 
 @rpc("call_local")
 func load_world():
@@ -101,12 +109,14 @@ func load_world():
 func begin_game():
 	assert(multiplayer.is_server())
 	load_world.rpc()
-	
+
+
 func end_game():
 	if has_node("/root/World"):
 		get_node("/root/World").queue_free()
 	game_ended.emit()
 	players.clear()
+
 
 # Events
 func _player_connected(id: int):
@@ -115,14 +125,16 @@ func _player_connected(id: int):
 	register_player.rpc_id(id, local_player.serialize())
 	connection_succeeded.emit()
 
+
 func _player_disconnected(id: int):
-	if has_node("/root/World/"): # Game is in play
+	if has_node("/root/World/"):  # Game is in play
 		if multiplayer.is_server():
 			game_error.emit("Player " + players[str(id)] + " disconnected")
 			end_game()
-			# TODO: I'm not sure we want this.  The game should only end if the 
-			# disconnected player is the server.  Look into it once this is up 
+			# TODO: I'm not sure we want this.  The game should only end if the
+			# disconnected player is the server.  Look into it once this is up
 			# and working
+
 
 func _connected_ok():
 	Log.info("Received connection_succeeded signal")

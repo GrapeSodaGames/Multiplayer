@@ -12,9 +12,11 @@ class_name Lobby extends UIScreen
 
 # Properties
 
+
 # Game Loop
-func _process(delta):
+func _process(_delta):
 	start_game_button.disabled = not GameState.get_players().get_ready_status()
+
 
 # Public Methods
 func setup():

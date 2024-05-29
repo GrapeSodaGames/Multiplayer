@@ -2,22 +2,25 @@ class_name PlayerInfo extends Node
 ## TODO: Document
 
 # Signals
-signal changed()
+signal changed
 
 # Enums
 
 # Exports
-
-# References
-static var _player_info_prefab: PackedScene = preload("res://source/main/player_info.tscn")
-# Properties
 @export var _player_name: String
 @export var _player_number: int
 @export var _color: Color
 @export var _is_ready: bool
+
+# References
+
+
+# Properties
 var _id: int
+static var _player_info_prefab: PackedScene = preload("res://source/main/player_info.tscn")
 
 # Game Loop
+
 
 # Public Methods
 func clone() -> PlayerInfo:
@@ -39,21 +42,26 @@ func set_id(value: int):
 		_id = value
 		changed.emit()
 
+
 func player_name() -> String:
 	return _player_name
+
 
 func set_player_name(value: String):
 	Log.dbg("Updating name on " + str(_id) + " from " + str(_player_name) + " to " + str(value))
 	_player_name = value
 	changed.emit()
-	
+
+
 func number() -> int:
 	return _player_number
 
 
 func set_number(value: int):
 	if value != _player_number:
-		Log.dbg("Updating number on " + str(_id) + " from " + str(_player_number) + " to " + str(value))
+		Log.dbg(
+			"Updating number on " + str(_id) + " from " + str(_player_number) + " to " + str(value)
+		)
 		_player_number = value
 
 
@@ -84,7 +92,13 @@ func is_local_player() -> bool:
 
 
 func serialize() -> Dictionary:
-	return {"player_name": player_name(), "player_number": number(), "color": color(), "is_ready": is_ready(), "id": id()}
+	return {
+		"player_name": player_name(),
+		"player_number": number(),
+		"color": color(),
+		"is_ready": is_ready(),
+		"id": id()
+	}
 
 
 static func deserialize(input: Dictionary) -> PlayerInfo:

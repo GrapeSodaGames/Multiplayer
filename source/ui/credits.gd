@@ -15,6 +15,7 @@ class_name Credits extends UIScreen
 
 # Public Methods
 
+
 func setup():
 	super.setup()
 
@@ -24,6 +25,7 @@ func enable(value: bool):
 
 
 # Private Methods
+
 
 # Events
 func _on_button_pressed():

@@ -19,10 +19,12 @@ var _player: PlayerInfo
 
 # Game Loop
 
+
 # Public Methods
 func _ready():
 	GameState.player_list_changed.connect(setup)
 	GameState.player_list_changed.connect(_update)
+
 
 # Private Methods
 func setup():
@@ -39,9 +41,9 @@ func _update():
 	if not _player:
 		Log.dbg("player is not connected: ", _player_number)
 		return
-	
+
 	Log.dbg("LobbyPlayer updating player number ", _player_number)
-	
+
 	if _player.is_local_player():
 		if _is_first_run:
 			_set_player_local_first()
@@ -49,7 +51,6 @@ func _update():
 			_set_player_local()
 	else:
 		_set_player_remote(_player)
-	
 
 
 func _set_player_local_first():
@@ -62,7 +63,7 @@ func _set_player_local_first():
 
 func _set_player_local():
 	assert(_player.is_local_player())
-	
+
 	_set_title_local(_player.number())
 	_set_color_picker_local()
 	_set_ready_button_local(_ready_button.button_pressed)
@@ -70,10 +71,11 @@ func _set_player_local():
 
 func _set_player_remote(player: PlayerInfo):
 	assert(not player.is_local_player())
-	
+
 	_set_title_remote(player.number())
 	_set_color_picker_remote(player)
 	_set_ready_button_remote(player)
+
 
 func _set_title_local(number: int):
 	_player_label.text = str(number) + " - You"
@@ -95,8 +97,7 @@ func _set_color_picker_remote(player: PlayerInfo):
 	_color_picker.color = player.color()
 	_color_picker.disabled = true
 
-	
-	
+
 func _set_ready_button_local(value: bool):
 	_ready_button.disabled = false
 	if not value:
