@@ -13,7 +13,8 @@ class_name Main extends Node
 
 # Game Loop
 func _init():
-	Log.current_log_level = Log.LogLevel.DEBUG
+	#Log.current_log_level = Log.LogLevel.DEBUG
+	Log.current_log_level = Log.LogLevel.DEFAULT
 # Public Methods
 
 # Private Methods

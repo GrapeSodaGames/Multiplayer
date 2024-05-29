@@ -15,6 +15,9 @@ class_name PlayerList extends MultiplayerSpawner
 func _init():
 	spawn_function = _spawn_player
 
+func _process(delta):
+	GameState.player_list_changed.emit()
+
 # Public Methods
 
 func all():
@@ -26,8 +29,10 @@ func size():
 
 func register(new_player_info: PlayerInfo):
 	if GameState.is_host():
+		new_player_info.set_number(size() + 1)
 		Log.info("Registering new player...")
 		spawn(new_player_info.serialize())
+	GameState.player_list_changed.emit()
 		
 
 #func update(new_player_info: PlayerInfo):
@@ -63,6 +68,11 @@ func by_number(number: int) -> PlayerInfo:
 			return player
 	return
 
+func local() -> PlayerInfo:
+	for player: PlayerInfo in all():
+		if player.is_local_player():
+			return player
+	return
 
 func erase(id: int):
 	for player: PlayerInfo in all():
@@ -77,7 +87,7 @@ func clear():
 
 func get_ready_status() -> bool:
 	var result = false
-	for player in all():
+	for player: PlayerInfo in all():
 		result = player.is_ready()
 	return result
 

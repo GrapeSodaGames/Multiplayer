@@ -2,6 +2,7 @@ class_name PlayerInfo extends Node
 ## TODO: Document
 
 # Signals
+signal changed()
 
 # Enums
 
@@ -36,6 +37,7 @@ func set_id(value: int):
 	if value != _id:
 		Log.dbg("Updating ID on " + str(_id) + " from " + str(_id) + " to " + str(value))
 		_id = value
+		changed.emit()
 
 func player_name() -> String:
 	return _player_name
@@ -43,6 +45,7 @@ func player_name() -> String:
 func set_player_name(value: String):
 	Log.dbg("Updating name on " + str(_id) + " from " + str(_player_name) + " to " + str(value))
 	_player_name = value
+	changed.emit()
 	
 func number() -> int:
 	return _player_number
@@ -50,7 +53,7 @@ func number() -> int:
 
 func set_number(value: int):
 	if value != _player_number:
-		Log.dbg("Updating ID on " + str(_id) + " from " + str(_player_number) + " to " + str(value))
+		Log.dbg("Updating number on " + str(_id) + " from " + str(_player_number) + " to " + str(value))
 		_player_number = value
 
 
@@ -60,8 +63,9 @@ func color() -> Color:
 
 func set_color(value: Color):
 	if value != _color:
-		Log.dbg("Updating ID on " + str(_id) + " from " + str(_color) + " to " + str(value))
+		Log.dbg("Updating color on " + str(_id) + " from " + str(_color) + " to " + str(value))
 		_color = value
+		GameState.player_list_changed.emit()
 
 
 func is_ready() -> bool:
@@ -70,8 +74,9 @@ func is_ready() -> bool:
 
 func set_ready(value: bool):
 	if value != _is_ready:
-		Log.dbg("Updating ID on " + str(_id) + " from " + str(_is_ready) + " to " + str(value))
+		Log.dbg("Updating ready on " + str(_id) + " from " + str(_is_ready) + " to " + str(value))
 		_is_ready = value
+		GameState.player_list_changed.emit()
 
 
 func is_local_player() -> bool:

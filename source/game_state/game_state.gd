@@ -65,7 +65,10 @@ func get_players() -> PlayerList:
 
 func local_config() -> LocalConfig:
 	return _local_config
-	
+
+func disconnect_from_game():
+	multiplayer.multiplayer_peer = null
+	peer = null
 # Private Methods
 func set_up_local_player(new_player_name: String):
 	local_player.set_id(peer.get_unique_id())
@@ -84,7 +87,6 @@ func register_player(new_player_info: Dictionary):
 	new_player.set_id(id)
 	new_player.name = str(id)
 	players.register(new_player)
-	player_list_changed.emit()
 
 func unregister_player(id: int):
 	players.erase(id)
