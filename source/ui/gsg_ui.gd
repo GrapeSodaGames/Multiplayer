@@ -27,6 +27,7 @@ var _screens = {}
 
 # Game Loop
 
+
 func _ready():
 	Log.dbg("UI Readying...")
 
@@ -38,16 +39,9 @@ func _ready():
 	_ui_state = UIState.WORLD
 	_new_ui_state = UIState.MAIN_MENU
 
-	Server.connection_success.connect(_on_connection_success)
-	Server.connection_failed.connect(_on_connection_failed)
+	GameState.connection_succeeded.connect(_on_connection_success)
 
 	Log.dbg("UI Ready")
-
-
-func _process(_delta):
-	_check_state()
-	_screens[_ui_state].setup()
-	_screens[_ui_state].enable(true)
 
 
 # Public Methods
@@ -59,8 +53,10 @@ func request_create_server(port):
 func request_disconnect_from_server():
 	request_disconnect_from_server_signal.emit()
 
+
 func set_ui_state(state: UIState):
 	_new_ui_state = state
+	_check_state()
 
 
 # Private Methods
@@ -68,11 +64,12 @@ func _check_state():
 	if _new_ui_state != _ui_state:
 		Log.dbg("new UI state detected: ", str(_ui_state) + "=>" + str(_new_ui_state))
 
-		if _new_ui_state == UIState.LOBBY and not Server.is_peer_connected():
+		if _new_ui_state == UIState.LOBBY and not GameState.is_peer_connected():
 			_new_ui_state = UIState.MAIN_MENU
 
 		_close_all()
 		_ui_state = _new_ui_state
+		_screens[_ui_state].enable(true)
 
 
 func _close_all():
@@ -81,13 +78,10 @@ func _close_all():
 
 
 # Events
+
+
 func _on_connection_success():
 	set_ui_state(UIState.LOBBY)
-
-
-func _on_connection_failed():
-	Log.info("UI received connection failed from server")
-	_main_menu.clear_ip_text()
 
 
 func _on_connect_request(ip, port):

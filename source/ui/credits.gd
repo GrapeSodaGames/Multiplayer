@@ -15,6 +15,7 @@ class_name Credits extends UIScreen
 
 # Public Methods
 
+
 func setup():
 	super.setup()
 
@@ -25,6 +26,7 @@ func enable(value: bool):
 
 # Private Methods
 
+
 # Events
 func _on_button_pressed():
-	UI.set_ui_state(GSGUI.UIState.MAIN_MENU)
+	ui.set_ui_state(GSGUI.UIState.MAIN_MENU)

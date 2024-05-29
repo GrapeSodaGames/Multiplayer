@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://d3bf1b4xanlly"]
+
+[ext_resource type="Script" path="res://source/game_state/game_state.gd" id="1_8d070"]
+[ext_resource type="Script" path="res://source/main/player_info.gd" id="3_62ixp"]
+[ext_resource type="PackedScene" uid="uid://c0hist8mfj2p8" path="res://source/game_state/player_list.tscn" id="3_m1rk0"]
+
+[node name="GameState" type="Node"]
+script = ExtResource("1_8d070")
+
+[node name="LocalPlayer" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("3_62ixp")
+
+[node name="Players" parent="." instance=ExtResource("3_m1rk0")]
+unique_name_in_owner = true

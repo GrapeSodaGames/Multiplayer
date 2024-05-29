@@ -14,6 +14,7 @@ const MAX_PLAYERS = 4
 var _server_port = 25555
 var _ip: String
 
+
 # Game Loop
 func _ready():
 	multiplayer.peer_connected.connect(_on_peer_connected)

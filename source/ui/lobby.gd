@@ -12,31 +12,35 @@ class_name Lobby extends UIScreen
 
 # Properties
 
+
 # Game Loop
+func _process(_delta):
+	start_game_button.disabled = not GameState.get_players().get_ready_status()
+
 
 # Public Methods
 func setup():
 	super.setup()
 
-	if Server.is_host():
+	if GameState.is_host():
 		_show_start_game_button()
 
 
 func enable(value: bool):
 	super.enable(value)
+	setup()
 
 
 # Private Methods
 func _show_start_game_button():
 	start_game_button.show()
-	start_game_button.disabled = not Server.get_players().get_ready_status()
 
 
 # Events
 func _on_disconnect_button_pressed():
-	UI.request_disconnect_from_server()
-	UI.set_ui_state(GSGUI.UIState.MAIN_MENU)
+	GameState.disconnect_from_server()
+	ui.set_ui_state(GSGUI.UIState.MAIN_MENU)
 
 
 func _on_start_game_button_pressed():
-	UI.set_ui_state(GSGUI.UIState.WORLD)
+	ui.set_ui_state(GSGUI.UIState.WORLD)

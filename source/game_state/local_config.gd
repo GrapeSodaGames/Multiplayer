@@ -13,6 +13,7 @@ class_name LocalConfig extends Node
 # Properties
 var _config_file: ConfigFile
 
+
 # Game Loop
 func _init():
 	_config_file = ConfigFile.new()

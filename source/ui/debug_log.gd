@@ -12,6 +12,7 @@ class_name DebugLog extends VBoxContainer
 
 # Properties
 
+
 # Game Loop
 func _ready():
 	Log.dbg("DebugLog Readying...")
@@ -23,6 +24,7 @@ func _ready():
 # Public Methods
 
 # Private Methods
+
 
 # Events
 func _on_log_message(_log_level, message):

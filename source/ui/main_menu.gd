@@ -8,21 +8,29 @@ class_name MainMenu extends UIScreen
 # Exports
 
 # References
-@onready var host_button: Button = get_node("%Host Button")
-@onready var connect_button: Button = get_node("%Connect Button")
-@onready var connect_server_ip_textbox: LineEdit = get_node("%Connect Server IP")
-@onready var game: GSGGame = get_node("/root/Game")
+@onready var host_button: Button = %HostButton
+@onready var connect_button: Button = %ConnectButton
+@onready var connect_server_ip_textbox: LineEdit = %ConnectServerIP
 
 # Properties
 
+
 # Game Loop
-func _process(_delta):
-	_check_connection_status_for_buttons()
+func _ready():
+	GameState.connection_failed.connect(_on_connection_failed)
+	GameState.connection_succeeded.connect(_on_connection_success)
+	refresh()
+
 
 # Public Methods
 func setup():
 	super.setup()
-	connect_server_ip_textbox.text = game.local_config().get_config_server_ip()
+	connect_server_ip_textbox.text = GameState.local_config().get_config_server_ip()
+
+
+func refresh():
+	super.refresh()
+	_check_connection_status_for_buttons()
 
 
 func enable(value: bool):
@@ -36,7 +44,7 @@ func _check_connection_status_for_buttons():
 
 
 func _handle_host_button():
-	if not Server.is_peer_connected():
+	if not GameState.is_peer_connected():
 		host_button.disabled = false
 		host_button.text = "Host Server"
 	else:
@@ -49,7 +57,7 @@ func _handle_host_button():
 
 # TODO: Code Smell - duplicate code
 func _handle_connect_button():
-	if not Server.is_peer_connected():
+	if not GameState.is_peer_connected():
 		connect_button.disabled = false
 		connect_button.text = "Connect to Server"
 	else:
@@ -63,17 +71,28 @@ func _handle_connect_button():
 func _clear_ip_text():
 	connect_server_ip_textbox.text = ""
 
+
 # Events
 func _on_host_button_pressed():
-	UI.request_create_server(25555)  # TODO: Code Smell - Magic Number
+	var player_name = "Player1Name"  #TODO: Fix this
+	GameState.host_game(player_name)
+	refresh()
 
 
 func _on_connect_button_pressed():
-	# TODO: Code Smell - Magic Number
-	UI.request_connect_to_server_signal.emit(connect_server_ip_textbox.text, 25555)
+	GameState.join_game(connect_server_ip_textbox.text, "Player2Name")
+	refresh()
 
 
-# Events
 func _on_credit_button_pressed():
 	Log.dbg("main_menu received credit button signal")
-	UI.set_ui_state(GSGUI.UIState.CREDITS)
+	refresh()
+
+
+func _on_connection_success():
+	ui.set_ui_state(GSGUI.UIState.LOBBY)
+
+
+func _on_connection_failed():
+	Log.info("UI received connection failed from server")
+	#_main_menu.clear_ip_text()

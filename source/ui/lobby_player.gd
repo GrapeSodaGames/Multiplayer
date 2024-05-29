@@ -10,61 +10,72 @@ class_name LobbyPlayer extends PanelContainer
 
 # Properties
 var _is_first_run: bool = true
+var _player: PlayerInfo
 
 # References
 @onready var _player_label: Label = get_node("%PlayerNumber")
 @onready var _color_picker: ColorPickerButton = get_node("%ColorPickerButton")
 @onready var _ready_button: Button = get_node("%ReadyButton")
-#@onready var _game: GSGGame = get_node("/root/Game")
 
 # Game Loop
-func _process(_delta):
-	if not Server.is_peer_connected():
-		return
-	_update()
 
 
 # Public Methods
+func _ready():
+	GameState.player_list_changed.connect(setup)
+	GameState.player_list_changed.connect(_update)
+
 
 # Private Methods
+func setup():
+	if not _player:
+		#Log.info("Setting up LobbyPlayer #", _player_number)
+		_player = GameState.get_players().by_number(_player_number)
+		if _player:
+			Log.info("Found " + str(_player.id()) + " as #", _player_number)
+			_player.changed.connect(_update)
+
+
 func _update():
-	Log.dbg("LobbyPlayer updating player number ", _player_number)
-	var player: PlayerInfo = Server.get_players().by_number(_player_number)
-	if not player is PlayerInfo:
+	setup()
+	if not _player:
 		Log.dbg("player is not connected: ", _player_number)
 		return
-	if player.is_local_player():
-			if _is_first_run:
-				Log.info("LobbyPlayer beginning first run")
-				_set_player_local_first(player)
-				Log.info("LobbyPlayer first run complete")
-				_is_first_run = false
-			else:
-				_set_player_local(player)
+
+	Log.dbg("LobbyPlayer updating player number ", _player_number)
+
+	if _player.is_local_player():
+		if _is_first_run:
+			_set_player_local_first()
+		else:
+			_set_player_local()
 	else:
-		_set_player_remote(player)
+		_set_player_remote(_player)
 
 
-func _set_player_local_first(player: PlayerInfo):
-	assert(player.is_local_player())
-	Log.dbg("Player is ", player.serialize())
-	_set_color_picker_local_first(player.color())
+func _set_player_local_first():
+	setup()
+	assert(_player.is_local_player())
+	Log.info("First LobbyPlayer update for ", _player_number)
+	_set_color_picker_local_first(_player.color())
+	_is_first_run = false
 
 
-func _set_player_local(player: PlayerInfo):
-	assert(player.is_local_player())
-	
-	_set_title_local(player.number())
+func _set_player_local():
+	assert(_player.is_local_player())
+
+	_set_title_local(_player.number())
 	_set_color_picker_local()
 	_set_ready_button_local(_ready_button.button_pressed)
 
 
 func _set_player_remote(player: PlayerInfo):
 	assert(not player.is_local_player())
-	
+
 	_set_title_remote(player.number())
 	_set_color_picker_remote(player)
 	_set_ready_button_remote(player)
+
 
 func _set_title_local(number: int):
 	_player_label.text = str(number) + " - You"
@@ -86,8 +97,7 @@ func _set_color_picker_remote(player: PlayerInfo):
 	_color_picker.color = player.color()
 	_color_picker.disabled = true
 
-	
-	
+
 func _set_ready_button_local(value: bool):
 	_ready_button.disabled = false
 	if not value:
@@ -107,8 +117,8 @@ func _set_ready_button_remote(player: PlayerInfo):
 
 # Events
 func _on_color_picker_button_color_changed(color: Color):
-	UI.request_update_local_player_color.emit(color)
+	_player.set_color(color)
 
 
 func _on_ready_button_toggled(toggled_on: bool):
-	UI.request_update_local_player_ready.emit(toggled_on)
+	_player.set_ready(toggled_on)

@@ -15,13 +15,13 @@ class_name WorldUI extends UIScreen
 
 # Public Methods
 
+
 func setup():
 	super.setup()
 
 
 func enable(value: bool):
 	super.enable(value)
-
 
 # Private Methods
 
