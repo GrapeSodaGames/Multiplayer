@@ -102,7 +102,7 @@ func unregister_player(id: int):
 
 @rpc("call_local")
 func load_world():
-	var world = load("res://source/world/world.tscn")
+	var world = load("res://source/world/world.tscn").instantiate()
 	get_tree().get_root().add_child(world)
 
 

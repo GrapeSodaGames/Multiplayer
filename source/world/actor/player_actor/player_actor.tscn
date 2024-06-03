@@ -1,6 +1,6 @@
 [gd_scene load_steps=31 format=3 uid="uid://cma5g5kx40aj6"]
 
-[ext_resource type="Script" path="res://source/world/actor/player_actor/actor.gd" id="1_aj4vn"]
+[ext_resource type="Script" path="res://source/world/actor/actor.gd" id="1_aj4vn"]
 [ext_resource type="Texture2D" uid="uid://d4arq757ugujc" path="res://source/world/actor/player_actor/Player_Fighter.png" id="1_rugfk"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nil5g"]
@@ -225,7 +225,7 @@ script = ExtResource("1_aj4vn")
 sprite_frames = SubResource("SpriteFrames_vx6j5")
 animation = &"idle"
 autoplay = "idle"
-frame_progress = 0.337766
+frame_progress = 0.231186
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 9)
