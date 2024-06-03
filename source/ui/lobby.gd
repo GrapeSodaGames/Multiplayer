@@ -44,3 +44,4 @@ func _on_disconnect_button_pressed():
 
 func _on_start_game_button_pressed():
 	ui.set_ui_state(GSGUI.UIState.WORLD)
+	GameState.begin_game()
