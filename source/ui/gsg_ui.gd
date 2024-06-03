@@ -6,8 +6,6 @@ signal request_create_new_server_signal(port)
 signal request_connect_to_server_signal(ip, port)
 signal request_disconnect_from_server_signal
 
-signal request_update_local_player_ready(value: bool)
-signal request_update_local_player_color(color: Color)
 
 # Enums
 enum UIState { MAIN_MENU, LOBBY, WORLD, CREDITS }
@@ -45,15 +43,6 @@ func _ready():
 
 
 # Public Methods
-func request_create_server(port):
-	Log.dbg("UI sending request_create_server_signal to Server")
-	request_create_new_server_signal.emit(port)
-
-
-func request_disconnect_from_server():
-	request_disconnect_from_server_signal.emit()
-
-
 func set_ui_state(state: UIState):
 	_new_ui_state = state
 	_check_state()
@@ -78,15 +67,6 @@ func _close_all():
 
 
 # Events
-
-
 func _on_connection_success():
 	set_ui_state(UIState.LOBBY)
 
-
-func _on_connect_request(ip, port):
-	request_connect_to_server_signal.emit(ip, port)
-
-
-func _on_create_host_request(port):
-	request_create_new_server_signal.emit(port)
