@@ -94,10 +94,12 @@ func clear():
 
 
 func get_ready_status() -> bool:
-	var result = false
+	var ready_count: int = 0
 	for player: PlayerInfo in all():
-		result = player.is_ready()
-	return result
+		if player.is_ready():
+			ready_count += 1
+	
+	return ready_count == size()
 
 
 # Private Methods
