@@ -160,6 +160,19 @@ layout_mode = 2
 text = "CONNECTED AS ######
 "
 
+[node name="Color3Label" type="HFlowContainer" parent="PanelContainer/GridContainer/VBoxContainer3"]
+layout_mode = 2
+
+[node name="Color3Title" type="Label" parent="PanelContainer/GridContainer/VBoxContainer3/Color3Label"]
+layout_mode = 2
+text = "Color: "
+
+[node name="Color3Value" type="Label" parent="PanelContainer/GridContainer/VBoxContainer3/Color3Label"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "
+"
+
 [node name="Ready3Label" type="HFlowContainer" parent="PanelContainer/GridContainer/VBoxContainer3"]
 layout_mode = 2
 
@@ -192,6 +205,19 @@ text = "Status:"
 unique_name_in_owner = true
 layout_mode = 2
 text = "CONNECTED AS ######
+"
+
+[node name="Color4Label" type="HFlowContainer" parent="PanelContainer/GridContainer/VBoxContainer4"]
+layout_mode = 2
+
+[node name="Color4Title" type="Label" parent="PanelContainer/GridContainer/VBoxContainer4/Color4Label"]
+layout_mode = 2
+text = "Color: "
+
+[node name="Color4Value" type="Label" parent="PanelContainer/GridContainer/VBoxContainer4/Color4Label"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "
 "
 
 [node name="Ready4Label" type="HFlowContainer" parent="PanelContainer/GridContainer/VBoxContainer4"]
