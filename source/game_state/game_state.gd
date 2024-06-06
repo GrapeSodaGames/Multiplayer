@@ -71,7 +71,7 @@ func local_config() -> LocalConfig:
 	return _local_config
 
 
-func disconnect_from_game():
+func disconnect_from_server():
 	multiplayer.multiplayer_peer = null
 	peer = null
 
@@ -94,8 +94,8 @@ func register_player(new_player_info: Dictionary):
 	new_player.name = str(id)
 	players.register(new_player)
 
-
 func unregister_player(id: int):
+	Log.info("Unregistering ", id)
 	players.erase(id)
 	player_list_changed.emit()
 
@@ -127,13 +127,8 @@ func _player_connected(id: int):
 
 
 func _player_disconnected(id: int):
-	if has_node("/root/World/"):  # Game is in play
-		if multiplayer.is_server():
-			game_error.emit("Player " + players[str(id)] + " disconnected")
-			end_game()
-			# TODO: I'm not sure we want this.  The game should only end if the
-			# disconnected player is the server.  Look into it once this is up
-			# and working
+	game_error.emit("Player " + str(id) + " disconnected")
+	unregister_player(id)
 
 
 func _connected_ok():
