@@ -27,19 +27,31 @@ func _ready():
 
 
 # Private Methods
+func reset():
+	_player = null
+	_player_label.text = ""
+	_color_picker.color = Color.WHITE
+	_color_picker.disabled = true
+	_ready_button.button_pressed = false
+	_ready_button.disabled = true
+	_is_first_run = true
+	
+
 func setup():
 	if not _player:
 		#Log.info("Setting up LobbyPlayer #", _player_number)
 		_player = GameState.get_players().by_number(_player_number)
 		if _player:
 			Log.info("Found " + str(_player.id()) + " as #", _player_number)
-			_player.changed.connect(_update)
+			if not _player.changed.is_connected(_update):
+				_player.changed.connect(_update)
 
 
 func _update():
 	setup()
-	if not _player:
+	if not _player or multiplayer.multiplayer_peer == null:
 		Log.dbg("player is not connected: ", _player_number)
+		reset()
 		return
 
 	Log.dbg("LobbyPlayer updating player number ", _player_number)
