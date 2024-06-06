@@ -30,7 +30,7 @@ func setup():
 
 func refresh():
 	super.refresh()
-	_check_connection_status_for_buttons()
+	#_check_connection_status_for_buttons()
 
 
 func enable(value: bool):

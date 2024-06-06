@@ -88,7 +88,9 @@ func set_ready(value: bool):
 
 
 func is_local_player() -> bool:
-	return multiplayer.get_unique_id() == id()
+	if not multiplayer.multiplayer_peer:
+		return multiplayer.get_unique_id() == id()
+	return true
 
 
 func serialize() -> Dictionary:
