@@ -12,10 +12,11 @@ var _info: PlayerInfo
 # References
 
 # Game Loop
-func _init(info: PlayerInfo):
-	_info = info
 
 # Public Methods
+func setup(info: PlayerInfo):
+	_info = info
+	name = str(_info.player_name())
 
 # Private Methods
 
