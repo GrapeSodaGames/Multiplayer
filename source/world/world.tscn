@@ -1762,5 +1762,5 @@ layer_0/tile_data = PackedInt32Array(0, 0, 6, 65536, 458753, 7, 131072, 393217, 
 [node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
 unique_name_in_owner = true
 _spawnable_scenes = PackedStringArray("res://source/world/actor/player_actor/player_actor.tscn")
-spawn_path = NodePath("..")
+spawn_path = NodePath(".")
 script = ExtResource("4_chglv")

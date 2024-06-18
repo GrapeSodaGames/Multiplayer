@@ -16,7 +16,10 @@ class_name World extends Node2D
 
 # Game Loop
 func _ready():
-	_player_spawner.spawn()
+	for player in GameState.get_players().all():
+		var actor = _player_actor_prefab.instantiate()
+		actor.setup(player)
+		_player_spawner.add_child.call_deferred(actor, true)
 
 # Public Methods
 
