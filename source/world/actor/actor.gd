@@ -12,7 +12,7 @@ var _info: PlayerInfo
 # References
 
 # Game Loop
-func _process(delta):
+func _process(_delta):
 	position = _info.get_pos()
 
 # Public Methods
