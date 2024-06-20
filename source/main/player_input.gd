@@ -13,7 +13,7 @@ class_name PlayerInput extends Node
 # References
 
 # Game Loop
-func _process(delta):
+func _process(_delta):
 	if not get_multiplayer_authority() == multiplayer.get_unique_id():
 		return
 	
