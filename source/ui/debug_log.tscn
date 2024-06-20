@@ -3,6 +3,8 @@
 [ext_resource type="Script" path="res://source/ui/debug_log.gd" id="1_nmvp5"]
 
 [node name="Debug Log" type="VBoxContainer"]
+top_level = true
+z_index = 10
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 43.0
