@@ -23,6 +23,9 @@ static var _player_info_prefab: PackedScene = preload("res://source/main/player_
 
 
 # Public Methods
+func get_pos() -> Vector2:
+	return %PlayerInput._position
+
 func clone() -> PlayerInfo:
 	var result = PlayerInfo.new()
 	result.set_id(id())
