@@ -38,6 +38,7 @@ func _ready():
 	_new_ui_state = UIState.MAIN_MENU
 
 	GameState.connection_succeeded.connect(_on_connection_success)
+	GameState.game_ended.connect(_on_game_ended)
 
 	Log.dbg("UI Ready")
 
@@ -70,3 +71,5 @@ func _close_all():
 func _on_connection_success():
 	set_ui_state(UIState.LOBBY)
 
+func _on_game_ended():
+	set_ui_state(UIState.MAIN_MENU)

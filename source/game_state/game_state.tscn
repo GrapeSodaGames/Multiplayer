@@ -13,3 +13,9 @@ script = ExtResource("3_62ixp")
 
 [node name="Players" parent="." instance=ExtResource("3_m1rk0")]
 unique_name_in_owner = true
+
+[node name="ConnectionCheckTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+autostart = true
+
+[connection signal="timeout" from="ConnectionCheckTimer" to="." method="_on_connection_check_timer_timeout"]

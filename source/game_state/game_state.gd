@@ -24,7 +24,7 @@ var peer: MultiplayerPeer
 var _local_config := LocalConfig.new()
 @onready var local_player: PlayerInfo = %LocalPlayer
 @onready var players: PlayerList = %Players
-
+@onready var conn_timer: Timer = %ConnectionCheckTimer
 
 # Game Loop
 func _ready():
@@ -112,9 +112,11 @@ func begin_game():
 
 
 func end_game():
+	game_ended.emit()
+	#multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
+	peer = null
 	if has_node("/root/World"):
 		get_node("/root/World").queue_free()
-	game_ended.emit()
 	players.clear()
 
 
@@ -128,9 +130,18 @@ func _player_connected(id: int):
 
 func _player_disconnected(id: int):
 	game_error.emit("Player " + str(id) + " disconnected")
-	unregister_player(id)
+	if id == 1:
+		end_game()
+	else:
+		unregister_player(id)
 
 
 func _connected_ok():
 	Log.info("Received connection_succeeded signal")
 	connection_succeeded.emit()
+
+
+func _on_connection_check_timer_timeout():
+	if multiplayer.multiplayer_peer is OfflineMultiplayerPeer:
+		end_game()
+
