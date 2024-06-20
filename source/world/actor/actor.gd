@@ -13,7 +13,8 @@ var _info: PlayerInfo
 
 # Game Loop
 func _process(_delta):
-	position = _info.get_pos()
+	if _info and is_instance_valid(_info):
+		position = _info.get_pos()
 
 # Public Methods
 func setup(info: PlayerInfo):

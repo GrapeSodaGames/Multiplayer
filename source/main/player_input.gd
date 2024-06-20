@@ -14,6 +14,8 @@ class_name PlayerInput extends Node
 
 # Game Loop
 func _process(_delta):
+	if multiplayer == null:
+		return
 	if not get_multiplayer_authority() == multiplayer.get_unique_id():
 		return
 	

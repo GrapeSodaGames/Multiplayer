@@ -133,4 +133,5 @@ func _on_color_picker_button_color_changed(color: Color):
 
 
 func _on_ready_button_toggled(toggled_on: bool):
-	_player.set_ready(toggled_on)
+	if _player:
+		_player.set_ready(toggled_on)
