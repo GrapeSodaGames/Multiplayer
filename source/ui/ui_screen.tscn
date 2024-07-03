@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://b5bacsa77g18r"]
+
+[ext_resource type="Script" path="res://source/ui/ui_screen.gd" id="1_jkp3l"]
+
+[node name="UIScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_jkp3l")
