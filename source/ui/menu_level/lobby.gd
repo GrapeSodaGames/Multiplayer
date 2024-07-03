@@ -39,9 +39,8 @@ func _show_start_game_button():
 # Events
 func _on_disconnect_button_pressed():
 	GameState.disconnect_from_server()
-	ui.set_ui_state(GSGUI.UIState.MAIN_MENU)
+	change_screen.emit("Main Menu")
 
 
 func _on_start_game_button_pressed():
-	ui.set_ui_state(GSGUI.UIState.WORLD)
 	GameState.begin_game()

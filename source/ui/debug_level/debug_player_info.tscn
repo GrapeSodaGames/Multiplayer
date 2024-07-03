@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bkvls2tc5twwo"]
 
-[ext_resource type="Script" path="res://source/ui/debug_player_info.gd" id="1_mmiun"]
+[ext_resource type="Script" path="res://source/ui/debug_level/debug_player_info.gd" id="1_mmiun"]
 
 [node name="DebugPlayerInfo" type="VBoxContainer"]
 top_level = true

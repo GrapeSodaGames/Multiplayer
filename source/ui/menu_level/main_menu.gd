@@ -86,11 +86,13 @@ func _on_connect_button_pressed():
 
 func _on_credit_button_pressed():
 	Log.dbg("main_menu received credit button signal")
+	change_screen.emit("Credits")
 	refresh()
 
 
 func _on_connection_success():
-	ui.set_ui_state(GSGUI.UIState.LOBBY)
+	pass
+	#ui.set_ui_state(GSGUI.UIState.LOBBY)
 
 
 func _on_connection_failed():

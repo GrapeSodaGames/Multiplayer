@@ -1,74 +1,138 @@
-[gd_scene load_steps=9 format=3 uid="uid://dcehergyi7iw"]
+[gd_scene load_steps=12 format=3 uid="uid://dcehergyi7iw"]
 
 [ext_resource type="Script" path="res://source/ui/gsg_ui.gd" id="1_rc2ry"]
-[ext_resource type="PackedScene" uid="uid://bpnt7sbv577ni" path="res://source/ui/main_menu.tscn" id="2_ydr1l"]
-[ext_resource type="PackedScene" uid="uid://bry5mtstqjhsr" path="res://source/ui/debug_log.tscn" id="3_hhyya"]
-[ext_resource type="PackedScene" uid="uid://detlppnjsunki" path="res://source/ui/lobby.tscn" id="4_5uwwu"]
-[ext_resource type="Script" path="res://source/ui/world_ui.gd" id="5_4555v"]
-[ext_resource type="PackedScene" uid="uid://bkvls2tc5twwo" path="res://source/ui/debug_player_info.tscn" id="6_bnd8a"]
-[ext_resource type="PackedScene" uid="uid://du4mop841yfdb" path="res://source/ui/credits.tscn" id="7_035f0"]
-[ext_resource type="Script" path="res://source/ui/version_number.gd" id="8_aq5pu"]
+[ext_resource type="PackedScene" uid="uid://dynif6k5tguod" path="res://source/ui/ui_level.tscn" id="2_nrf81"]
+[ext_resource type="PackedScene" uid="uid://bpnt7sbv577ni" path="res://source/ui/menu_level/main_menu.tscn" id="2_ydr1l"]
+[ext_resource type="PackedScene" uid="uid://bry5mtstqjhsr" path="res://source/ui/debug_level/debug_log.tscn" id="3_hhyya"]
+[ext_resource type="PackedScene" uid="uid://detlppnjsunki" path="res://source/ui/menu_level/lobby.tscn" id="4_5uwwu"]
+[ext_resource type="Script" path="res://source/ui/menu_level/world_ui.gd" id="5_4555v"]
+[ext_resource type="PackedScene" uid="uid://bkvls2tc5twwo" path="res://source/ui/debug_level/debug_player_info.tscn" id="6_bnd8a"]
+[ext_resource type="PackedScene" uid="uid://ds6ndlx18dvnk" path="res://source/ui/hud_level/controls.tscn" id="6_okkfq"]
+[ext_resource type="PackedScene" uid="uid://du4mop841yfdb" path="res://source/ui/menu_level/credits.tscn" id="7_035f0"]
+[ext_resource type="Script" path="res://source/ui/debug_level/version_number.gd" id="8_aq5pu"]
+[ext_resource type="PackedScene" uid="uid://b5bacsa77g18r" path="res://source/ui/ui_screen.tscn" id="8_sbogw"]
 
 [node name="UI" type="Node"]
 script = ExtResource("1_rc2ry")
 
-[node name="Main Menu" parent="." instance=ExtResource("2_ydr1l")]
+[node name="HUDLevel" parent="." instance=ExtResource("2_nrf81")]
+unique_name_in_owner = true
+top_level = false
 
-[node name="Lobby" parent="." instance=ExtResource("4_5uwwu")]
-visible = false
-offset_right = -1920.0
-offset_bottom = -1080.0
-
-[node name="Debug Log" parent="." instance=ExtResource("3_hhyya")]
-
-[node name="World" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("5_4555v")
-
-[node name="DebugPlayerInfo" parent="." instance=ExtResource("6_bnd8a")]
-
-[node name="Credits" parent="." instance=ExtResource("7_035f0")]
-visible = false
-
-[node name="VersionNumber" type="Label" parent="."]
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
+[node name="World" type="Control" parent="HUDLevel"]
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -40.0
-offset_top = -23.0
-grow_horizontal = 0
-grow_vertical = 0
-text = "v0.0.0 build 1"
-script = ExtResource("8_aq5pu")
-
-[node name="Disclaimer" type="Label" parent="."]
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -51.0
-offset_top = -23.0
-offset_right = 51.0
 grow_horizontal = 2
-grow_vertical = 0
-text = "DEVELOPMENT VERSION"
+grow_vertical = 2
+script = ExtResource("5_4555v")
 
-[node name="ContactInfo" type="Label" parent="."]
+[node name="Controls" parent="HUDLevel/World" instance=ExtResource("6_okkfq")]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_right = 0.0
+anchor_bottom = 0.5
+offset_top = -63.5
+offset_right = 88.0
+offset_bottom = 63.5
+grow_horizontal = 1
+
+[node name="DebugLevel" parent="." instance=ExtResource("2_nrf81")]
+unique_name_in_owner = true
+top_level = false
+persistent = true
+
+[node name="DemoScreen" parent="DebugLevel" instance=ExtResource("8_sbogw")]
+layout_mode = 1
+
+[node name="ContactInfo" type="Label" parent="DebugLevel/DemoScreen"]
+layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -75.0
-offset_right = 283.0
+offset_top = -101.0
+offset_right = 371.0
 grow_vertical = 0
 text = "🌐 Web - https://grapesoda.games
 🐭 Lemmy - @zaphodb2002@sh.itjust.works
 🐙 GitHub - https://github.com/grapesodagames
 🎮 Discord - https://discord.gg/dRvydcMXM6"
 
-[editable path="Lobby"]
+[node name="Disclaimer" type="Label" parent="DebugLevel/DemoScreen"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -94.5
+offset_top = -23.0
+offset_right = 94.5
+grow_horizontal = 2
+grow_vertical = 0
+text = "DEVELOPMENT VERSION"
+
+[node name="VersionNumber" type="Label" parent="DebugLevel/DemoScreen"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -102.0
+offset_top = -23.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "v0.0.0 build 1"
+script = ExtResource("8_aq5pu")
+
+[node name="DebugScreen" parent="DebugLevel" instance=ExtResource("8_sbogw")]
+layout_mode = 1
+
+[node name="Debug Log" parent="DebugLevel/DebugScreen" instance=ExtResource("3_hhyya")]
+visible = false
+layout_mode = 2
+anchors_preset = 0
+
+[node name="DebugPlayerInfo" parent="DebugLevel/DebugScreen" instance=ExtResource("6_bnd8a")]
+visible = false
+layout_mode = 2
+anchors_preset = 0
+mouse_filter = 1
+
+[node name="MenuLevel" parent="." instance=ExtResource("2_nrf81")]
+unique_name_in_owner = true
+top_level = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+
+[node name="Main Menu" parent="MenuLevel" instance=ExtResource("2_ydr1l")]
+layout_mode = 2
+anchors_preset = 0
+
+[node name="Lobby" parent="MenuLevel" instance=ExtResource("4_5uwwu")]
+visible = false
+layout_mode = 0
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="Credits" parent="MenuLevel" instance=ExtResource("7_035f0")]
+visible = false
+layout_mode = 2
+anchors_preset = 0
+
+[editable path="MenuLevel/Lobby"]

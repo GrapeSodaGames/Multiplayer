@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bh5nm27pwk6gh"]
 
-[ext_resource type="Script" path="res://source/ui/lobby_player.gd" id="1_o3gnx"]
+[ext_resource type="Script" path="res://source/ui/menu_level/lobby_player.gd" id="1_o3gnx"]
 
 [node name="LobbyPlayer" type="PanelContainer"]
 custom_minimum_size = Vector2(350, 200)

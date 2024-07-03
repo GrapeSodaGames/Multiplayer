@@ -80,7 +80,6 @@ func disconnect_from_server():
 func set_up_local_player(new_player_name: String):
 	local_player.set_id(peer.get_unique_id())
 	local_player.set_player_name(new_player_name)
-	#local_player.set_color(Color.from_ok_hsl(randf(), randf_range(1.0, 1.0), randf_range(0.5, 1.0)))
 	local_player.set_color(Color.from_ok_hsl(randf(), randf_range(0.25, 1.0), 0.5))
 
 @rpc("any_peer")

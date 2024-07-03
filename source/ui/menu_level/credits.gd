@@ -29,4 +29,4 @@ func enable(value: bool):
 
 # Events
 func _on_button_pressed():
-	ui.set_ui_state(GSGUI.UIState.MAIN_MENU)
+	change_screen.emit("Main Menu")
