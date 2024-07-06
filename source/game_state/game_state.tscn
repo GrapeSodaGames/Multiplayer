@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://c0hist8mfj2p8" path="res://source/game_state/player_list.tscn" id="3_m1rk0"]
 
 [node name="GameState" type="Node"]
+process_mode = 3
 script = ExtResource("1_8d070")
 
 [node name="LocalPlayer" type="Node" parent="."]

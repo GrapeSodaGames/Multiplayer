@@ -1,4 +1,4 @@
-class_name LobbyPlayer extends PanelContainer
+class_name LobbyPlayer extends GSG_UIElement
 ## TODO: Document
 
 # Signals

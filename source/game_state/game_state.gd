@@ -31,6 +31,8 @@ func _ready():
 	multiplayer.peer_connected.connect(_player_connected)
 	multiplayer.peer_disconnected.connect(_player_disconnected)
 	multiplayer.connected_to_server.connect(_connected_ok)
+	
+	get_tree().paused = true
 
 
 # Public Methods
@@ -103,6 +105,7 @@ func unregister_player(id: int):
 func load_world():
 	var world = load("res://source/world/world.tscn").instantiate()
 	get_tree().get_root().add_child(world)
+	get_tree().paused = false
 
 
 func begin_game():
