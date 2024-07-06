@@ -39,7 +39,7 @@ func _ready():
 #
 ## Public Methods
 func enable(value: bool):
-	visible = not value
+	visible = value
 	if value:
 		process_mode = Node.PROCESS_MODE_DISABLED
 	else:

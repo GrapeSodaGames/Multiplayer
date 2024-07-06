@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://b5bacsa77g18r" path="res://source/ui/ui_screen.tscn" id="8_sbogw"]
 
 [node name="UI" type="Node"]
+process_mode = 3
 script = ExtResource("1_rc2ry")
 
 [node name="HUDLevel" parent="." instance=ExtResource("2_nrf81")]
