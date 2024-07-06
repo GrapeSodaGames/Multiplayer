@@ -33,7 +33,6 @@ text = "Connect to Server"
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 14)
 layout_mode = 2
-text = "127.0.0.1"
 placeholder_text = "192.168.xxx.xxx"
 
 [node name="CreditButton" type="Button" parent="Main Menu Buttons/VBoxContainer"]

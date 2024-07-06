@@ -20,6 +20,8 @@ func _ready():
 	GameState.connection_failed.connect(_on_connection_failed)
 	GameState.connection_succeeded.connect(_on_connection_success)
 	refresh()
+	connect_server_ip_textbox.text = GameState.local_config().get_config_server_ip()
+
 
 
 # Public Methods
@@ -35,7 +37,7 @@ func refresh():
 
 func enable(value: bool):
 	super.enable(value)
-
+	
 
 # Private Methods
 func _check_connection_status_for_buttons():
