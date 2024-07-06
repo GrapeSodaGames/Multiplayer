@@ -13,7 +13,6 @@
 [ext_resource type="PackedScene" uid="uid://b5bacsa77g18r" path="res://source/ui/ui_screen.tscn" id="8_sbogw"]
 
 [node name="UI" type="Node"]
-process_mode = 3
 script = ExtResource("1_rc2ry")
 
 [node name="HUDLevel" parent="." instance=ExtResource("2_nrf81")]
@@ -105,6 +104,7 @@ mouse_filter = 1
 
 [node name="MenuLevel" parent="." instance=ExtResource("2_nrf81")]
 unique_name_in_owner = true
+process_mode = 2
 top_level = false
 anchors_preset = 8
 anchor_left = 0.5

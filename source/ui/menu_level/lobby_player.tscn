@@ -2,48 +2,55 @@
 
 [ext_resource type="Script" path="res://source/ui/menu_level/lobby_player.gd" id="1_o3gnx"]
 
-[node name="LobbyPlayer" type="PanelContainer"]
+[node name="LobbyPlayer" type="Control"]
 custom_minimum_size = Vector2(350, 200)
+layout_mode = 3
+anchors_preset = 0
 offset_right = 128.0
 offset_bottom = 128.0
 script = ExtResource("1_o3gnx")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 2
+offset_right = 350.0
+offset_bottom = 200.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
 layout_mode = 2
 
-[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer"]
+[node name="CenterContainer" type="CenterContainer" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="HFlowContainer" type="HFlowContainer" parent="VBoxContainer/CenterContainer"]
+[node name="HFlowContainer" type="HFlowContainer" parent="PanelContainer/VBoxContainer/CenterContainer"]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 size_flags_vertical = 0
 alignment = 1
 
-[node name="PlayerLabel" type="Label" parent="VBoxContainer/CenterContainer/HFlowContainer"]
+[node name="PlayerLabel" type="Label" parent="PanelContainer/VBoxContainer/CenterContainer/HFlowContainer"]
 layout_mode = 2
 text = "Player "
 
-[node name="PlayerNumber" type="Label" parent="VBoxContainer/CenterContainer/HFlowContainer"]
+[node name="PlayerNumber" type="Label" parent="PanelContainer/VBoxContainer/CenterContainer/HFlowContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "X - Status Unknown"
 horizontal_alignment = 1
 
-[node name="ColorPickerButton" type="ColorPickerButton" parent="VBoxContainer"]
+[node name="ColorPickerButton" type="ColorPickerButton" parent="PanelContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 disabled = true
 text = "Pick your color"
 color = Color(1, 1, 1, 1)
 
-[node name="ReadyButton" type="Button" parent="VBoxContainer"]
+[node name="ReadyButton" type="Button" parent="PanelContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 disabled = true
 toggle_mode = true
 text = "Not Connected"
 
-[connection signal="color_changed" from="VBoxContainer/ColorPickerButton" to="." method="_on_color_picker_button_color_changed"]
-[connection signal="toggled" from="VBoxContainer/ReadyButton" to="." method="_on_ready_button_toggled"]
+[connection signal="color_changed" from="PanelContainer/VBoxContainer/ColorPickerButton" to="." method="_on_color_picker_button_color_changed"]
+[connection signal="toggled" from="PanelContainer/VBoxContainer/ReadyButton" to="." method="_on_ready_button_toggled"]
