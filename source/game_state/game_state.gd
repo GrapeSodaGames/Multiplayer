@@ -14,7 +14,6 @@ signal game_error(what)
 # Enums
 
 # Exports
-@export var port: int = 25555
 @export var max_peers: int = 4
 
 # Properties
@@ -39,7 +38,7 @@ func _ready():
 func host_game(new_player_name: String):
 	Log.info("Creating new Host...")
 	peer = ENetMultiplayerPeer.new()
-	peer.create_server(port, max_peers)
+	peer.create_server(local_config().get_config_server_port(), max_peers)
 	multiplayer.set_multiplayer_peer(peer)
 	set_up_local_player(new_player_name)
 	register_player(local_player.serialize())
@@ -49,7 +48,7 @@ func host_game(new_player_name: String):
 
 func join_game(ip: String, new_player_name: String):
 	peer = ENetMultiplayerPeer.new()
-	peer.create_client(ip, port)
+	peer.create_client(ip, local_config().get_config_server_port())
 	multiplayer.set_multiplayer_peer(peer)
 	set_up_local_player(new_player_name)
 
