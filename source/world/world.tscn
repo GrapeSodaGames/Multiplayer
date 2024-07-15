@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://d37fd81en2vp3"]
+[gd_scene load_steps=9 format=3 uid="uid://d37fd81en2vp3"]
 
 [ext_resource type="Texture2D" uid="uid://l3bmoumd81im" path="res://source/world/tileset-dirt-grass.png" id="1_aqihk"]
 [ext_resource type="Script" path="res://source/world/world.gd" id="1_o0v8s"]
 [ext_resource type="Texture2D" uid="uid://dgfl1btltvrxk" path="res://source/world/tileset-dirt-water.png" id="2_xbihf"]
 [ext_resource type="Script" path="res://source/world/player_spawner.gd" id="4_chglv"]
+[ext_resource type="PackedScene" uid="uid://bvkla8wrfhx36" path="res://source/world/camera/main_camera.tscn" id="5_p87td"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qwxum"]
 texture = ExtResource("1_aqihk")
@@ -1764,3 +1765,6 @@ unique_name_in_owner = true
 _spawnable_scenes = PackedStringArray("res://source/world/actor/player_actor/player_actor.tscn")
 spawn_path = NodePath(".")
 script = ExtResource("4_chglv")
+
+[node name="MainCamera" parent="." instance=ExtResource("5_p87td")]
+unique_name_in_owner = true

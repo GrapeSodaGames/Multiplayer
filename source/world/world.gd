@@ -13,13 +13,20 @@ class_name World extends Node2D
 
 # References
 @onready var _player_spawner: MultiplayerSpawner = %PlayerSpawner
+@onready var _main_camera: MainCamera = %MainCamera
 
 # Game Loop
 func _ready():
-	for player in GameState.get_players().all():
+	Log.info("Camera? ", _main_camera.name)
+	for player: PlayerInfo in GameState.get_players().all():
 		var actor = _player_actor_prefab.instantiate()
 		actor.setup(player)
+		if player.get_multiplayer_authority() == multiplayer.get_unique_id():
+			_main_camera.set_target(actor)
 		_player_spawner.add_child.call_deferred(actor, true)
+		
+		
+			
 
 # Public Methods
 
