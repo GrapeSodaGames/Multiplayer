@@ -21,7 +21,6 @@ var peer: MultiplayerPeer
 
 # References
 var _local_config := LocalConfig.new()
-@onready var local_player: PlayerInfo = %LocalPlayer
 @onready var players: PlayerList = %Players
 @onready var conn_timer: Timer = %ConnectionCheckTimer
 
@@ -40,17 +39,16 @@ func host_game(new_player_name: String):
 	peer = ENetMultiplayerPeer.new()
 	peer.create_server(local_config().get_config_server_port(), max_peers)
 	multiplayer.set_multiplayer_peer(peer)
-	set_up_local_player(new_player_name)
+	var local_player: PlayerInfo = set_up_new_player(new_player_name)
 	register_player(local_player.serialize())
 	Log.info("Game Successfully Hosted")
 	connection_succeeded.emit()
 
 
-func join_game(ip: String, new_player_name: String):
+func join_game(ip: String, _new_player_name: String):
 	peer = ENetMultiplayerPeer.new()
 	peer.create_client(ip, local_config().get_config_server_port())
 	multiplayer.set_multiplayer_peer(peer)
-	set_up_local_player(new_player_name)
 
 
 func is_peer_connected() -> bool:
@@ -78,10 +76,12 @@ func disconnect_from_server():
 
 
 # Private Methods
-func set_up_local_player(new_player_name: String):
-	local_player.set_id(peer.get_unique_id())
-	local_player.set_player_name(new_player_name)
-	local_player.set_color(Color.from_ok_hsl(randf(), randf_range(0.25, 1.0), 0.5))
+func set_up_new_player(new_player_name: String) -> PlayerInfo:
+	var player := PlayerInfo.new()
+	player.set_id(peer.get_unique_id())
+	player.set_player_name(new_player_name)
+	player.set_color(Color.from_ok_hsl(randf(), randf_range(0.25, 1.0), 0.5))
+	return player
 
 @rpc("any_peer")
 func register_player(new_player_info: Dictionary):
@@ -124,8 +124,7 @@ func end_game():
 # Events
 func _player_connected(id: int):
 	Log.info("Connection successful from ID " + str(id))
-	Log.dbg("Local Player Info: ", local_player)
-	register_player.rpc_id(id, local_player.serialize())
+	register_player.rpc_id(id, set_up_new_player(str(id)).serialize())
 	connection_succeeded.emit()
 
 
