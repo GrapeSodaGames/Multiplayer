@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://bvkla8wrfhx36"]
+
+[ext_resource type="Script" path="res://source/world/camera/main_camera.gd" id="1_phru1"]
+
+[node name="MainCamera" type="Camera2D"]
+limit_left = 0
+limit_top = -50
+limit_right = 1500
+limit_bottom = 800
+limit_smoothed = true
+position_smoothing_enabled = true
+script = ExtResource("1_phru1")
