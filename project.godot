@@ -34,6 +34,10 @@ project/assembly_name="Multiplayer"
 
 enabled=PackedStringArray("res://addons/logger/plugin.cfg")
 
+[gui]
+
+theme/custom="res://resources/themes/default.tres"
+
 [input]
 
 move_up={
