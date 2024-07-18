@@ -1,0 +1,7 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://dugvn7mo5qn3x"]
+
+[ext_resource type="FontFile" uid="uid://dy7x68y6xqa6v" path="res://resources/rainyhearts.ttf" id="1_bfr5r"]
+
+[resource]
+default_font = ExtResource("1_bfr5r")
+default_font_size = 48
